@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void GoUp()
+    { }
+
     //This coroutine get us a smooth movement
     private IEnumerator MovePlayer(Vector3 direction)
     {
