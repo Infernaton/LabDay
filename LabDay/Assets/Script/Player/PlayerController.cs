@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed; // Speed value
-    public LayerMask solidObjectsLayer; //Reference to our SolidObjects layer
+    public LayerMask solidObjectsLayer; //Reference our SolidObjects layer
+    public LayerMask grassLayer; //Reference our LongGrass layer
 
     private bool isMoving; // To know if the player is currently moving
     private Vector2 input; // For getting the Input
@@ -63,17 +64,31 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         isMoving = false;
+
+        CheckForEncounter();
     }
 
     //Function to know if the target tile is a solid objects or if we can walk on it, we get the target pos in the Update.
     private bool IsWalkable(Vector3 targetPos)
     {
-        //Get to know if the targetPos tile is a solid object, within a radius of 0,3f, on the SolidObjects layer
+        //Get to know if the targetPos tile is a solid object, within a radius of 0.2f, on the SolidObjects layer
         if (Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectsLayer) != null) //Radius is 2f so with the Player position, it will look better before colliding with a solid object
         {
             return false;
         }
 
         else return true;
+    }
+
+    //Function to know if the player walk on a grass tile
+    private void CheckForEncounter()
+    {
+        if (Physics2D.OverlapCircle(transform.position, 0.2f, grassLayer) != null) //Same as IsWalkable
+        {
+            if (Random.Range(1, 101) <= 10) //If, within a range of 1 to 100, we hit below 10 (10% chances), we will encounter a creature
+            {
+                Debug.Log("Encountered a wild creature!"); //For now, we don't have a battle system yet, so we'll just display a message in the console.
+            }
+        }
     }
 }
