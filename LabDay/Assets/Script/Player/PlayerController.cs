@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed; // Speed value
+    public LayerMask solidObjectsLayer; //Reference to our SolidObjects layer
+
     private bool isMoving; // To know if the player is currently moving
     private Vector2 input; // For getting the Input
     private Vector2 currentDir; // For storing direction
@@ -38,7 +40,11 @@ public class PlayerController : MonoBehaviour
                 targetPos.x += input.x;
                 targetPos.y += input.y;
 
-                StartCoroutine(Move(targetPos));
+
+                if (IsWalkable(targetPos)) //once we checked the input, and if the tile is walkable, our player will move
+                {
+                    StartCoroutine(Move(targetPos)); 
+                }
             }
         }
         animator.SetBool("isMoving", isMoving); //Link the Animator "isMoving" to the script "isMoving"
@@ -57,5 +63,17 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         isMoving = false;
+    }
+
+    //Function to know if the target tile is a solid objects or if we can walk on it, we get the target pos in the Update.
+    private bool IsWalkable(Vector3 targetPos)
+    {
+        //Get to know if the targetPos tile is a solid object, within a radius of 0,3f, on the SolidObjects layer
+        if (Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectsLayer) != null) //Radius is 2f so with the Player position, it will look better before colliding with a solid object
+        {
+            return false;
+        }
+
+        else return true;
     }
 }
