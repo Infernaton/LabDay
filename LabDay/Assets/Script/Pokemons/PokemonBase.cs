@@ -29,6 +29,8 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
     [SerializeField] int spDefense;
     [SerializeField] int speed;
 
+    [SerializeField] List<LearnableMoves> learnableMoves;
+
     //Here we'll use Properties instead of Functions so it will not look like
     // public string GetName()
     //{
@@ -68,6 +70,28 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
     {
         get { return speed; }
     }
+    public List<LearnableMoves> LearnableMoves
+    {
+        get { return learnableMoves; }
+    }
+}
+
+//Here we set the moves a pokemon can learn
+[System.Serializable]
+public class LearnableMoves
+{
+    [SerializeField] MoveBase moveBase; //This is a reference to the MoveBase script
+    [SerializeField] int level;
+
+    //here we get the Move that will be learnable, and the level at wich it'll be learnable
+    public MoveBase Base
+    {
+        get { return moveBase; } 
+    }
+    public int Level
+    {
+        get { return level; }
+    }
 }
 
 public enum PokemonType //Using an enum to acces all the pokemon types easily
@@ -89,6 +113,6 @@ public enum PokemonType //Using an enum to acces all the pokemon types easily
     Poison,
     Psychic,
     Rock,
-    Steel;
+    Steel,
     Water,
 }

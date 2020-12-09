@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
 
     private bool isMoving; // To know if the player is currently moving
     private Vector2 input; // For getting the Input
-    private Vector2 currentDir; // For storing direction
 
     private Animator animator;
 
@@ -29,11 +28,13 @@ public class PlayerController : MonoBehaviour
 
             //Get rid of Diagonal movement
             if (input.x != 0) input.y = 0;
-            else if (input.y != 0) input.x = 0;
+            if (input.y != 0) input.x = 0;
 
             //While the player is not moving, we read the input, and move the player in the choosen direction
             if (input != Vector2.zero)
             {
+                //if (directionCheck != )
+
                 animator.SetFloat("moveX", input.x); //Link the moveX from the animator with the input.x of the code
                 animator.SetFloat("moveY", input.y); //Same for the Y
 
