@@ -40,7 +40,7 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
 
     public string Name
     {
-        get { return name; } //Set a getter of the name so we could just call pBase.name in the Pokemon script.
+        get { return name; } //Set a getter of the name so we could just call pBase.Name in the other scripts.
     }
     public string Description
     {
@@ -69,6 +69,22 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
     public int Speed
     {
         get { return speed; }
+    }
+    public PokemonType Type1
+    {
+        get { return type1; }
+    }
+    public PokemonType Type2
+    {
+        get { return type2; }
+    }
+    public Sprite BackSprite
+    {
+        get { return backSprite; }
+    }
+    public Sprite FrontSprite
+    {
+        get { return frontSprite; }
     }
     public List<LearnableMoves> LearnableMoves
     {
