@@ -59,4 +59,30 @@ public class Pokemon
     {
         get { return Mathf.FloorToInt((Base.MaxHp) / 100f) + 10; }
     }
+
+    //Create a function called when taking damage
+    public bool TakeDamage(Move move, Pokemon attacker) //Take in reference the move used, and the attacking pokemon
+    {
+        //Here is the actual formula used in the pokemons game, might change later
+        float modifiers = Random.Range(0.85f, 1f);
+        float a = (2 * attacker.Level + 10) / 250f;
+        float d = a * move.Base.Power * ((float)attacker.Attack / Defense) + 2;
+        int damage = Mathf.FloorToInt(d * modifiers);
+
+        //After that we substract the damage to the actual life of the pokemon, and check if he died or no
+        HP -= damage;
+        if (HP <= 0)
+        {
+            HP = 0;
+            return true; //true if he died
+        }
+
+        return false; //false if not
+    }
+
+    public Move GetRandomMove()
+    {
+        int r = Random.Range(0, Moves.Count);
+        return Moves[r];
+    }
 }

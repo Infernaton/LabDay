@@ -56,6 +56,51 @@ public class BattleSystem : MonoBehaviour
         dialogBox.EnableMoveSelector(true); //Enable the MoveSelector
     }
 
+    IEnumerator PerformPlayerMove()
+    {
+        state = BattleState.Busy;//We set Busy so the player can not move in the UI
+
+        var move = playerUnit.Pokemon.Moves[currentMove]; //we store in a variable, the actual move selected
+        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that it's pokemon used a move
+
+        yield return new WaitForSeconds(1f); //We wait 1sec after the text has been shown
+
+        bool isFainted = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
+        yield return enemyHud.UpdateHP(); //Calling the function to show damages taken
+
+        //If the enemy died, we display a message, else we call it's attack
+        if (isFainted)
+        {
+            yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} fainted");
+        }
+        else
+        {
+            StartCoroutine(EnemyMove());
+        }
+    }
+    IEnumerator EnemyMove()
+    {
+        state = BattleState.EnemyMove;
+
+        var move = enemyUnit.Pokemon.GetRandomMove();
+        yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that it's pokemon used a move
+
+        yield return new WaitForSeconds(1f); //We wait 1sec after the text has been shown
+
+        bool isFainted = playerUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon); //Check a bool var to know if the Player pokemon died
+        yield return playerHud.UpdateHP(); //Calling the function to show damages taken
+
+        //If the enemy died, we display a message, else we call it's attack
+        if (isFainted)
+        {
+            yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} fainted");
+        }
+        else
+        {
+            PlayerAction();
+        }
+    }
+
     private void Update()
     {
         if (state == BattleState.PlayerAction)
@@ -98,7 +143,7 @@ public class BattleSystem : MonoBehaviour
     }
 
 
-    //We create a way to move freely beyond every moves our Creature actually has.
+    //We create a way to move freely between every moves our Creature actually has.
     void HandleMoveSelection()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -123,5 +168,15 @@ public class BattleSystem : MonoBehaviour
         }
 
         dialogBox.UpdateMoveSelection(currentMove, playerUnit.Pokemon.Moves[currentMove]);
+
+        //Here we'll make the move happen
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+        {
+            //First we change the box to dialogText
+            dialogBox.EnableMoveSelector(false);
+            dialogBox.EnableDialogText(true);
+
+            StartCoroutine(PerformPlayerMove());
+        }
     }
 }
