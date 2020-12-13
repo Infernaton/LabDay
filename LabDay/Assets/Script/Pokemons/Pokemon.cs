@@ -61,12 +61,23 @@ public class Pokemon
     }
 
     //Create a function called when taking damage
-    public bool TakeDamage(Move move, Pokemon attacker) //Take in reference the move used, and the attacking pokemon
+    public DamageDetails TakeDamage(Move move, Pokemon attacker) //Take in reference the move used, and the attacking pokemon
     {
+        float critical = 1f;
+        if (Random.value * 100f <= 6.52) //Creating critical hits
+            critical = 2f; //If the random number is under 6.52 we'll set the critical value to 2, so in the modifiers, there will be a *2
+
         float type = TypeChart.GetEffectiveness(move.Base.Type, this.Base.Type1) * TypeChart.GetEffectiveness(move.Base.Type, this.Base.Type2); //Calculate the type effectiveness
 
+        var damageDetails = new DamageDetails() //Creating an object of our class
+        {
+            TypeEffectiveness = type,
+            Critical = critical,
+            Fainted = false
+        };
+
         //Here is the actual formula used in the pokemons game, might change later
-        float modifiers = Random.Range(0.85f, 1f) * type;
+        float modifiers = Random.Range(0.85f, 1f) * type * critical;
         float a = (2 * attacker.Level + 10) / 250f;
         float d = a * move.Base.Power * ((float)attacker.Attack / Defense) + 2;
         int damage = Mathf.FloorToInt(d * modifiers);
@@ -76,10 +87,10 @@ public class Pokemon
         if (HP <= 0)
         {
             HP = 0;
-            return true; //true if he died
+            damageDetails.Fainted = true; //Set Fainted to true if he died
         }
 
-        return false; //false if not
+        return damageDetails;
     }
 
     public Move GetRandomMove()
@@ -87,4 +98,12 @@ public class Pokemon
         int r = Random.Range(0, Moves.Count);
         return Moves[r];
     }
+}
+
+public class DamageDetails //Class we'll use to display a message if there was a critical hit, super effective or not..
+{
+    public bool Fainted { get; set; }
+    public float Critical { get; set; }
+    public float TypeEffectiveness { get; set; }
+
 }

@@ -35,7 +35,6 @@ public class BattleSystem : MonoBehaviour
 
         //We return the function Typedialog
         yield return dialogBox.TypeDialog($"A wild {enemyUnit.Pokemon.Base.Name} appeared."); //With the $, a string can show a special variable in it
-        yield return new WaitForSeconds(1f);
 
         //This is the function where the player choose a specific action
         PlayerAction(); 
@@ -63,13 +62,12 @@ public class BattleSystem : MonoBehaviour
         var move = playerUnit.Pokemon.Moves[currentMove]; //we store in a variable, the actual move selected
         yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that it's pokemon used a move
 
-        yield return new WaitForSeconds(1f); //We wait 1sec after the text has been shown
-
-        bool isFainted = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
+        var damageDetails = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
         yield return enemyHud.UpdateHP(); //Calling the function to show damages taken
+        yield return ShowDamageDetails(damageDetails);
 
         //If the enemy died, we display a message, else we call it's attack
-        if (isFainted)
+        if (damageDetails.Fainted)
         {
             yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} fainted");
         }
@@ -85,13 +83,12 @@ public class BattleSystem : MonoBehaviour
         var move = enemyUnit.Pokemon.GetRandomMove();
         yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that it's pokemon used a move
 
-        yield return new WaitForSeconds(1f); //We wait 1sec after the text has been shown
-
-        bool isFainted = playerUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon); //Check a bool var to know if the Player pokemon died
+        var DamageDetails = playerUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon); //Check our DamageDetails var to know if the Player pokemon died
         yield return playerHud.UpdateHP(); //Calling the function to show damages taken
+        yield return ShowDamageDetails(DamageDetails);
 
         //If the enemy died, we display a message, else we call it's attack
-        if (isFainted)
+        if (DamageDetails.Fainted)
         {
             yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} fainted");
         }
@@ -99,6 +96,18 @@ public class BattleSystem : MonoBehaviour
         {
             PlayerAction();
         }
+    }
+
+    IEnumerator ShowDamageDetails(DamageDetails damageDetails)
+    {
+        if (damageDetails.Critical > 1f) //Check the value of Critical to show a message saying we had a critical hit
+            yield return dialogBox.TypeDialog("A critical hit!");
+
+        if(damageDetails.TypeEffectiveness > 1)
+            yield return dialogBox.TypeDialog("That's super effective!");
+        else if (damageDetails.TypeEffectiveness < 1)
+            yield return dialogBox.TypeDialog("That was not very effective..");
+
     }
 
     private void Update()

@@ -36,6 +36,8 @@ public class BattleDialogBox : MonoBehaviour
             dialogText.text += letter;
             yield return new WaitForSeconds(1f / lettersPerSecond); //We can choose how many letter per second we want, in Unity itself
         }
+
+        yield return new WaitForSeconds(1f);
     }
     //This will change wich dialog we should see, either Dialog, Move selector, etc
     public void EnableDialogText (bool enabled) 
