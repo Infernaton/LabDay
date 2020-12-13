@@ -132,3 +132,44 @@ public enum PokemonType //Using an enum to acces all the pokemon types easily
     Steel,
     Water,
 }
+
+public class TypeChart //Create the chart to manage types and their effectiveness. It will look like a chart
+{
+    static float[][] chart = //2D Array, where we wright every type and their weakness, effectiveness
+    {
+        //                Bug   Drk    Drg    Ele   Fai   Fig   Fir   Fly   Ghs   Gra   Gro   Ice   Nrm Psn   Psy  Rck    Ste   Wtr
+        /*BUG*/new float[]{1f,   2f,   0.5f,  1f,   1f,   1f,   0.5f, 0.5f, 0.5f, 2f,   1f,   1f,   1f, 1f,   2f,  0.5f,  0.5f, 1f},
+        /*DRK*/new float[]{1f,   0.5f, 1f,    1f,   2f,   0.5f, 1f,   1f,   2f,   1f,   1f,   1f,   1f, 1f,   2f,   1f,   1f,   1f},
+        /*DRG*/new float[]{1f,   1f,   2f,    1f,   0.5f, 1f,   1f,   1f,   1f,   1f,   1f,   1f,   1f, 1f,   1f,   1f,   1f,   1f},
+        /*ELE*/new float[]{1f,   1f,   0.5f,  0.5f, 1f,   1f,   1f,   2f,   1f,   0.5f, 0f,   1f,   1f, 1f,   1f,   1f,   1f,   2f},
+        /*FAI*/new float[]{1f,   2f,   2f,    1f,   1f,   2f,   0.5f, 1f,   1f,   1f,   1f,   1f,   1f, 0.5f, 1f,   1f,   0.5f, 1f},
+        /*FIG*/new float[]{0.5f, 2f,   1f,    1f,   0.5f, 1f,   1f,   0.5f, 0f,   1f,   1f,   2f,   2f, 1f,   0.5f, 2f,   2f,   1f},
+        /*FIR*/new float[]{2f,   1f,   0.5f,  1f,   1f,   1f,   0.5f, 1f,   1f,   2f,   1f,   2f,   1f, 1f,   1f,   0.5f, 2f,   0.5f},
+        /*FLY*/new float[]{2f,   1f,   1f,    0.5f, 1f,   2f,   1f,   1f,   1f,   2f,   1f,   1f,   1f, 1f,   1f,   0.5f, 0.5f, 1f},
+        /*GHS*/new float[]{1f,   0.5f, 1f,    1f,   1f,   1f,   1f,   1f,   2f,   1f,   1f,   1f,   0f, 1f,   2f,   1f,   1f,   1f},
+        /*GRA*/new float[]{0.5f, 1f,   0.5f,  1f,   1f,   1f,   0.5f, 0.5f, 1f,   0.5f, 2f,   1f,   1f, 0.5f, 1f,   2f,   1f,   2f},
+        /*GRO*/new float[]{0.5f, 1f,   1f,    2f,   1f,   1f,   2f,   0f,   1f,   0.5f, 1f,   1f,   1f, 2f,   1f,   2f,   2f,   1f},
+        /*ICE*/new float[]{1f,   1f,   2f,    1f,   1f,   0.5f, 0.5f, 2f,   1f,   2f,   2f,   0.5f, 1f, 1f,   1f,   1f,   0.5f, 0.5f},
+        /*NRM*/new float[]{1f,   1f,   1f,    1f,   1f,   1f,   1f,   1f,   0f,   1f,   1f,   1f,   1f, 1f,   1f,   0.5f, 0.5f, 1f},
+        /*PSN*/new float[]{1f,   1f,   1f,    1f,   2f,   1f,   1f,   1f,   0.5f, 2f,   0.5f, 1f,   1f, 1f,   1f,   0.5f, 0f,   1f},
+        /*PSY*/new float[]{1f,   0f,   1f,    1f,   1f,   2f,   1f,   1f,   1f,   1f,   1f,   1f,   1f, 2f,   0.5f, 1f,   1f,   1f},
+        /*RCK*/new float[]{2f,   1f,   1f,    1f,   1f,   0.5f, 1f,   2f,   1f,   1f,   0.5f, 2f,   1f, 1f,   1f,   0.5f, 0.5f, 1f},
+        /*STE*/new float[]{2f,   1f,   1f,    1f,   2f,   0.5f, 0.5f, 1f,   1f,   1f,   2f,   1f,   1f, 1f,   1f,   2f,   0.5f, 0.5f},
+        /*WTR*/new float[]{1f,   1f,   0.5f,  1f,   1f,   1f,   2f,   1f,   1f,   0.5f, 2f,   1f,   1f, 1f,   1f,   2f,   1f,   0.5f}
+    };
+
+    //Function to return the effectiveness of a move
+    public static float GetEffectiveness(PokemonType attackType, PokemonType defenseType)
+    {
+        if (attackType == PokemonType.None || defenseType == PokemonType.None)
+        {
+            return 1;
+        }
+
+        int row = (int)attackType - 1; //Get the row
+        int col = (int)defenseType - 1; //And the column
+
+        return chart[row][col];
+
+    }
+}

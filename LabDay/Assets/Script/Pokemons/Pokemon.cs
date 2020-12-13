@@ -63,8 +63,10 @@ public class Pokemon
     //Create a function called when taking damage
     public bool TakeDamage(Move move, Pokemon attacker) //Take in reference the move used, and the attacking pokemon
     {
+        float type = TypeChart.GetEffectiveness(move.Base.Type, this.Base.Type1) * TypeChart.GetEffectiveness(move.Base.Type, this.Base.Type2); //Calculate the type effectiveness
+
         //Here is the actual formula used in the pokemons game, might change later
-        float modifiers = Random.Range(0.85f, 1f);
+        float modifiers = Random.Range(0.85f, 1f) * type;
         float a = (2 * attacker.Level + 10) / 250f;
         float d = a * move.Base.Power * ((float)attacker.Attack / Defense) + 2;
         int damage = Mathf.FloorToInt(d * modifiers);
