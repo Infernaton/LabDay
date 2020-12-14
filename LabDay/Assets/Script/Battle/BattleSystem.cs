@@ -62,6 +62,11 @@ public class BattleSystem : MonoBehaviour
         var move = playerUnit.Pokemon.Moves[currentMove]; //we store in a variable, the actual move selected
         yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that it's pokemon used a move
 
+        playerUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
+        yield return new WaitForSeconds(0.75f); //Then wait for a second before reducing HP
+
+        enemyUnit.PlayHitAnimation();
+
         var damageDetails = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
         yield return enemyHud.UpdateHP(); //Calling the function to show damages taken
         yield return ShowDamageDetails(damageDetails);
@@ -69,19 +74,25 @@ public class BattleSystem : MonoBehaviour
         //If the enemy died, we display a message, else we call it's attack
         if (damageDetails.Fainted)
         {
-            yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} fainted");
+            yield return dialogBox.TypeDialog($"The {enemyUnit.Pokemon.Base.Name} enemy fainted");
+            enemyUnit.PlayFaintAnimation();
         }
         else
         {
             StartCoroutine(EnemyMove());
         }
     }
-    IEnumerator EnemyMove()
+    IEnumerator EnemyMove() 
     {
         state = BattleState.EnemyMove;
 
         var move = enemyUnit.Pokemon.GetRandomMove();
-        yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that it's pokemon used a move
+        yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that the enemy pokemon used a move
+
+        enemyUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
+        yield return new WaitForSeconds(0.75f); //Then wait for a second before reducing HP
+
+        playerUnit.PlayHitAnimation();
 
         var damageDetails = playerUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon); //Check our DamageDetails var to know if the Player pokemon died
         yield return playerHud.UpdateHP(); //Calling the function to show damages taken
@@ -90,7 +101,8 @@ public class BattleSystem : MonoBehaviour
         //If the enemy died, we display a message, else we call it's attack
         if (damageDetails.Fainted)
         {
-            yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} fainted");
+            yield return dialogBox.TypeDialog($"Your {playerUnit.Pokemon.Base.Name} fainted");
+            playerUnit.PlayFaintAnimation();
         }
         else
         {
