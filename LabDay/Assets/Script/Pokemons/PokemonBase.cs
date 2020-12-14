@@ -166,6 +166,7 @@ public class TypeChart //Create the chart to manage types and their effectivenes
             return 1;
         }
 
+        //We wrote -1 bc of null type
         int row = (int)attackType - 1; //Get the row
         int col = (int)defenseType - 1; //And the column
 

@@ -83,12 +83,12 @@ public class BattleSystem : MonoBehaviour
         var move = enemyUnit.Pokemon.GetRandomMove();
         yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that it's pokemon used a move
 
-        var DamageDetails = playerUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon); //Check our DamageDetails var to know if the Player pokemon died
+        var damageDetails = playerUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon); //Check our DamageDetails var to know if the Player pokemon died
         yield return playerHud.UpdateHP(); //Calling the function to show damages taken
-        yield return ShowDamageDetails(DamageDetails);
+        yield return ShowDamageDetails(damageDetails);
 
         //If the enemy died, we display a message, else we call it's attack
-        if (DamageDetails.Fainted)
+        if (damageDetails.Fainted)
         {
             yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} fainted");
         }
