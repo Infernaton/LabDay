@@ -14,6 +14,7 @@ public class MoveBase : ScriptableObject //Voir PokemonBase
     [SerializeField] int power;
     [SerializeField] int accuracy;
     [SerializeField] int pp;
+    [SerializeField] bool isSpecial;
 
     public string Name
     {
@@ -38,5 +39,13 @@ public class MoveBase : ScriptableObject //Voir PokemonBase
     public int Pp
     {
         get { return pp; }
+    }
+
+    public bool IsSpecial //Creating Special and Physical moves
+    {
+        get
+        {
+            return isSpecial;
+        }
     }
 }

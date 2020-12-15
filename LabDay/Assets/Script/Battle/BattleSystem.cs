@@ -63,6 +63,7 @@ public class BattleSystem : MonoBehaviour
         state = BattleState.Busy;//We set Busy so the player can not move in the UI
 
         var move = playerUnit.Pokemon.Moves[currentMove]; //we store in a variable, the actual move selected
+        move.PP--; //Redcing PP of the move on use
         yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that it's pokemon used a move
 
         playerUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
@@ -93,6 +94,7 @@ public class BattleSystem : MonoBehaviour
         state = BattleState.EnemyMove;
 
         var move = enemyUnit.Pokemon.GetRandomMove();
+        move.PP--; //Redcing PP of the move on use
         yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that the enemy pokemon used a move
 
         enemyUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
