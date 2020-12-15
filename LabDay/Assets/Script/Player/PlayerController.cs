@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;//Added this library to use Observer Design Pattern
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed; // Speed value
     public LayerMask solidObjectsLayer; //Reference our SolidObjects layer
     public LayerMask grassLayer; //Reference our LongGrass layer
+
+    public event Action OnEncountered; //Creating an action with "using. System"
 
     private bool isMoving; // To know if the player is currently moving
     private Vector2 input; // For getting the Input
@@ -19,7 +22,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>(); //We set the Animator as our variable animator
     }
 
-    private void Update()
+    public void HandleUpdate()
     {
         if (!isMoving)
         {
@@ -86,9 +89,10 @@ public class PlayerController : MonoBehaviour
     {
         if (Physics2D.OverlapCircle(transform.position, 0.2f, grassLayer) != null) //Same as IsWalkable
         {
-            if (Random.Range(1, 101) <= 10) //If, within a range of 1 to 100, we hit below 10 (10% chances), we will encounter a creature
+            if (UnityEngine.Random.Range(1, 101) <= 10) //If, within a range of 1 to 100, we hit below 10 (10% chances), we will encounter a creature
             {
-                Debug.Log("Encountered a wild creature!"); //For now, we don't have a battle system yet, so we'll just display a message in the console.
+                animator.SetBool("isMoving", false); //Link the Animator "isMoving" to the script "isMoving", and set it to false
+                OnEncountered();//We call our BattleSystem by changing the GameState to battle
             }
         }
     }

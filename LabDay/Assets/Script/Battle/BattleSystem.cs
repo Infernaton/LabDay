@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,12 +15,14 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] BattleHud enemyHud;
     [SerializeField] BattleDialogBox dialogBox;
 
+    public event Action<bool> OnBattleOver; //Add an action happening when the battle ended (Action<bool> is to add a bool to the Action)
+
     BattleState state;
     int currentAction; //Actually, 0 is Fight, 1 is Run
     int currentMove; //We'll have 4 moves
 
     //We want to setup everything at the very first frame of the battle
-    private void Start()
+    public void StartBattle()
     {
         StartCoroutine(SetupBattle()); //We call our SetupBattle function
     }
@@ -76,6 +79,9 @@ public class BattleSystem : MonoBehaviour
         {
             yield return dialogBox.TypeDialog($"The {enemyUnit.Pokemon.Base.Name} enemy fainted");
             enemyUnit.PlayFaintAnimation();
+
+            yield return new WaitForSeconds(2f);
+            OnBattleOver(true); //True is to know that the player won
         }
         else
         {
@@ -103,6 +109,9 @@ public class BattleSystem : MonoBehaviour
         {
             yield return dialogBox.TypeDialog($"Your {playerUnit.Pokemon.Base.Name} fainted");
             playerUnit.PlayFaintAnimation();
+
+            yield return new WaitForSeconds(2f);
+            OnBattleOver(false); //False is to know that the player lost
         }
         else
         {
@@ -122,7 +131,7 @@ public class BattleSystem : MonoBehaviour
 
     }
 
-    private void Update()
+    public void HandleUpdate()
     {
         if (state == BattleState.PlayerAction)
         {
