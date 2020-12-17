@@ -51,8 +51,13 @@ public class BattleSystem : MonoBehaviour
     void PlayerAction()
     {
         state = BattleState.PlayerAction; //Change the state to PlayerAction
-        StartCoroutine(dialogBox.TypeDialog("Choose an action")); //Then write a text
+        dialogBox.SetDialog("Choose an action"); //Then write a text
         dialogBox.EnableActionSelector(true); //Then allow player to choose an Action
+    }
+
+    void OpenPartyScreen()
+    {
+        print("Party Screen");
     }
 
     void PlayerMove()
@@ -142,7 +147,6 @@ public class BattleSystem : MonoBehaviour
             PlayerAction();
         }
     }
-
     IEnumerator ShowDamageDetails(DamageDetails damageDetails)
     {
         if (damageDetails.Critical > 1f) //Check the value of Critical to show a message saying we had a critical hit
@@ -169,18 +173,18 @@ public class BattleSystem : MonoBehaviour
 
     void HandleActionSelection()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow)) //For now we have two choices so we just want to increase or decrease the int currentAction
-        {
-            if (currentAction == 0)
-                ++currentAction; 
-        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            ++currentAction;
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            --currentAction;
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+            currentAction += 2;
         else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            if (currentAction == 1)
-                --currentAction;
-        }
+            currentAction -= 2;
 
-        dialogBox.UpdateActionSelection(currentAction);
+        currentAction = Mathf.Clamp(currentAction, 0, 3); //Since we have 4 actions we want to loop throught each one of them and not going beyond 3
+
+            dialogBox.UpdateActionSelection(currentAction);
 
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
@@ -190,6 +194,15 @@ public class BattleSystem : MonoBehaviour
                 PlayerMove();
             }
             else if (currentAction == 1)
+            {
+                //Bag
+            }
+            else if (currentAction == 2)
+            {
+                //Pokemon party
+                OpenPartyScreen();
+            }
+            else if (currentAction == 3)
             {
                 //Run
             }
@@ -201,25 +214,15 @@ public class BattleSystem : MonoBehaviour
     void HandleMoveSelection()
     {
         if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            if (currentMove < playerUnit.Pokemon.Moves.Count - 1)
-                ++currentMove;
-        }
+            ++currentMove;
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (currentMove > 0)
-                --currentMove;
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow)) //The left and right keys moves by one, but the Up and Down have to move by 2
-        {
-            if (currentMove < playerUnit.Pokemon.Moves.Count - 2)
-                currentMove += 2;
-        }
+            --currentMove;
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+            currentMove += 2;
         else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            if (currentMove > 1)
-                currentMove -= 2;
-        }
+            currentMove -= 2;
+
+        currentMove = Mathf.Clamp(currentMove, 0, playerUnit.Pokemon.Moves.Count - 1); //Since we have ""player unit" number of moves we want to loop throught each one of them and not going beyond
 
         dialogBox.UpdateMoveSelection(currentMove, playerUnit.Pokemon.Moves[currentMove]);
 
@@ -231,6 +234,12 @@ public class BattleSystem : MonoBehaviour
             dialogBox.EnableDialogText(true);
 
             StartCoroutine(PerformPlayerMove());
+        }
+        else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+        {
+            dialogBox.EnableMoveSelector(false);
+            dialogBox.EnableDialogText(true);
+            PlayerAction();
         }
     }
 }
