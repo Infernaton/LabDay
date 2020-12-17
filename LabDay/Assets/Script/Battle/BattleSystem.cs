@@ -21,16 +21,21 @@ public class BattleSystem : MonoBehaviour
     int currentAction; //Actually, 0 is Fight, 1 is Run
     int currentMove; //We'll have 4 moves
 
+    PokemonParty playerParty;
+    Pokemon wildPokemon;
+
     //We want to setup everything at the very first frame of the battle
-    public void StartBattle()
+    public void StartBattle(PokemonParty playerParty, Pokemon wildPokemon)
     {
+        this.playerParty = playerParty; //this. is to use our variable and not the parameter
+        this.wildPokemon = wildPokemon;
         StartCoroutine(SetupBattle()); //We call our SetupBattle function
     }
 
     public IEnumerator SetupBattle() //We use the data created in the BattleUnit and BattleHud scripts
     {
-        playerUnit.Setup();
-        enemyUnit.Setup();
+        playerUnit.Setup(playerParty.GetHealthyPokemon());
+        enemyUnit.Setup(wildPokemon);
         playerHud.SetData(playerUnit.Pokemon);
         enemyHud.SetData(enemyUnit.Pokemon);
 
@@ -113,7 +118,24 @@ public class BattleSystem : MonoBehaviour
             playerUnit.PlayFaintAnimation();
 
             yield return new WaitForSeconds(2f);
-            OnBattleOver(false); //False is to know that the player lost
+
+            var nextPokemon = playerParty.GetHealthyPokemon(); //Store in a var out next pokemon
+            if (nextPokemon != null)
+            {
+                playerUnit.Setup(nextPokemon);
+                playerHud.SetData(nextPokemon);
+
+                dialogBox.SetMoveNames(nextPokemon.Moves);
+
+                yield return dialogBox.TypeDialog($"Go {nextPokemon.Base.Name}!");
+
+                //This is the function where the player choose a specific action
+                PlayerAction();
+            }
+            else
+            {
+                OnBattleOver(false); //False is to know that the player lost
+            }
         }
         else
         {

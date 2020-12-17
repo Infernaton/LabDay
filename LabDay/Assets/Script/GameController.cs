@@ -26,7 +26,10 @@ public class GameController : MonoBehaviour
         battleSystem.gameObject.SetActive(true);
         worldCamera.gameObject.SetActive(false);
 
-        battleSystem.StartBattle(); //Call our StartBattle, so every fight are not the same
+        var playerParty = playerController.GetComponent<PokemonParty>(); //Store our party in a var
+        var wildPokemon = FindObjectOfType<MapArea>().GetComponent<MapArea>().GetRandomWildPokemon(); //Store a random wild pokemon FROM our map area in a var
+
+        battleSystem.StartBattle(playerParty, wildPokemon); //Call our StartBattle, so every fight are not the same
     }
     //Change our battle state, camera active, and gameobject of the Battle System
     void EndBattle(bool won)

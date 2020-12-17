@@ -4,19 +4,28 @@ using UnityEngine;
 
 // !!! THIS SCRIPT IS GOING TO USE THE DATA FROM THE SCRIPTABLE OBJECT TO CREATE THE REAL POKEMON, WITH LEVEL, AND HOW IT'S GROWING IN REAL TIME IN THE GAME!!!
 // THESES DATA ARE MEANT TO CHANGE IN THE GAME
+
+[System.Serializable] //To show a class in unity we need to set this
 public class Pokemon
 {
-    public PokemonBase Base {get; set;} //we call this variable Name bc we use it as a property. This variable is going to use the base data
-    public int Level { get; set; } //We set theses two as public to acces them outside this class (in the BattleHub for example.)
+    [SerializeField] PokemonBase _base; //Setting a serialized field of it to acces it in unity
+    [SerializeField] int level;
+
+    public PokemonBase Base //we call this variable Name bc we use it as a property. This variable is going to use the base data
+    {
+        get { return _base; }
+    } 
+    public int Level //We set theses two as public to acces them outside this class (in the BattleHub for example.)
+    {
+        get { return level; }
+    }
 
     public int HP { get; set; }
 
     public List<Move> Moves { get; set; } //This is a reference to our List of move the pokemon will have in game
 
-    public Pokemon(PokemonBase pBase, int pLevel) //Constructor of our pokemons, pBase = Pokemon Base, pLevel = Pokemon Level
+    public void Init() //Constructor of our pokemons, pBase = Pokemon Base, pLevel = Pokemon Level
     {
-        Base = pBase;
-        Level = pLevel;
         HP = MaxHp;
 
         //This genretae a move
