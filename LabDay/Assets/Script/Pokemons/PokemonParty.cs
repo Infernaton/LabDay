@@ -7,6 +7,11 @@ public class PokemonParty : MonoBehaviour
 {
     [SerializeField] List<Pokemon> pokemons; //List of our pokemons in the team
 
+    public List<Pokemon> Pokemons //Property to expose the list of pokemon we currently have, and use this in other scripts
+    {
+        get { return pokemons; }
+    }
+
     private void Start()
     {
         foreach (var pokemon in pokemons) //Looping throught each pokemons in our party
