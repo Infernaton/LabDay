@@ -5,7 +5,7 @@ using UnityEngine;
 
 //Here is where we manage our battle system, by calling every needed function, that we create in other classes
 
-public enum BattleState { Start, PlayerAction, PlayerMove, EnemyMove, Busy} //We will use different state in our BattleSystem, and show what need to be shown in a specific state
+public enum BattleState { Start, PlayerAction, PlayerMove, EnemyMove, Busy, PartyScreen} //We will use different state in our BattleSystem, and show what need to be shown in a specific state
 
 public class BattleSystem : MonoBehaviour
 {
@@ -19,8 +19,11 @@ public class BattleSystem : MonoBehaviour
     public event Action<bool> OnBattleOver; //Add an action happening when the battle ended (Action<bool> is to add a bool to the Action)
 
     BattleState state;
-    int currentAction; //Actually, 0 is Fight, 1 is Run
+
+    //These var will be used to navigate throught selection screens
+    int currentAction; //Actually, 0 is Fight, 1 is Bag, 2 is Party, 4 is Run
     int currentMove; //We'll have 4 moves
+    int currentMember; //We have 6 pokemons
 
     PokemonParty playerParty;
     Pokemon wildPokemon;
@@ -60,8 +63,9 @@ public class BattleSystem : MonoBehaviour
 
     void OpenPartyScreen()
     {
-        partyScreen.SetPartyData(playerParty.Pokemons);
-        partyScreen.gameObject.SetActive(true);
+        state = BattleState.PartyScreen; //Change the battle state to party screen
+        partyScreen.SetPartyData(playerParty.Pokemons); //Set the data of our actual pokemons
+        partyScreen.gameObject.SetActive(true); //Set active and visible our party screen
     }
 
     void PlayerMove()
@@ -109,7 +113,7 @@ public class BattleSystem : MonoBehaviour
 
         var move = enemyUnit.Pokemon.GetRandomMove();
         move.PP--; //Redcing PP of the move on use
-        yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that the enemy pokemon used a move
+        yield return dialogBox.TypeDialog($" The enemy {enemyUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that the enemy pokemon used a move
 
         enemyUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
         yield return new WaitForSeconds(0.75f); //Then wait for a second before reducing HP
@@ -129,17 +133,9 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(2f);
 
             var nextPokemon = playerParty.GetHealthyPokemon(); //Store in a var out next pokemon
-            if (nextPokemon != null)
+            if (nextPokemon != null) //we open the party screen when a pokemon of us fainted, and we still have at least one healthy pokemon
             {
-                playerUnit.Setup(nextPokemon);
-                playerHud.SetData(nextPokemon);
-
-                dialogBox.SetMoveNames(nextPokemon.Moves);
-
-                yield return dialogBox.TypeDialog($"Go {nextPokemon.Base.Name}!");
-
-                //This is the function where the player choose a specific action
-                PlayerAction();
+                OpenPartyScreen();
             }
             else
             {
@@ -172,6 +168,10 @@ public class BattleSystem : MonoBehaviour
         else if (state == BattleState.PlayerMove)
         {
             HandleMoveSelection();
+        }
+        else if (state == BattleState.PartyScreen)
+        {
+            HandlePartySelection();
         }
     }
 
@@ -213,7 +213,6 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-
     //We create a way to move freely between every moves our Creature actually has.
     void HandleMoveSelection()
     {
@@ -245,5 +244,64 @@ public class BattleSystem : MonoBehaviour
             dialogBox.EnableDialogText(true);
             PlayerAction();
         }
+    }
+
+    void HandlePartySelection()
+    {
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            ++currentMember;
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            --currentMember;
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+            currentMember += 3;
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
+            currentMember -= 3;
+
+        currentMember = Mathf.Clamp(currentMember, 0, playerParty.Pokemons.Count - 1);
+
+        partyScreen.UpdateMemberSelection(currentMember);
+
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+        {
+            var selectedMember = playerParty.Pokemons[currentMember]; //Creating a var of the actual pokemon we are on
+            if (selectedMember.HP <= 0) //Making sure the actual pokemon selected ain't fainted
+            {
+                partyScreen.SetMessageText("You can't send out a fainted pokemon!");
+                return;
+            }
+            if (selectedMember == playerUnit.Pokemon) //Making sure the actual selected pokemon is not the same as the one in the battle
+            {
+                partyScreen.SetMessageText("This pokemon is already in the battle.");
+                return;
+            }
+
+            partyScreen.gameObject.SetActive(false); //Changing the actual view on the screen
+            state = BattleState.Busy; //State is changed to busy so player won't mess with the UI
+            StartCoroutine(SwitchPokemon(selectedMember)); //Finally, calling coroutine to switch pokemons
+        }
+        else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+        {
+            partyScreen.gameObject.SetActive(false);
+            PlayerAction();
+        }
+    }
+
+    IEnumerator SwitchPokemon (Pokemon newPokemon) //Coroutine to make the switch happen
+    {
+        if (playerUnit.Pokemon.HP > 0) //This will play ONLY if the player change pokemon by choosing the action, if the pokemon fainted and we have to send another one, this will not play
+        {
+            yield return dialogBox.TypeDialog($"Come back {playerUnit.Pokemon.Base.Name}"); //First we change the message
+            playerUnit.PlayFaintAnimation(); //Then we play the faint animation to show that our pokemon came back
+            yield return new WaitForSeconds(1f); //Then we wait before it ends
+        }
+
+        playerUnit.Setup(newPokemon);
+        playerHud.SetData(newPokemon);
+
+        dialogBox.SetMoveNames(newPokemon.Moves);
+
+        yield return dialogBox.TypeDialog($"Go {newPokemon.Base.Name}!");
+
+        StartCoroutine(EnemyMove());
     }
 }
