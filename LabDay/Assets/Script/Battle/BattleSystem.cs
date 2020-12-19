@@ -5,14 +5,12 @@ using UnityEngine;
 
 //Here is where we manage our battle system, by calling every needed function, that we create in other classes
 
-public enum BattleState { Start, PlayerAction, PlayerMove, EnemyMove, Busy, PartyScreen} //We will use different state in our BattleSystem, and show what need to be shown in a specific state
+public enum BattleState { Start, ActionSelection, MoveSelection, PerformMove, Busy, PartyScreen, BattleOver} //We will use different state in our BattleSystem, and show what need to be shown in a specific state
 
 public class BattleSystem : MonoBehaviour
 {
     [SerializeField] BattleUnit playerUnit;
     [SerializeField] BattleUnit enemyUnit;
-    [SerializeField] BattleHud playerHud;
-    [SerializeField] BattleHud enemyHud;
     [SerializeField] BattleDialogBox dialogBox;
     [SerializeField] PartyScreen partyScreen;
 
@@ -40,8 +38,6 @@ public class BattleSystem : MonoBehaviour
     {
         playerUnit.Setup(playerParty.GetHealthyPokemon());
         enemyUnit.Setup(wildPokemon);
-        playerHud.SetData(playerUnit.Pokemon);
-        enemyHud.SetData(enemyUnit.Pokemon);
 
         partyScreen.Init();
 
@@ -51,12 +47,18 @@ public class BattleSystem : MonoBehaviour
         yield return dialogBox.TypeDialog($"A wild {enemyUnit.Pokemon.Base.Name} appeared."); //With the $, a string can show a special variable in it
 
         //This is the function where the player choose a specific action
-        PlayerAction(); 
+        ActionSelection(); 
     }
 
-    void PlayerAction()
+    void BattleOver(bool won) //Function to know if the battle is over or not
     {
-        state = BattleState.PlayerAction; //Change the state to PlayerAction
+        state = BattleState.BattleOver; //Set the state
+        OnBattleOver(won); //Calling the event to notify the GameController that the battle is Over
+    }
+
+    void ActionSelection()
+    {
+        state = BattleState.ActionSelection; //Change the state to ActionSelection
         dialogBox.SetDialog("Choose an action"); //Then write a text
         dialogBox.EnableActionSelector(true); //Then allow player to choose an Action
     }
@@ -68,85 +70,83 @@ public class BattleSystem : MonoBehaviour
         partyScreen.gameObject.SetActive(true); //Set active and visible our party screen
     }
 
-    void PlayerMove()
+    void MoveSelection()
     {
-        state = BattleState.PlayerMove; //Change the state to PlayerMove
+        state = BattleState.MoveSelection; //Change the state to MoveSelection
         dialogBox.EnableActionSelector(false); //Then disable player to choose an action, and allow it to choose a move
         dialogBox.EnableDialogText(false); //Disable the DialogText
         dialogBox.EnableMoveSelector(true); //Enable the MoveSelector
     }
 
-    IEnumerator PerformPlayerMove()
+    IEnumerator PlayerMove()
     {
-        state = BattleState.Busy;//We set Busy so the player can not move in the UI
+        state = BattleState.PerformMove; //We set PerformMove so the player can not move in the UI
 
         var move = playerUnit.Pokemon.Moves[currentMove]; //we store in a variable, the actual move selected
-        move.PP--; //Redcing PP of the move on use
-        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that it's pokemon used a move
+        yield return RunMove(playerUnit, enemyUnit, move); //Calling the function to run the move selected
 
-        playerUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
-        yield return new WaitForSeconds(0.75f); //Then wait for a second before reducing HP
-
-        enemyUnit.PlayHitAnimation();
-
-        var damageDetails = enemyUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon);
-        yield return enemyHud.UpdateHP(); //Calling the function to show damages taken
-        yield return ShowDamageDetails(damageDetails);
-
-        //If the enemy died, we display a message, else we call it's attack
-        if (damageDetails.Fainted)
-        {
-            yield return dialogBox.TypeDialog($"The {enemyUnit.Pokemon.Base.Name} enemy fainted");
-            enemyUnit.PlayFaintAnimation();
-
-            yield return new WaitForSeconds(2f);
-            OnBattleOver(true); //True is to know that the player won
-        }
-        else
-        {
-            StartCoroutine(EnemyMove());
-        }
+        //If the battle state was not changed by the RunMove, go to next step
+        if (state == BattleState.PerformMove)
+            StartCoroutine(EnemyMove()); //Then the enemy attack
     }
     IEnumerator EnemyMove() 
     {
-        state = BattleState.EnemyMove;
+        state = BattleState.PerformMove; //We set PerformMove so the player can not move in the UI
 
-        var move = enemyUnit.Pokemon.GetRandomMove();
+        var move = enemyUnit.Pokemon.GetRandomMove(); //we store in a variable, a random move selected
+
+        yield return RunMove(enemyUnit, playerUnit, move); //Calling the function to run the move selected
+
+        //If the battle state was not changed by the RunMove, go to next step
+        if (state == BattleState.PerformMove)
+            ActionSelection(); //Then it's back to the player Action Selection phase
+    }
+
+    IEnumerator RunMove(BattleUnit sourceUnit, BattleUnit targetUnit, Move move) //Creating a function with the logic of the moves, to easily change it later and make our code more clear
+    {
         move.PP--; //Redcing PP of the move on use
-        yield return dialogBox.TypeDialog($" The enemy {enemyUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that the enemy pokemon used a move
+        if (targetUnit == playerUnit) //If statement to show if the pokemon using a move is the player's one of the enemy
+            yield return dialogBox.TypeDialog($"The enemy {sourceUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that a pokemon used a move
+        else
+            yield return dialogBox.TypeDialog($"Your {sourceUnit.Pokemon.Base.Name} used {move.Base.Name}");
 
-        enemyUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
+        sourceUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
         yield return new WaitForSeconds(0.75f); //Then wait for a second before reducing HP
 
-        playerUnit.PlayHitAnimation();
+        targetUnit.PlayHitAnimation();
 
-        var damageDetails = playerUnit.Pokemon.TakeDamage(move, playerUnit.Pokemon); //Check our DamageDetails var to know if the Player pokemon died
-        yield return playerHud.UpdateHP(); //Calling the function to show damages taken
+        var damageDetails = targetUnit.Pokemon.TakeDamage(move, sourceUnit.Pokemon);
+        yield return targetUnit.Hud.UpdateHP(); //Calling the function to show damages taken
         yield return ShowDamageDetails(damageDetails);
 
-        //If the enemy died, we display a message, else we call it's attack
+        //If a pokemon died, we display a message, then check if the battle is over or not
         if (damageDetails.Fainted)
         {
-            yield return dialogBox.TypeDialog($"Your {playerUnit.Pokemon.Base.Name} fainted");
-            playerUnit.PlayFaintAnimation();
-
+            if (targetUnit == enemyUnit)
+             yield return dialogBox.TypeDialog($"{targetUnit.Pokemon.Base.Name} enemy fainted");
+            else
+                yield return dialogBox.TypeDialog($"Your {targetUnit.Pokemon.Base.Name} fainted");
+            targetUnit.PlayFaintAnimation();
             yield return new WaitForSeconds(2f);
 
-            var nextPokemon = playerParty.GetHealthyPokemon(); //Store in a var out next pokemon
-            if (nextPokemon != null) //we open the party screen when a pokemon of us fainted, and we still have at least one healthy pokemon
-            {
-                OpenPartyScreen();
-            }
-            else
-            {
-                OnBattleOver(false); //False is to know that the player lost
-            }
-        }
-        else
-        {
-            PlayerAction();
+            CheckForBattleOver(targetUnit);
         }
     }
+
+    void CheckForBattleOver (BattleUnit faintedUnit) //Logic to know if the fainted pokemon is the player's one or the enemy one, and so if the battle is over or not
+    {
+        if (faintedUnit.IsPlayerUnit)
+        {
+            var nextPokemon = playerParty.GetHealthyPokemon(); //Store in a var out next pokemon
+            if (nextPokemon != null) //we open the party screen when a pokemon of us fainted, and we still have at least one healthy pokemon
+                OpenPartyScreen();
+            else
+                BattleOver(false); //False is when the player lost
+        }
+        else
+            BattleOver(true); //True when the player won
+    }
+
     IEnumerator ShowDamageDetails(DamageDetails damageDetails)
     {
         if (damageDetails.Critical > 1f) //Check the value of Critical to show a message saying we had a critical hit
@@ -161,11 +161,11 @@ public class BattleSystem : MonoBehaviour
 
     public void HandleUpdate()
     {
-        if (state == BattleState.PlayerAction)
+        if (state == BattleState.ActionSelection)
         {
             HandleActionSelection(); //Function to make the player able to choose an action
         }
-        else if (state == BattleState.PlayerMove)
+        else if (state == BattleState.MoveSelection)
         {
             HandleMoveSelection();
         }
@@ -195,7 +195,7 @@ public class BattleSystem : MonoBehaviour
             if (currentAction == 0)
             {
                 //Fight*
-                PlayerMove();
+                MoveSelection();
             }
             else if (currentAction == 1)
             {
@@ -236,13 +236,13 @@ public class BattleSystem : MonoBehaviour
             dialogBox.EnableMoveSelector(false);
             dialogBox.EnableDialogText(true);
 
-            StartCoroutine(PerformPlayerMove());
+            StartCoroutine(PlayerMove());
         }
         else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
         {
             dialogBox.EnableMoveSelector(false);
             dialogBox.EnableDialogText(true);
-            PlayerAction();
+            ActionSelection();
         }
     }
 
@@ -282,7 +282,7 @@ public class BattleSystem : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
         {
             partyScreen.gameObject.SetActive(false);
-            PlayerAction();
+            ActionSelection();
         }
     }
 
@@ -296,7 +296,6 @@ public class BattleSystem : MonoBehaviour
         }
 
         playerUnit.Setup(newPokemon);
-        playerHud.SetData(newPokemon);
 
         dialogBox.SetMoveNames(newPokemon.Moves);
 

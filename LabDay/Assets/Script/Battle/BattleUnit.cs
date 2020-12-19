@@ -8,7 +8,16 @@ using DG.Tweening;//Importing DOTween, an animation engine
 public class BattleUnit : MonoBehaviour
 {
     [SerializeField] bool isPlayerUnit;
+    [SerializeField] BattleHud hud;
 
+    public bool IsPlayerUnit //Property to expose if the unit is actually the player's one or the enemy one
+    {
+        get { return isPlayerUnit; }
+    }
+    public BattleHud Hud //Property to expose if the hud is the player's one or enemy one
+    {
+        get { return hud; }
+    }
     public Pokemon Pokemon { get; set; }
 
     Image image; //Reference to our image, so we can just call image. instead of GetComponent<Image> everytime
@@ -34,6 +43,8 @@ public class BattleUnit : MonoBehaviour
         {
             image.sprite = Pokemon.Base.FrontSprite;
         }
+
+        hud.SetData(pokemon);
 
         image.color = originalColor;
         PlayEnterAnimation();
