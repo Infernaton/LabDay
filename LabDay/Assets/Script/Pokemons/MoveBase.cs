@@ -14,7 +14,9 @@ public class MoveBase : ScriptableObject //Voir PokemonBase
     [SerializeField] int power;
     [SerializeField] int accuracy;
     [SerializeField] int pp;
-    [SerializeField] bool isSpecial;
+    [SerializeField] MoveCategory category;
+    [SerializeField] MoveEffects effects;
+    [SerializeField] MoveTarget target; //We use enum instead of bool to easyly expends it later 
 
     public string Name
     {
@@ -41,11 +43,47 @@ public class MoveBase : ScriptableObject //Voir PokemonBase
         get { return pp; }
     }
 
-    public bool IsSpecial //Creating Special and Physical moves
+    public MoveCategory Category //Property to get the move Category
     {
-        get
-        {
-            return isSpecial;
-        }
+        get { return category; }
     }
+
+    public MoveEffects Effects
+    {
+        get { return effects; }
+    }
+    public MoveTarget Target
+    {
+        get { return target; }
+    }
+}
+
+[System.Serializable]
+//New class we'll use to get the effects a move can apply
+public class MoveEffects 
+{
+    [SerializeField] List<StatBoost> boosts; //Since Unity can't Serialize a dictionnary, we create another class called StatBoost, and call it as a List
+    
+    public List<StatBoost> Boosts
+    {
+        get { return boosts; }
+    }
+}
+
+[System.Serializable]
+public class StatBoost
+{
+    //Two var for the Stat and the boos
+    public Stat stat;
+    public int boost;
+}
+
+public enum MoveCategory //Differents categories of moves, Physical, Special, and StatsBoosting
+{
+    Physical, Special, Status
+}
+
+public enum MoveTarget //Target of the move
+{
+    Foe, Self
 }

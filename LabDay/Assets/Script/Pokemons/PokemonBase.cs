@@ -133,6 +133,16 @@ public enum PokemonType //Using an enum to acces all the pokemon types easily
     Water,
 }
 
+//We'll use this in a Dictionnary to get the stat at any given level
+public enum Stat
+{
+    Attack,
+    Defense,
+    SpAttack,
+    SpDefense,
+    Speed
+}
+
 public class TypeChart //Create the chart to manage types and their effectiveness. It will look like a chart
 {
     static float[][] chart = //2D Array, where we wright every type and their weakness, effectiveness

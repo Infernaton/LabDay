@@ -112,15 +112,28 @@ public class BattleSystem : MonoBehaviour
 
         sourceUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
         yield return new WaitForSeconds(0.75f); //Then wait for a second before reducing HP
-
         targetUnit.PlayHitAnimation();
 
-        var damageDetails = targetUnit.Pokemon.TakeDamage(move, sourceUnit.Pokemon);
-        yield return targetUnit.Hud.UpdateHP(); //Calling the function to show damages taken
-        yield return ShowDamageDetails(damageDetails);
+        if (move.Base.Category == MoveCategory.Status)
+        {
+            var effects = move.Base.Effects; //Easier to call the effects
+            if (effects.Boosts != null)
+            {
+                if (move.Base.Target == MoveTarget.Self)
+                    sourceUnit.Pokemon.ApplyBoosts(effects.Boosts);
+                else
+                    targetUnit.Pokemon.ApplyBoosts(effects.Boosts);
+            }
+        }
+        else
+        {
+            var damageDetails = targetUnit.Pokemon.TakeDamage(move, sourceUnit.Pokemon);
+            yield return targetUnit.Hud.UpdateHP(); //Calling the function to show damages taken
+            yield return ShowDamageDetails(damageDetails);
+        }
 
         //If a pokemon died, we display a message, then check if the battle is over or not
-        if (damageDetails.Fainted)
+        if (targetUnit.Pokemon.HP <= 0) //Since with status move the pokemon can faint at mostly any moment, we don't check DamageDetails.fainted
         {
             if (targetUnit == enemyUnit)
              yield return dialogBox.TypeDialog($"{targetUnit.Pokemon.Base.Name} enemy fainted");

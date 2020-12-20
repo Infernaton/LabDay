@@ -23,10 +23,11 @@ public class Pokemon
     public int HP { get; set; }
 
     public List<Move> Moves { get; set; } //This is a reference to our List of move the pokemon will have in game
+    public Dictionary<Stat, int> Stats { get; private set; } //Creating the Dictionnary with our stats (private so it won't change inside the pokemon class. <Key, value> to easily get the key, with just the value
+    public Dictionary<Stat, int> StatBoosts { get; private set; } //Creating a dictionnary for Stats Boosting
 
     public void Init() //Constructor of our pokemons, pBase = Pokemon Base, pLevel = Pokemon Level
     {
-        HP = MaxHp;
 
         //This genretae a move
         Moves = new List<Move>();
@@ -39,35 +40,91 @@ public class Pokemon
             if (Moves.Count >= 4)
                 break;
         }
+
+        CalculateStats(); //Calling function to get the stats
+
+        HP = MaxHp;
+
+        StatBoosts = new Dictionary<Stat, int>() //Initializing the dictionnary
+        {
+            {Stat.Attack, 0 },
+            {Stat.Defense, 0 },
+            {Stat.SpAttack, 0 },
+            {Stat.SpDefense, 0 },
+            {Stat.Speed, 0 },
+        };
+    }
+
+    void CalculateStats() //Function to calculate stats at a specific level
+    {
+        //Using the formula used in pokemon games to get the stats
+        //FloorToInt is used to get rid of the decimal point
+
+        Stats = new Dictionary<Stat, int>(); //Initialize the dictionnary
+        Stats.Add(Stat.Attack, Mathf.FloorToInt((Base.Attack) / 100f) + 5); //Setting the values, by calculating it, then setting it to the Attack key
+        Stats.Add(Stat.Defense, Mathf.FloorToInt((Base.Defense) / 100f) + 5); //Same with defense, etc etc
+        Stats.Add(Stat.SpAttack, Mathf.FloorToInt((Base.SpAttack) / 100f) + 5);
+        Stats.Add(Stat.SpDefense, Mathf.FloorToInt((Base.SpDefense) / 100f) + 5);
+        Stats.Add(Stat.Speed, Mathf.FloorToInt((Base.Speed) / 100f) + 5);
+
+        MaxHp = Mathf.FloorToInt((Base.MaxHp) / 100f) + 10;
+    }
+
+    int GetStat(Stat stat) //Calculating the actual value of the stat, after it may as changed
+    {
+        int statValue = Stats[stat]; //Calling the dictionary to get the stat
+
+        //Applying the logic of stat boosting before returning it
+        int boost = StatBoosts[stat]; //Getting the boost from our dictionnary
+        var boostValues = new float[] { 1f, 1.5f, 2f, 2.5f, 3f, 3.5f, 4f }; //These are all the value we'll use on calculation
+
+        //First checking if boost is negative or positive
+        if (boost >= 0) //If the boost is positive, we just multiply
+            statValue = Mathf.FloorToInt(statValue * boostValues[boost]); //Getting the value of our boost, applying it to our Stat Value, and making sure it's an int
+        else //If it's negative we juste divide
+            statValue= Mathf.FloorToInt(statValue / boostValues[-boost]);
+
+        return statValue;
+    }
+
+    public void ApplyBoosts(List<StatBoost> statBoosts) //Function to apply the boosts
+    {
+        foreach (var statBoost in statBoosts)
+        {
+            //Store value of stat and boost in 2 vars
+            var stat = statBoost.stat;
+            var boost = statBoost.boost;
+
+            StatBoosts[stat] = Mathf.Clamp(StatBoosts[stat] + boost, -6, 6); //Set the new value as the stat value + the boost (With a limit of 6)
+
+            Debug.Log($"{stat} has been boosted to {StatBoosts[stat]}");
+        }
     }
 
     public int Attack
     {
-        get { return Mathf.FloorToInt((Base.Attack) / 100f) + 5; } //This is the formula used in pokemon games to get the stats at any level
-        //FloorToInt is used to get rid of the decimal point
+        //Calling the function to get the actual stat
+        get { return GetStat(Stat.Attack); }
     }
     public int Defense
     {
-        get { return Mathf.FloorToInt((Base.Defense) / 100f) + 5; } 
+        get { return GetStat(Stat.Defense); } 
     }
     public int SpAttack
     {
-        get { return Mathf.FloorToInt((Base.SpAttack) / 100f) + 5; }
+        get { return GetStat(Stat.SpAttack); }
     }
     public int SpDefense
     {
-        get { return Mathf.FloorToInt((Base.SpDefense) / 100f) + 5; }
+        get { return GetStat(Stat.SpDefense); }
     }
     public int Speed
     {
-        get { return Mathf.FloorToInt((Base.Speed) / 100f) + 5; }
+        get { return GetStat(Stat.Speed); }
     }
 
     //MaxHp use a slightly different formula
-    public int MaxHp
-    {
-        get { return Mathf.FloorToInt((Base.MaxHp) / 100f) + 10; }
-    }
+    public int MaxHp { get; private set; }
 
     //Create a function called when taking damage
     public DamageDetails TakeDamage(Move move, Pokemon attacker) //Take in reference the move used, and the attacking pokemon
@@ -85,9 +142,9 @@ public class Pokemon
             Fainted = false
         };
 
-        //We check if the move we're about to get it by is Special or not
-        float attack = (move.Base.IsSpecial) ? attacker.SpAttack : attacker.Attack; //if isSpecial is true we'll get SpAttack, else we'll get the attack normal
-        float defense = (move.Base.IsSpecial) ? SpDefense : Defense;
+        //We check if the move we're about to get hit by is Special, physical, or a stats move
+        float attack = (move.Base.Category == MoveCategory.Special) ? attacker.SpAttack : attacker.Attack; //Checking the Category of the move before using the stat according to it
+        float defense = (move.Base.Category == MoveCategory.Special) ? SpDefense : Defense;
 
         //Here is the actual formula used in the pokemons game, might change later
         float modifiers = Random.Range(0.85f, 1f) * type * critical;
