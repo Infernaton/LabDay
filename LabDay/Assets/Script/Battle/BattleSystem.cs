@@ -124,6 +124,9 @@ public class BattleSystem : MonoBehaviour
                 else
                     targetUnit.Pokemon.ApplyBoosts(effects.Boosts);
             }
+
+            yield return ShowStatusChanges(sourceUnit.Pokemon);
+            yield return ShowStatusChanges(targetUnit.Pokemon);
         }
         else
         {
@@ -143,6 +146,15 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(2f);
 
             CheckForBattleOver(targetUnit);
+        }
+    }
+
+    IEnumerator ShowStatusChanges(Pokemon pokemon) //Check if there are any messages in the Status changes queue, then show all of them in dialogBox
+    {
+        while (pokemon.StatusChanges.Count > 0) //Means that there is a message
+        {
+            var message = pokemon.StatusChanges.Dequeue();
+            yield return dialogBox.TypeDialog(message);
         }
     }
 

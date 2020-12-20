@@ -25,6 +25,7 @@ public class Pokemon
     public List<Move> Moves { get; set; } //This is a reference to our List of move the pokemon will have in game
     public Dictionary<Stat, int> Stats { get; private set; } //Creating the Dictionnary with our stats (private so it won't change inside the pokemon class. <Key, value> to easily get the key, with just the value
     public Dictionary<Stat, int> StatBoosts { get; private set; } //Creating a dictionnary for Stats Boosting
+    public Queue<string> StatusChanges { get; private set; } = new Queue<string>(); //Queue is used to store a list of strings we can take out and they'll be in the order we added them, so it'll be easier
 
     public void Init() //Constructor of our pokemons, pBase = Pokemon Base, pLevel = Pokemon Level
     {
@@ -96,6 +97,11 @@ public class Pokemon
             var boost = statBoost.boost;
 
             StatBoosts[stat] = Mathf.Clamp(StatBoosts[stat] + boost, -6, 6); //Set the new value as the stat value + the boost (With a limit of 6)
+
+            if (boost > 0)
+                StatusChanges.Enqueue($"{Base.Name}'s {stat} rose!");
+            else
+                StatusChanges.Enqueue($"{Base.Name}'s {stat} fell!");
 
             Debug.Log($"{stat} has been boosted to {StatBoosts[stat]}");
         }
