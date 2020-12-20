@@ -47,12 +47,21 @@ public class BattleSystem : MonoBehaviour
         yield return dialogBox.TypeDialog($"A wild {enemyUnit.Pokemon.Base.Name} appeared."); //With the $, a string can show a special variable in it
 
         //This is the function where the player choose a specific action
-        ActionSelection(); 
+        ChooseFirstTurn(); 
+    }
+
+    void ChooseFirstTurn() //Function that will use the speed to determine who will play first
+    {
+        if (playerUnit.Pokemon.Speed >= enemyUnit.Pokemon.Speed) //This will change with prioritie moves etc
+            ActionSelection();
+        else
+            StartCoroutine(EnemyMove());
     }
 
     void BattleOver(bool won) //Function to know if the battle is over or not
     {
         state = BattleState.BattleOver; //Set the state
+        playerParty.Pokemons.ForEach(p => p.OnBattleOver()); //Reset the stats of all our pokemons in a ForEach loop
         OnBattleOver(won); //Calling the event to notify the GameController that the battle is Over
     }
 
@@ -116,17 +125,7 @@ public class BattleSystem : MonoBehaviour
 
         if (move.Base.Category == MoveCategory.Status)
         {
-            var effects = move.Base.Effects; //Easier to call the effects
-            if (effects.Boosts != null)
-            {
-                if (move.Base.Target == MoveTarget.Self)
-                    sourceUnit.Pokemon.ApplyBoosts(effects.Boosts);
-                else
-                    targetUnit.Pokemon.ApplyBoosts(effects.Boosts);
-            }
-
-            yield return ShowStatusChanges(sourceUnit.Pokemon);
-            yield return ShowStatusChanges(targetUnit.Pokemon);
+            yield return RuneMoveEffects(move, sourceUnit.Pokemon, targetUnit.Pokemon);
         }
         else
         {
@@ -147,6 +146,21 @@ public class BattleSystem : MonoBehaviour
 
             CheckForBattleOver(targetUnit);
         }
+    }
+
+    IEnumerator RuneMoveEffects(Move move, Pokemon source, Pokemon target) //Creating a function of the Effects move, so we'll call it easyly
+    {
+        var effects = move.Base.Effects; //Easier to call the effects
+        if (effects.Boosts != null)
+        {
+            if (move.Base.Target == MoveTarget.Self)
+                source.ApplyBoosts(effects.Boosts);
+            else
+                target.ApplyBoosts(effects.Boosts);
+        }
+
+        yield return ShowStatusChanges(source);
+        yield return ShowStatusChanges(target);
     }
 
     IEnumerator ShowStatusChanges(Pokemon pokemon) //Check if there are any messages in the Status changes queue, then show all of them in dialogBox
@@ -313,19 +327,23 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator SwitchPokemon (Pokemon newPokemon) //Coroutine to make the switch happen
     {
+        bool currentPokemonFainted = true; //Bool we'll use to determine if we switch bc of a pokemon faint, or bc it's a choice
+
         if (playerUnit.Pokemon.HP > 0) //This will play ONLY if the player change pokemon by choosing the action, if the pokemon fainted and we have to send another one, this will not play
         {
+            currentPokemonFainted = false;
             yield return dialogBox.TypeDialog($"Come back {playerUnit.Pokemon.Base.Name}"); //First we change the message
             playerUnit.PlayFaintAnimation(); //Then we play the faint animation to show that our pokemon came back
             yield return new WaitForSeconds(1f); //Then we wait before it ends
         }
 
         playerUnit.Setup(newPokemon);
-
         dialogBox.SetMoveNames(newPokemon.Moves);
-
         yield return dialogBox.TypeDialog($"Go {newPokemon.Base.Name}!");
 
-        StartCoroutine(EnemyMove());
+        if (currentPokemonFainted)
+            ChooseFirstTurn();
+        else
+            StartCoroutine(EnemyMove());
     }
 }

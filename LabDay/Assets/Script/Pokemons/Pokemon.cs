@@ -45,15 +45,6 @@ public class Pokemon
         CalculateStats(); //Calling function to get the stats
 
         HP = MaxHp;
-
-        StatBoosts = new Dictionary<Stat, int>() //Initializing the dictionnary
-        {
-            {Stat.Attack, 0 },
-            {Stat.Defense, 0 },
-            {Stat.SpAttack, 0 },
-            {Stat.SpDefense, 0 },
-            {Stat.Speed, 0 },
-        };
     }
 
     void CalculateStats() //Function to calculate stats at a specific level
@@ -69,6 +60,20 @@ public class Pokemon
         Stats.Add(Stat.Speed, Mathf.FloorToInt((Base.Speed) / 100f) + 5);
 
         MaxHp = Mathf.FloorToInt((Base.MaxHp) / 100f) + 10;
+
+        ResetStatBoost();
+    }
+
+    void ResetStatBoost() //Function to set back the stat
+    {
+        StatBoosts = new Dictionary<Stat, int>() //Initializing the dictionnary
+        {
+            {Stat.Attack, 0 },
+            {Stat.Defense, 0 },
+            {Stat.SpAttack, 0 },
+            {Stat.SpDefense, 0 },
+            {Stat.Speed, 0 },
+        };
     }
 
     int GetStat(Stat stat) //Calculating the actual value of the stat, after it may as changed
@@ -169,10 +174,15 @@ public class Pokemon
         return damageDetails;
     }
 
-    public Move GetRandomMove()
+    public Move GetRandomMove() //Function to get a random move for the enemy to use
     {
         int r = Random.Range(0, Moves.Count);
         return Moves[r];
+    }
+
+    public void OnBattleOver() //Calling this when the battle is over
+    {
+        ResetStatBoost();
     }
 }
 
