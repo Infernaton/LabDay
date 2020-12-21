@@ -25,6 +25,7 @@ public class Pokemon
     public List<Move> Moves { get; set; } //This is a reference to our List of move the pokemon will have in game
     public Dictionary<Stat, int> Stats { get; private set; } //Creating the Dictionnary with our stats (private so it won't change inside the pokemon class. <Key, value> to easily get the key, with just the value
     public Dictionary<Stat, int> StatBoosts { get; private set; } //Creating a dictionnary for Stats Boosting
+    public Condition Status { get; private set; }
     public Queue<string> StatusChanges { get; private set; } = new Queue<string>(); //Queue is used to store a list of strings we can take out and they'll be in the order we added them, so it'll be easier
 
     public void Init() //Constructor of our pokemons, pBase = Pokemon Base, pLevel = Pokemon Level
@@ -172,6 +173,12 @@ public class Pokemon
         }
 
         return damageDetails;
+    }
+
+    public void SetStatus(ConditionID conditionId) //Function we'll call to set the status on a pokemon
+    {
+        Status = ConditionsDB.Conditions[conditionId]; //Get the key of a status to set it on a pokemon
+        StatusChanges.Enqueue($"{Base.Name} {Status.SartMessage}");
     }
 
     public Move GetRandomMove() //Function to get a random move for the enemy to use

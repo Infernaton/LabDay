@@ -151,12 +151,18 @@ public class BattleSystem : MonoBehaviour
     IEnumerator RuneMoveEffects(Move move, Pokemon source, Pokemon target) //Creating a function of the Effects move, so we'll call it easyly
     {
         var effects = move.Base.Effects; //Easier to call the effects
-        if (effects.Boosts != null)
+
+        if (effects.Boosts != null) //Call for stat boost
         {
             if (move.Base.Target == MoveTarget.Self)
                 source.ApplyBoosts(effects.Boosts);
             else
                 target.ApplyBoosts(effects.Boosts);
+        }
+
+        if (effects.Status != ConditionID.none) //Check from the dictionnary if there are any status condition, and call for status
+        {
+            target.SetStatus(effects.Status);
         }
 
         yield return ShowStatusChanges(source);
