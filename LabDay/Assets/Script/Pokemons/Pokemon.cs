@@ -27,6 +27,7 @@ public class Pokemon
     public Dictionary<Stat, int> StatBoosts { get; private set; } //Creating a dictionnary for Stats Boosting
     public Condition Status { get; private set; }
     public Queue<string> StatusChanges { get; private set; } = new Queue<string>(); //Queue is used to store a list of strings we can take out and they'll be in the order we added them, so it'll be easier
+    public bool HpChanged { get; set; }
 
     public void Init() //Constructor of our pokemons, pBase = Pokemon Base, pLevel = Pokemon Level
     {
@@ -165,14 +166,15 @@ public class Pokemon
         int damage = Mathf.FloorToInt(d * modifiers);
 
         //After that we substract the damage to the actual life of the pokemon, and check if he died or no
-        HP -= damage;
-        if (HP <= 0)
-        {
-            HP = 0;
-            damageDetails.Fainted = true; //Set Fainted to true if he died
-        }
+        UpdateHP(damage); //Simply call a function to update the Hp before returning
 
         return damageDetails;
+    }
+
+    public void UpdateHP(int damage)
+    {
+        HP = Mathf.Clamp(HP - damage, 0, MaxHp);
+        HpChanged = true;
     }
 
     public void SetStatus(ConditionID conditionId) //Function we'll call to set the status on a pokemon
@@ -185,6 +187,11 @@ public class Pokemon
     {
         int r = Random.Range(0, Moves.Count);
         return Moves[r];
+    }
+
+    public void OnAfterTurn() //Function to be called when the turn is over, before the next turn beggin, so it'll be easy to call this for every conditions etc
+    {
+        Status?.OnAfterTurn?.Invoke(this); //Call the action only if OnAfterTurn is not null, and the pokemon has a status
     }
 
     public void OnBattleOver() //Calling this when the battle is over

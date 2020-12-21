@@ -23,6 +23,10 @@ public class BattleHud : MonoBehaviour
     //We use coroutine here to set the Hp after a hit was taken
     public IEnumerator UpdateHP()
     {
-        yield return hpBar.SetHPSmooth((float)_pokemon.HP / _pokemon.MaxHp);
+        if (_pokemon.HpChanged)
+        {
+            yield return hpBar.SetHPSmooth((float)_pokemon.HP / _pokemon.MaxHp);
+            _pokemon.HpChanged = false;
+        }
     }
 }

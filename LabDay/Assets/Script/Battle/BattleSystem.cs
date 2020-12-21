@@ -146,6 +146,22 @@ public class BattleSystem : MonoBehaviour
 
             CheckForBattleOver(targetUnit);
         }
+
+        sourceUnit.Pokemon.OnAfterTurn();
+        yield return ShowStatusChanges(sourceUnit.Pokemon);
+        yield return sourceUnit.Hud.UpdateHP();
+
+        if (sourceUnit.Pokemon.HP <= 0) //Check again bc the pokemon could have fainted due to poison or burn
+        {
+            if (sourceUnit == enemyUnit)
+                yield return dialogBox.TypeDialog($"{sourceUnit.Pokemon.Base.Name} enemy fainted");
+            else
+                yield return dialogBox.TypeDialog($"Your {sourceUnit.Pokemon.Base.Name} fainted");
+            sourceUnit.PlayFaintAnimation();
+            yield return new WaitForSeconds(2f);
+
+            CheckForBattleOver(sourceUnit);
+        }
     }
 
     IEnumerator RuneMoveEffects(Move move, Pokemon source, Pokemon target) //Creating a function of the Effects move, so we'll call it easyly
