@@ -113,6 +113,14 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator RunMove(BattleUnit sourceUnit, BattleUnit targetUnit, Move move) //Creating a function with the logic of the moves, to easily change it later and make our code more clear
     {
+        bool canRunMove = sourceUnit.Pokemon.OnBeforeMove(); //Store in a boolean the check for paralyze, freeze or burn
+        if (!canRunMove)
+        {
+            yield return ShowStatusChanges(sourceUnit.Pokemon);
+            yield break; //If the pokemon can not move, we break the coroutine
+        }
+        yield return ShowStatusChanges(sourceUnit.Pokemon);
+
         move.PP--; //Redcing PP of the move on use
         if (targetUnit == playerUnit) //If statement to show if the pokemon using a move is the player's one of the enemy
             yield return dialogBox.TypeDialog($"The enemy {sourceUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that a pokemon used a move

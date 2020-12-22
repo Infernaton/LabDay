@@ -26,6 +26,7 @@ public class Pokemon
     public Dictionary<Stat, int> Stats { get; private set; } //Creating the Dictionnary with our stats (private so it won't change inside the pokemon class. <Key, value> to easily get the key, with just the value
     public Dictionary<Stat, int> StatBoosts { get; private set; } //Creating a dictionnary for Stats Boosting
     public Condition Status { get; private set; }
+    public int StatusTime { get; set; } //We'll primarly use it to track how many turns the pokemon should sleep
     public Queue<string> StatusChanges { get; private set; } = new Queue<string>(); //Queue is used to store a list of strings we can take out and they'll be in the order we added them, so it'll be easier
     public bool HpChanged { get; set; }
 
@@ -180,18 +181,29 @@ public class Pokemon
     public void SetStatus(ConditionID conditionId) //Function we'll call to set the status on a pokemon
     {
         Status = ConditionsDB.Conditions[conditionId]; //Get the key of a status to set it on a pokemon
+        Status?.OnStart?.Invoke(this);
         StatusChanges.Enqueue($"{Base.Name} {Status.SartMessage}");
     }
-
+    public void CureStatus()
+    {
+        Status = null;
+    } //Calling this to clear a status when needed
     public Move GetRandomMove() //Function to get a random move for the enemy to use
     {
         int r = Random.Range(0, Moves.Count);
         return Moves[r];
     }
-
     public void OnAfterTurn() //Function to be called when the turn is over, before the next turn beggin, so it'll be easy to call this for every conditions etc
     {
         Status?.OnAfterTurn?.Invoke(this); //Call the action only if OnAfterTurn is not null, and the pokemon has a status
+    }
+    public bool OnBeforeMove()
+    {
+        if(Status?.OnBeforeMove != null)
+        {
+            return Status.OnBeforeMove(this);
+        }
+        return true;
     }
 
     public void OnBattleOver() //Calling this when the battle is over
