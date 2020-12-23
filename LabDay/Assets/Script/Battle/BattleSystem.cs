@@ -62,6 +62,7 @@ public class BattleSystem : MonoBehaviour
     {
         state = BattleState.BattleOver; //Set the state
         playerParty.Pokemons.ForEach(p => p.OnBattleOver()); //Reset the stats of all our pokemons in a ForEach loop
+        enemyUnit.Pokemon.CureStatus(); //Cure status from the enemy pokemon so it won't keep it every time we fight
         OnBattleOver(won); //Calling the event to notify the GameController that the battle is Over
     }
 
@@ -117,6 +118,7 @@ public class BattleSystem : MonoBehaviour
         if (!canRunMove)
         {
             yield return ShowStatusChanges(sourceUnit.Pokemon);
+            yield return sourceUnit.Hud.UpdateHP();
             yield break; //If the pokemon can not move, we break the coroutine
         }
         yield return ShowStatusChanges(sourceUnit.Pokemon);
@@ -184,9 +186,15 @@ public class BattleSystem : MonoBehaviour
                 target.ApplyBoosts(effects.Boosts);
         }
 
-        if (effects.Status != ConditionID.none) //Check from the dictionnary if there are any status condition, and call for status
+        //Check from the dictionnary if there are any status condition, and call for status
+        if (effects.Status != ConditionID.none)
         {
             target.SetStatus(effects.Status);
+        }
+        //Same with volatile status
+        if (effects.VolatileStatus != ConditionID.none)
+        {
+            target.SetVolatileStatus(effects.VolatileStatus);
         }
 
         yield return ShowStatusChanges(source);

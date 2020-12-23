@@ -89,8 +89,8 @@ public class ConditionsDB //Db stands for Database
                 SartMessage = "has fallen asleep",
                 OnStart = (Pokemon pokemon) => //Calling the action to determine how many number will the pokemon sleep
                 {
-                    //Sleep for a random number of turns (1-3)
-                    pokemon.StatusTime = Random.Range(1, 4);
+                    //Sleep for a random number of turns (2-3)
+                    pokemon.StatusTime = Random.Range(2, 4);
                     Debug.Log($"Will be asleep for {pokemon.StatusTime} turns");
                 },
                 OnBeforeMove = (Pokemon pokemon) =>
@@ -108,11 +108,49 @@ public class ConditionsDB //Db stands for Database
                 }
             }
         },
+        //Volatile status are down here
+        {
+            ConditionID.confusion, //Same logic that paralyzed, but may disappear instead of happening on 1 on 4 chance
+            new Condition()
+            {
+                Name = "Confusion",
+                SartMessage = "has been confused",
+                OnStart = (Pokemon pokemon) => //Calling the action to determine how many number will the pokemon be confuse
+                {
+                    //Confused for a random number of turns (1-4)
+                    pokemon.VolatileStatusTime = Random.Range(1, 5);
+                    Debug.Log($"Will be confused for {pokemon.VolatileStatusTime} turns");
+                },
+                OnBeforeMove = (Pokemon pokemon) =>
+                {
+                    if (pokemon.VolatileStatusTime <= 0)
+                    {
+                        pokemon.CureVolatileStatus();
+                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} kicked out from confusion");
+                        return true;
+                    }
+
+                    pokemon.VolatileStatusTime--;
+                    
+                    //50% chance to do a move, or hit itself
+
+                    //Play the move
+                    if (Random.Range(1, 3) == 1)
+                        return true;
+                    //Hurt itself
+                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} is confused");
+                    pokemon.UpdateHP(pokemon.MaxHp / 8);
+                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} hurt itself from confusion");
+                    return false;
+                }
+            }
+        },
 
     }; //In here is the dictionnary (last brackets)
 }
 
 public enum ConditionID //Key of a dictionnary with all the conditions we have
 {
-    none, psn, brn, slp, par, frz //Poison, Burn, Sleep, Paralized, Frozen
+    none, psn, brn, slp, par, frz, //Poison, Burn, Sleep, Paralized, Frozen
+    confusion
 }

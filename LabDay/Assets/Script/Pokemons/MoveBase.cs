@@ -64,6 +64,7 @@ public class MoveEffects
 {
     [SerializeField] List<StatBoost> boosts; //Since Unity can't Serialize a dictionnary, we create another class called StatBoost, and call it as a List
     [SerializeField] ConditionID status;
+    [SerializeField] ConditionID volatileStatus;
     public List<StatBoost> Boosts
     {
         get { return boosts; }
@@ -71,6 +72,10 @@ public class MoveEffects
     public ConditionID Status //Property to expose it
     {
         get { return status; }
+    }
+    public ConditionID VolatileStatus //same as status
+    {
+        get { return volatileStatus; }
     }
 }
 

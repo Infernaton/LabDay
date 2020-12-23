@@ -25,10 +25,16 @@ public class Pokemon
     public List<Move> Moves { get; set; } //This is a reference to our List of move the pokemon will have in game
     public Dictionary<Stat, int> Stats { get; private set; } //Creating the Dictionnary with our stats (private so it won't change inside the pokemon class. <Key, value> to easily get the key, with just the value
     public Dictionary<Stat, int> StatBoosts { get; private set; } //Creating a dictionnary for Stats Boosting
+    
     public Condition Status { get; private set; }
     public int StatusTime { get; set; } //We'll primarly use it to track how many turns the pokemon should sleep
+    
+    public Condition VolatileStatus { get; private set; } //These are the volatile status like confusion, love..
+    public int VolatileStatusTime { get; set; }
+
     public Queue<string> StatusChanges { get; private set; } = new Queue<string>(); //Queue is used to store a list of strings we can take out and they'll be in the order we added them, so it'll be easier
     public bool HpChanged { get; set; }
+
     public event System.Action OnStatusChanged; //Track our status condition
 
     public void Init() //Constructor of our pokemons, pBase = Pokemon Base, pLevel = Pokemon Level
@@ -193,6 +199,21 @@ public class Pokemon
         Status = null;
         OnStatusChanged?.Invoke();
     }
+
+    public void SetVolatileStatus(ConditionID conditionId) //Function we'll call to set the Volatile status on a pokemon
+    {
+        if (VolatileStatus != null) return;
+
+        VolatileStatus = ConditionsDB.Conditions[conditionId]; //Get the key of a Volatile status to set it on a pokemon
+        VolatileStatus?.OnStart?.Invoke(this);
+        StatusChanges.Enqueue($"{Base.Name} {VolatileStatus.SartMessage}");
+        //here is not the Invoke, since we don't need to show them in the hud 
+    }
+    public void CureVolatileStatus() //Calling this to clear a Volatilestatus when needed
+    {
+        VolatileStatus = null;
+    }
+
     public Move GetRandomMove() //Function to get a random move for the enemy to use
     {
         int r = Random.Range(0, Moves.Count);
@@ -201,20 +222,29 @@ public class Pokemon
     public void OnAfterTurn() //Function to be called when the turn is over, before the next turn beggin, so it'll be easy to call this for every conditions etc
     {
         Status?.OnAfterTurn?.Invoke(this); //Call the action only if OnAfterTurn is not null, and the pokemon has a status
+        VolatileStatus?.OnAfterTurn?.Invoke(this);
     }
     public bool OnBeforeMove()
     {
-        if(Status?.OnBeforeMove != null)
+        bool canPerformMove = true;
+
+        if(Status?.OnBeforeMove != null) //Check if there is a status playing before the move happen
         {
-            return Status.OnBeforeMove(this);
+            if (!Status.OnBeforeMove(this))
+                canPerformMove = false;
         }
-        return true;
+        if (VolatileStatus?.OnBeforeMove != null) //Check if there is a Volatile status playing before the move happen
+        {
+            if (!VolatileStatus.OnBeforeMove(this))
+                canPerformMove = false;
+        }
+        return canPerformMove;
     }
 
     public void OnBattleOver() //Calling this when the battle is over
     {
         ResetStatBoost();
-        CureStatus();
+        VolatileStatus = null;
     }
 }
 
