@@ -56,13 +56,13 @@ public class Pokemon
         //FloorToInt is used to get rid of the decimal point
 
         Stats = new Dictionary<Stat, int>(); //Initialize the dictionnary
-        Stats.Add(Stat.Attack, Mathf.FloorToInt((Base.Attack) / 100f) + 5); //Setting the values, by calculating it, then setting it to the Attack key
-        Stats.Add(Stat.Defense, Mathf.FloorToInt((Base.Defense) / 100f) + 5); //Same with defense, etc etc
-        Stats.Add(Stat.SpAttack, Mathf.FloorToInt((Base.SpAttack) / 100f) + 5);
-        Stats.Add(Stat.SpDefense, Mathf.FloorToInt((Base.SpDefense) / 100f) + 5);
-        Stats.Add(Stat.Speed, Mathf.FloorToInt((Base.Speed) / 100f) + 5);
+        Stats.Add(Stat.Attack, Mathf.FloorToInt((Base.Attack * Level) / 100f) + 5); //Setting the values, by calculating it, then setting it to the Attack key
+        Stats.Add(Stat.Defense, Mathf.FloorToInt((Base.Defense * Level) / 100f) + 5); //Same with defense, etc etc
+        Stats.Add(Stat.SpAttack, Mathf.FloorToInt((Base.SpAttack * Level) / 100f) + 5);
+        Stats.Add(Stat.SpDefense, Mathf.FloorToInt((Base.SpDefense * Level) / 100f) + 5);
+        Stats.Add(Stat.Speed, Mathf.FloorToInt((Base.Speed * Level) / 100f) + 5);
 
-        MaxHp = Mathf.FloorToInt((Base.MaxHp) / 100f) + 10;
+        MaxHp = Mathf.FloorToInt((Base.MaxHp * Level) / 100f) + 10 + Level;
 
         ResetStatBoost();
     }
@@ -180,6 +180,8 @@ public class Pokemon
 
     public void SetStatus(ConditionID conditionId) //Function we'll call to set the status on a pokemon
     {
+        if (Status != null) return;
+
         Status = ConditionsDB.Conditions[conditionId]; //Get the key of a status to set it on a pokemon
         Status?.OnStart?.Invoke(this);
         StatusChanges.Enqueue($"{Base.Name} {Status.SartMessage}");
