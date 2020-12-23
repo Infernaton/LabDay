@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class ConditionsDB //Db stands for Database
 {
+    public static void Init()
+    {
+        foreach (var kvp in Conditions) //Loop throught all elements in the dictionnary kvp = KeyValuePair, since we have key and value pairs in our script
+        {
+            var conditionId = kvp.Key; //store the key;
+            var condition = kvp.Value; //then the value;
+
+            condition.Id = conditionId; //we can later use this id easily 
+        }
+    }
+
     public static Dictionary<ConditionID, Condition> Conditions { get; set; } = new Dictionary<ConditionID, Condition>() //Static so we can acces without creating an instance of this class
     { //In here is the dictionnary (first brackets)
         {

@@ -29,6 +29,7 @@ public class Pokemon
     public int StatusTime { get; set; } //We'll primarly use it to track how many turns the pokemon should sleep
     public Queue<string> StatusChanges { get; private set; } = new Queue<string>(); //Queue is used to store a list of strings we can take out and they'll be in the order we added them, so it'll be easier
     public bool HpChanged { get; set; }
+    public event System.Action OnStatusChanged; //Track our status condition
 
     public void Init() //Constructor of our pokemons, pBase = Pokemon Base, pLevel = Pokemon Level
     {
@@ -185,11 +186,13 @@ public class Pokemon
         Status = ConditionsDB.Conditions[conditionId]; //Get the key of a status to set it on a pokemon
         Status?.OnStart?.Invoke(this);
         StatusChanges.Enqueue($"{Base.Name} {Status.SartMessage}");
+        OnStatusChanged?.Invoke();
     }
-    public void CureStatus()
+    public void CureStatus() //Calling this to clear a status when needed
     {
         Status = null;
-    } //Calling this to clear a status when needed
+        OnStatusChanged?.Invoke();
+    }
     public Move GetRandomMove() //Function to get a random move for the enemy to use
     {
         int r = Random.Range(0, Moves.Count);
@@ -211,6 +214,7 @@ public class Pokemon
     public void OnBattleOver() //Calling this when the battle is over
     {
         ResetStatBoost();
+        CureStatus();
     }
 }
 

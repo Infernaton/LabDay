@@ -12,6 +12,11 @@ public class GameController : MonoBehaviour
     [SerializeField] BattleSystem battleSystem;//Reference to the BattleSystem Script 
     [SerializeField] Camera worldCamera; //Reference to our Camera
 
+    private void Awake()
+    {
+        ConditionsDB.Init();
+    }
+
     //On the first frame we check if we enable our Overworld script, or the battle one
     private void Start()
     {
