@@ -135,15 +135,25 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(0.75f); //Then wait for a second before reducing HP
             targetUnit.PlayHitAnimation();
 
-            if (move.Base.Category == MoveCategory.Status)
+            if (move.Base.Category == MoveCategory.Status) //If our move is a status move we call it
             {
-                yield return RuneMoveEffects(move, sourceUnit.Pokemon, targetUnit.Pokemon);
+                yield return RuneMoveEffects(move.Base.Effects, sourceUnit.Pokemon, targetUnit.Pokemon, move.Base.Target);
             }
-            else
+            else //Else we just call the damages
             {
                 var damageDetails = targetUnit.Pokemon.TakeDamage(move, sourceUnit.Pokemon);
                 yield return targetUnit.Hud.UpdateHP(); //Calling the function to show damages taken
                 yield return ShowDamageDetails(damageDetails);
+            }
+
+            if (move.Base.Secondaries != null && move.Base.Secondaries.Count > 0 && targetUnit.Pokemon.HP > 0) //If we CAN call a secondary effects, we call it
+            {
+                foreach (var secondary in move.Base.Secondaries)//loop throught all the secondaries effects
+                {
+                    var rnd = UnityEngine.Random.Range(1, 101); //Rnd = RaNDom number
+                    if (rnd <= secondary.Chance) //Calculating the stats that a secondary happen
+                        yield return RuneMoveEffects(secondary, sourceUnit.Pokemon, targetUnit.Pokemon, secondary.Target);
+                }
             }
 
             //If a pokemon died, we display a message, then check if the battle is over or not
@@ -182,13 +192,11 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    IEnumerator RuneMoveEffects(Move move, Pokemon source, Pokemon target) //Creating a function of the Effects move, so we'll call it easyly
+    IEnumerator RuneMoveEffects(MoveEffects effects, Pokemon source, Pokemon target, MoveTarget moveTarget) //Creating a function of the Effects move, so we'll call it easyly
     {
-        var effects = move.Base.Effects; //Easier to call the effects
-
         if (effects.Boosts != null) //Call for stat boost
         {
-            if (move.Base.Target == MoveTarget.Self)
+            if (moveTarget == MoveTarget.Self)
                 source.ApplyBoosts(effects.Boosts);
             else
                 target.ApplyBoosts(effects.Boosts);

@@ -17,6 +17,7 @@ public class MoveBase : ScriptableObject //Voir PokemonBase
     [SerializeField] int pp;
     [SerializeField] MoveCategory category;
     [SerializeField] MoveEffects effects;
+    [SerializeField] List<SecondaryEffects> secondaries; //Since a move can have mutliple secondary effects, we use a list
     [SerializeField] MoveTarget target; //We use enum instead of bool to easyly expends it later with double battles
 
     public string Name
@@ -43,20 +44,20 @@ public class MoveBase : ScriptableObject //Voir PokemonBase
     {
         get { return alwaysHits; }
     }
-
     public int Pp
     {
         get { return pp; }
     }
-
     public MoveCategory Category //Property to get the move Category
     {
         get { return category; }
     }
-
     public MoveEffects Effects
     {
         get { return effects; }
+    }
+    public List<SecondaryEffects> Secondaries{
+        get { return secondaries; }
     }
     public MoveTarget Target
     {
@@ -82,6 +83,22 @@ public class MoveEffects
     public ConditionID VolatileStatus //same as status
     {
         get { return volatileStatus; }
+    }
+}
+
+[System.Serializable]//We can set it in Unity
+public class SecondaryEffects : MoveEffects //Class for moves that have another effects (like Ember, has 10% chance to burn instead of JUST inflicting damage. It inherit from the MoveEffects class
+{
+    [SerializeField] int chance; //Often, secondary effect have only a small % of chance to appear, this is the chance to cause the effect
+    [SerializeField] MoveTarget target; //Sometimes the secondary effects of moves can be on the target, or the source unit
+
+    public int Chance //Properties to exposes em
+    {
+        get { return chance; }
+    }
+    public MoveTarget Target
+    {
+        get { return target; }
     }
 }
 
