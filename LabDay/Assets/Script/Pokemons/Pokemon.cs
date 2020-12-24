@@ -22,7 +22,8 @@ public class Pokemon
 
     public int HP { get; set; }
 
-    public List<Move> Moves { get; set; } //This is a reference to our List of move the pokemon will have in game
+    public List<Move> Moves { get; set; } //This is a reference to the List of move the pokemon will have in game
+    public Move CurrentMove { get; set; } //Reference to the move selected in the battle system
     public Dictionary<Stat, int> Stats { get; private set; } //Creating the Dictionnary with our stats (private so it won't change inside the pokemon class. <Key, value> to easily get the key, with just the value
     public Dictionary<Stat, int> StatBoosts { get; private set; } //Creating a dictionnary for Stats Boosting
     
