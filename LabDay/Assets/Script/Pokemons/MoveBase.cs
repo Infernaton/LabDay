@@ -13,10 +13,11 @@ public class MoveBase : ScriptableObject //Voir PokemonBase
     [SerializeField] PokemonType type;
     [SerializeField] int power;
     [SerializeField] int accuracy;
+    [SerializeField] bool alwaysHits; //This bool is for moves that will always hit their target
     [SerializeField] int pp;
     [SerializeField] MoveCategory category;
     [SerializeField] MoveEffects effects;
-    [SerializeField] MoveTarget target; //We use enum instead of bool to easyly expends it later 
+    [SerializeField] MoveTarget target; //We use enum instead of bool to easyly expends it later with double battles
 
     public string Name
     {
@@ -38,6 +39,11 @@ public class MoveBase : ScriptableObject //Voir PokemonBase
     {
         get { return accuracy; }
     }
+    public bool AlwaysHits
+    {
+        get { return alwaysHits; }
+    }
+
     public int Pp
     {
         get { return pp; }

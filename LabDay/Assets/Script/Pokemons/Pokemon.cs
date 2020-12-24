@@ -83,6 +83,8 @@ public class Pokemon
             {Stat.SpAttack, 0 },
             {Stat.SpDefense, 0 },
             {Stat.Speed, 0 },
+            {Stat.Accuracy, 0 },
+            {Stat.Evasion, 0 },
         };
     }
 
@@ -253,5 +255,4 @@ public class DamageDetails //Class we'll use to display a message if there was a
     public bool Fainted { get; set; }
     public float Critical { get; set; }
     public float TypeEffectiveness { get; set; }
-
 }

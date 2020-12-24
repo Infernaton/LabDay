@@ -129,32 +129,40 @@ public class BattleSystem : MonoBehaviour
         else
             yield return dialogBox.TypeDialog($"Your {sourceUnit.Pokemon.Base.Name} used {move.Base.Name}");
 
-        sourceUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
-        yield return new WaitForSeconds(0.75f); //Then wait for a second before reducing HP
-        targetUnit.PlayHitAnimation();
-
-        if (move.Base.Category == MoveCategory.Status)
+        if (CheckIfMoveHits(move, sourceUnit.Pokemon, targetUnit.Pokemon))
         {
-            yield return RuneMoveEffects(move, sourceUnit.Pokemon, targetUnit.Pokemon);
+            sourceUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
+            yield return new WaitForSeconds(0.75f); //Then wait for a second before reducing HP
+            targetUnit.PlayHitAnimation();
+
+            if (move.Base.Category == MoveCategory.Status)
+            {
+                yield return RuneMoveEffects(move, sourceUnit.Pokemon, targetUnit.Pokemon);
+            }
+            else
+            {
+                var damageDetails = targetUnit.Pokemon.TakeDamage(move, sourceUnit.Pokemon);
+                yield return targetUnit.Hud.UpdateHP(); //Calling the function to show damages taken
+                yield return ShowDamageDetails(damageDetails);
+            }
+
+            //If a pokemon died, we display a message, then check if the battle is over or not
+            if (targetUnit.Pokemon.HP <= 0) //Since with status move the pokemon can faint at mostly any moment, we don't check DamageDetails.fainted
+            {
+                if (targetUnit == enemyUnit)
+                    yield return dialogBox.TypeDialog($"{targetUnit.Pokemon.Base.Name} enemy fainted");
+                else
+                    yield return dialogBox.TypeDialog($"Your {targetUnit.Pokemon.Base.Name} fainted");
+                targetUnit.PlayFaintAnimation();
+                yield return new WaitForSeconds(2f);
+
+                CheckForBattleOver(targetUnit);
+            }
         }
+
         else
         {
-            var damageDetails = targetUnit.Pokemon.TakeDamage(move, sourceUnit.Pokemon);
-            yield return targetUnit.Hud.UpdateHP(); //Calling the function to show damages taken
-            yield return ShowDamageDetails(damageDetails);
-        }
-
-        //If a pokemon died, we display a message, then check if the battle is over or not
-        if (targetUnit.Pokemon.HP <= 0) //Since with status move the pokemon can faint at mostly any moment, we don't check DamageDetails.fainted
-        {
-            if (targetUnit == enemyUnit)
-             yield return dialogBox.TypeDialog($"{targetUnit.Pokemon.Base.Name} enemy fainted");
-            else
-                yield return dialogBox.TypeDialog($"Your {targetUnit.Pokemon.Base.Name} fainted");
-            targetUnit.PlayFaintAnimation();
-            yield return new WaitForSeconds(2f);
-
-            CheckForBattleOver(targetUnit);
+            yield return dialogBox.TypeDialog($"{sourceUnit.Pokemon.Base.Name}'s attack missed");
         }
 
         sourceUnit.Pokemon.OnAfterTurn();
@@ -199,6 +207,34 @@ public class BattleSystem : MonoBehaviour
 
         yield return ShowStatusChanges(source);
         yield return ShowStatusChanges(target);
+    }
+
+    //Function to check if the move hits
+    bool CheckIfMoveHits(Move move, Pokemon source, Pokemon target)
+    {
+        if (move.Base.AlwaysHits)
+            return true;
+
+        float moveAccuracy = move.Base.Accuracy;
+
+        int accuracy = source.StatBoosts[Stat.Accuracy]; //Store in an int the accuracy
+        int evasion = target.StatBoosts[Stat.Evasion]; //And the evasion
+
+        var boostValues = new float[] { 1f, 4f/3f, 5f/3f, 2f, 7f/3f, 8f/3f, 3f }; //Store the possible value of boosting
+
+        //Modify accuracy
+        if (accuracy > 0)
+            moveAccuracy *= boostValues[accuracy];
+        else
+            moveAccuracy /= boostValues[-accuracy];
+
+        //Modify evasion, by reversing the boost of accuracy of the opponent
+        if (accuracy > 0)
+            moveAccuracy /= boostValues[evasion];
+        else
+            moveAccuracy *= boostValues[-evasion];
+
+        return UnityEngine.Random.Range(1, 101) <= moveAccuracy; //Return the value of the actual accuracy
     }
 
     IEnumerator ShowStatusChanges(Pokemon pokemon) //Check if there are any messages in the Status changes queue, then show all of them in dialogBox

@@ -140,7 +140,10 @@ public enum Stat
     Defense,
     SpAttack,
     SpDefense,
-    Speed
+    Speed,
+    //These 2 are not stats, they're just used to boost the moveAccuracy
+    Accuracy,
+    Evasion
 }
 
 public class TypeChart //Create the chart to manage types and their effectiveness. It will look like a chart
