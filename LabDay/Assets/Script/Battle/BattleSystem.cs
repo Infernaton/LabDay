@@ -18,6 +18,7 @@ public class BattleSystem : MonoBehaviour
     public event Action<bool> OnBattleOver; //Add an action happening when the battle ended (Action<bool> is to add a bool to the Action)
 
     BattleState state;
+    BattleState? prevState; //Store the previous state of the battle, we'll mainly use this to switch pokemons (? is for making it a variable)
 
     //These var will be used to navigate throught selection screens
     int currentAction; //Actually, 0 is Fight, 1 is Bag, 2 is Party, 4 is Run
@@ -93,7 +94,9 @@ public class BattleSystem : MonoBehaviour
             bool playerGoesFirst = playerUnit.Pokemon.Speed >= enemyUnit.Pokemon.Speed; //True if the player's pokemon speed is higher
 
             var firstUnit = (playerGoesFirst) ? playerUnit:enemyUnit; //If the bool is true, the player unit goes first, then the enemy
-            var secondUnit = (playerGoesFirst) ? enemyUnit:firstUnit; //Else, we reverse it
+            var secondUnit = (playerGoesFirst) ? enemyUnit:playerUnit; //Else, we reverse it
+
+            var secondPokemon = secondUnit.Pokemon; //This is in case the player switch as an action
 
             //We can now call the move in the order
             //First turn
@@ -101,10 +104,13 @@ public class BattleSystem : MonoBehaviour
             yield return RunAfterTurn(firstUnit); //Call the function happening after turn (poison damage, burn, etc..)
             if (state == BattleState.BattleOver) yield break; //If the battle is over, break the coroutine
 
-            //Second Turn
-            yield return RunMove(secondUnit, firstUnit, secondUnit.Pokemon.CurrentMove);
-            yield return RunAfterTurn(secondUnit); //Call the function happening after turn (poison damage, burn, etc..)
-            if (state == BattleState.BattleOver) yield break; //If the battle is over, break the coroutine
+            if (secondPokemon.HP > 0)
+            {
+                //Second Turn
+                yield return RunMove(secondUnit, firstUnit, secondUnit.Pokemon.CurrentMove);
+                yield return RunAfterTurn(secondUnit); //Call the function happening after turn (poison damage, burn, etc..)
+                if (state == BattleState.BattleOver) yield break; //If the battle is over, break the coroutine
+            }
         }
         else
         {
@@ -121,20 +127,11 @@ public class BattleSystem : MonoBehaviour
             yield return RunAfterTurn(enemyUnit); //Call the function happening after turn (poison damage, burn, etc..)
             if (state == BattleState.BattleOver) yield break; //If the battle is over, break the coroutine
         }
+
+        if (state != BattleState.BattleOver)
+            ActionSelection();
+
     }
-    IEnumerator EnemyMove() 
-    {
-        state = BattleState.RunningTurn; //We set PerformMove so the player can not move in the UI
-
-        var move = enemyUnit.Pokemon.GetRandomMove(); //we store in a variable, a random move selected
-
-        yield return RunMove(enemyUnit, playerUnit, move); //Calling the function to run the move selected
-
-        //If the battle state was not changed by the RunMove, go to next step
-        if (state == BattleState.RunningTurn)
-            ActionSelection(); //Then it's back to the player Action Selection phase
-    }
-
     IEnumerator RunMove(BattleUnit sourceUnit, BattleUnit targetUnit, Move move) //Creating a function with the logic of the moves, to easily change it later and make our code more clear
     {
         bool canRunMove = sourceUnit.Pokemon.OnBeforeMove(); //Store in a boolean the check for paralyze, freeze or burn
@@ -228,7 +225,9 @@ public class BattleSystem : MonoBehaviour
     {
         //It have to run only if the battle is NOT over
         if (state == BattleState.BattleOver) yield break;
+        yield return new WaitUntil(() => state == BattleState.RunningTurn); //This script only have to happen once the RunningTurn state is over
 
+        //Statuses like burn or poison could hurt the pokemon after the turn is over
         sourceUnit.Pokemon.OnAfterTurn(); //Call the after turn function, to perhaps clear the status
         yield return ShowStatusChanges(sourceUnit.Pokemon);
         yield return sourceUnit.Hud.UpdateHP();
@@ -353,6 +352,7 @@ public class BattleSystem : MonoBehaviour
             else if (currentAction == 2)
             {
                 //Pokemon party
+                prevState = state; //If the state was enemy move, this means the player lost a pokemon and can switch, else it mean he decided to switch, so he lost a turn
                 OpenPartyScreen();
             }
             else if (currentAction == 3)
@@ -425,8 +425,18 @@ public class BattleSystem : MonoBehaviour
             }
 
             partyScreen.gameObject.SetActive(false); //Changing the actual view on the screen
-            state = BattleState.Busy; //State is changed to busy so player won't mess with the UI
-            StartCoroutine(SwitchPokemon(selectedMember)); //Finally, calling coroutine to switch pokemons
+
+            if (prevState == BattleState.ActionSelection) //the player decided to change
+            {
+                prevState = null; //Reste the prev state before doing anything else
+                StartCoroutine(RunTurns(BattleActions.SwitchPokemon)); //Call the coroutine to switch
+            }
+            else //Here the pokemon fainted, so the player won't lost a turn
+            {
+                state = BattleState.Busy; //State is changed to busy so player won't mess with the UI
+                StartCoroutine(SwitchPokemon(selectedMember)); //Calling coroutine to switch pokemons
+            }
+            
         }
         else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
         {
