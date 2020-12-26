@@ -90,8 +90,15 @@ public class BattleSystem : MonoBehaviour
             playerUnit.Pokemon.CurrentMove = playerUnit.Pokemon.Moves[currentMove]; //Store the move we'll select
             enemyUnit.Pokemon.CurrentMove = enemyUnit.Pokemon.GetRandomMove(); //Store the move the enemy will use
 
-            //Check who goes first
-            bool playerGoesFirst = playerUnit.Pokemon.Speed >= enemyUnit.Pokemon.Speed; //True if the player's pokemon speed is higher
+            int playerMovePriority = playerUnit.Pokemon.CurrentMove.Base.Priority; //Store in a var the priority of a move, for the player
+            int enemyMovePriority = enemyUnit.Pokemon.CurrentMove.Base.Priority; //Store in a var the priority of a move, for the enemy
+
+            //Before Check who goes first, we check the move Priority
+            bool playerGoesFirst = true;
+            if (enemyMovePriority > playerMovePriority) //If the enemy has a bigger priority, the player won't go fitrst
+                playerGoesFirst = false;
+            else if (enemyMovePriority == playerMovePriority) //If moves has the same priority, the speed will determine
+                playerGoesFirst = playerUnit.Pokemon.Speed >= enemyUnit.Pokemon.Speed; //True if the player's pokemon speed is higher
 
             var firstUnit = (playerGoesFirst) ? playerUnit:enemyUnit; //If the bool is true, the player unit goes first, then the enemy
             var secondUnit = (playerGoesFirst) ? enemyUnit:playerUnit; //Else, we reverse it
