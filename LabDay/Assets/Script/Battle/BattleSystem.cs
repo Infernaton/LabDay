@@ -388,6 +388,11 @@ public class BattleSystem : MonoBehaviour
         //Here we'll make the move happen
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
+            var move = playerUnit.Pokemon.Moves[currentMove]; //Reference to the move
+
+            //Before executing, check if the move still has Pp
+            if (move.PP == 0) return; //If not, the player can't perform the move
+
             //First we change the box to dialogText
             dialogBox.EnableMoveSelector(false);
             dialogBox.EnableDialogText(true);

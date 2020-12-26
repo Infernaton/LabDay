@@ -77,6 +77,11 @@ public class BattleDialogBox : MonoBehaviour
 
         ppText.text = $"PP {move.PP}/{move.Base.Pp}"; //We show how many Pp are lefts
         typeText.text = move.Base.Type.ToString(); //We also convert our enumType in a String, to show wich type is the actual Move
+
+        if (move.PP == 0) //Set text to red if the player has no PP left on this move
+            ppText.color = Color.red;
+        else
+            ppText.color = Color.black; //Else it will be black
     }
 
     public void SetMoveNames(List<Move> moves)

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 // !!! THIS SCRIPT IS GOING TO USE THE DATA FROM THE SCRIPTABLE OBJECT TO CREATE THE REAL POKEMON, WITH LEVEL, AND HOW IT'S GROWING IN REAL TIME IN THE GAME!!!
@@ -219,8 +220,11 @@ public class Pokemon
 
     public Move GetRandomMove() //Function to get a random move for the enemy to use
     {
-        int r = Random.Range(0, Moves.Count);
-        return Moves[r];
+        //Prevent the enemy for using a move with no Pp
+        var movesWithPP = Moves.Where(x => x.PP > 0).ToList(); //Convert moves with Pp to a list
+
+        int r = Random.Range(0, movesWithPP.Count); //Take a random move that still has Pp
+        return movesWithPP[r];
     }
     public void OnAfterTurn() //Function to be called when the turn is over, before the next turn beggin, so it'll be easy to call this for every conditions etc
     {
