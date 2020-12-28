@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     public float moveSpeed; // Speed value
     public LayerMask solidObjectsLayer; //Reference our SolidObjects layer
+    public LayerMask interactableLayer; //Reference our Interactable layer
     public LayerMask grassLayer; //Reference our LongGrass layer
 
     public event Action OnEncountered; //Creating an action with "using. System"
@@ -53,6 +54,24 @@ public class PlayerController : MonoBehaviour
             }
         }
         animator.SetBool("isMoving", isMoving); //Link the Animator "isMoving" to the script "isMoving"
+
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+            Interact();
+    }
+
+    //Interaction function
+    void Interact()
+    {
+        var facingDir = new Vector3(animator.GetFloat("moveX"), animator.GetFloat("moveY"));  //Direction the player is facing
+        var interactPos = transform.position + facingDir; //this is the position of the tile the player is facing
+
+        // Debug.DrawLine(transform.position, interactPos, Color.red, 0.5f);
+
+        var collider = Physics2D.OverlapCircle(interactPos, 0.3f, interactableLayer); //If there is any interactable objects within a radius of 0.3, this will return a collider
+        if (collider != null) //If there is an interactable object in that tile
+        {
+            collider.GetComponent<Interactable>()?.Interact();
+        }
     }
 
     //This coroutine get us a smooth movement
@@ -75,12 +94,11 @@ public class PlayerController : MonoBehaviour
     //Function to know if the target tile is a solid objects or if we can walk on it, we get the target pos in the Update.
     private bool IsWalkable(Vector3 targetPos)
     {
-        //Get to know if the targetPos tile is a solid object, within a radius of 0.2f, on the SolidObjects layer
-        if (Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectsLayer) != null) //Radius is 2f so with the Player position, it will look better before colliding with a solid object
+        //if the targetPos tile is a solid object or Interactable tile, within a radius of 0.2f, on the SolidObjects layer
+        if (Physics2D.OverlapCircle(targetPos, 0.2f, solidObjectsLayer | interactableLayer) != null) //Radius is 2f so with the Player position, it will look better before colliding with a solid object
         {
             return false;
         }
-
         else return true;
     }
 
