@@ -4,7 +4,7 @@ using UnityEngine;
 
 //We'll use GameStates to switch beetween Scenes (Overworld, Battle, etc)
 
-public enum GameState { FreeRoam, Battle} //For now we have just two states
+public enum GameState { FreeRoam, Battle, Dialog} //For now we have just two states
 public class GameController : MonoBehaviour
 {
     GameState state;//Reference to our GameState
@@ -22,6 +22,16 @@ public class GameController : MonoBehaviour
     {
         playerController.OnEncountered += StartBattle;
         battleSystem.OnBattleOver += EndBattle;
+
+        DialogManager.Instance.OnShowDialog += () => //Change the state to dialog so the player won't be able to move will a dialog appears
+        {
+            state = GameState.Dialog;
+        };
+        DialogManager.Instance.OnCloseDialog += () =>
+        {
+            if (state == GameState.Dialog)
+                state = GameState.FreeRoam;
+        };
     }
 
     //Change our battle state, camera active, and gameobject of the Battle System
@@ -53,6 +63,10 @@ public class GameController : MonoBehaviour
         else if (state == GameState.Battle) //Else if we are in a battle, we'll disable our PlayerController Script
         {
             battleSystem.HandleUpdate();
+        }
+        else if (state == GameState.Dialog)
+        {
+            DialogManager.Instance.HandleUpdate();
         }
     }
 }
