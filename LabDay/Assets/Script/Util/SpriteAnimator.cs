@@ -12,7 +12,7 @@ public class SpriteAnimator
     int currentFrame; //Keep track of the frames
     float timer; //Keep track of the time
 
-    public SpriteAnimator(List<Sprite> frames, SpriteRenderer spriteRenderer, float frameRate=0.16f) //This framerate equals 60 fps
+    public SpriteAnimator(List<Sprite> frames, SpriteRenderer spriteRenderer, float frameRate = 0.16f) //This framerate equals 60 fps
     {
         this.frames = frames; //initialize our variables
         this.spriteRenderer = spriteRenderer;
@@ -35,5 +35,8 @@ public class SpriteAnimator
             timer -= frameRate;
         }
     }
+    //Expose each individual frames
+    public List<Sprite> Frames {
+        get { return frames; } }
 }
                             
