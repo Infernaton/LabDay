@@ -1648,10 +1648,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dadd0ebbd5ac03b43ba8aa691d3c53b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkDownSprites: []
-  walkUpSprites: []
-  walkRightSprites: []
-  walkLeftSprites: []
+  walkDownSprites:
+  - {fileID: 7152930139536384079, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: -5725962078152895296, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: -8401692288953904933, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: 7888922196035610388, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  walkUpSprites:
+  - {fileID: 4620578802948863353, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: -6835189599539173722, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: 679739729869728943, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: 5248155131499935147, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  walkRightSprites:
+  - {fileID: 3445332486847661990, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: 7456334905099763947, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: 5377859178988851676, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: -4124168217499134943, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  walkLeftSprites:
+  - {fileID: -3303779423006393323, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: -790699523677361007, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: 8470420716495695676, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  - {fileID: 6167071470516247665, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
 --- !u!114 &900875533
 MonoBehaviour:
   m_ObjectHideFlags: 0

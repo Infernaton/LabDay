@@ -21,6 +21,7 @@ public class CharacterAnimator : MonoBehaviour
     SpriteAnimator walkLeftAnim;
 
     SpriteAnimator currentAnim; //Keep track of the current animation
+    bool wasPrevMoving;
 
     //References
     SpriteRenderer spriteRenderer;
@@ -50,7 +51,7 @@ public class CharacterAnimator : MonoBehaviour
         else if (MoveY == -1)
             currentAnim = walkDownAnim;
 
-        if (currentAnim != prevAnim)
+        if (currentAnim != prevAnim || IsMoving != wasPrevMoving)
             currentAnim.Start();
 
         //If the player is moving, we show the whole animation, else we just show the first frame since she is just standing up
@@ -58,5 +59,7 @@ public class CharacterAnimator : MonoBehaviour
             currentAnim.HandleUpdate();
         else
             spriteRenderer.sprite = currentAnim.Frames[0];
+
+        wasPrevMoving = IsMoving;
     }
 }
