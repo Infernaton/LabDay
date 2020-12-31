@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
     public void HandleUpdate()
     {
-        if (!character.Animator.IsMoving)
+        if (!character.IsMoving)
         {
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(character.Move(input, CheckForEncounter));
             }
         }
+
+        character.HandleUpdate();
 
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
             Interact();

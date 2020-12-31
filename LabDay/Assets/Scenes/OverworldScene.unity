@@ -1541,6 +1541,7 @@ GameObject:
   - component: {fileID: 900875529}
   - component: {fileID: 900875533}
   - component: {fileID: 900875532}
+  - component: {fileID: 900875534}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1560,16 +1561,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be808c7e208c38f4bbf598b79436aae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  solidObjectsLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  interactableLayer:
-    serializedVersion: 2
-    m_Bits: 1024
-  grassLayer:
-    serializedVersion: 2
-    m_Bits: 512
 --- !u!212 &900875530
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1691,6 +1682,19 @@ MonoBehaviour:
     level: 20
   - _base: {fileID: 11400000, guid: 6361304926f611c4d9f80b4c9b00c1ed, type: 2}
     level: 8
+--- !u!114 &900875534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900875528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64761cb8d56318844be9a0ebbb377c23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
 --- !u!1 &948734681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1978,6 +1982,7 @@ GameObject:
   - component: {fileID: 1095657797}
   - component: {fileID: 1095657796}
   - component: {fileID: 1095657798}
+  - component: {fileID: 1095657799}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -2029,6 +2034,27 @@ MonoBehaviour:
   dialogBox: {fileID: 856498719}
   dialogText: {fileID: 150259814}
   lettersPerSecond: 45
+--- !u!114 &1095657799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095657795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 601c4973ee2099541b71f46ed71471e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  solidObjectsLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  interactableLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  grassLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &1192577596
 GameObject:
   m_ObjectHideFlags: 0
@@ -2638,6 +2664,8 @@ GameObject:
   - component: {fileID: 1492308593}
   - component: {fileID: 1492308592}
   - component: {fileID: 1492308594}
+  - component: {fileID: 1492308595}
+  - component: {fileID: 1492308596}
   m_Layer: 10
   m_Name: NPC
   m_TagString: Untagged
@@ -2704,7 +2732,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492308589}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.5, y: 4.8, z: 0}
+  m_LocalPosition: {x: -2.5, y: 4.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2773,6 +2801,57 @@ MonoBehaviour:
     lines:
     - Hi, have you tried walking on the long grass over here?
     - Don't do it if you don't have any pokemon to fight with tho!
+  movementPattern:
+  - {x: 2, y: 0}
+  - {x: 0, y: -2}
+  - {x: -2, y: 0}
+  - {x: 0, y: 2}
+  timeBetweenPattern: 3
+--- !u!114 &1492308595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492308589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64761cb8d56318844be9a0ebbb377c23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+--- !u!114 &1492308596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1492308589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dadd0ebbd5ac03b43ba8aa691d3c53b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkDownSprites:
+  - {fileID: -2757298984738394219, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: -3297999012176952179, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: 109808345321430783, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: -984706229473049029, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  walkUpSprites:
+  - {fileID: -6431366237039918707, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: -8922353081226294202, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: 6796940128468367395, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: -1790513009360131488, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  walkRightSprites:
+  - {fileID: 4411923371137299535, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: -7544729849536096197, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: 3471414262902695032, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: -5174125284999604879, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  walkLeftSprites:
+  - {fileID: -8018767669905319889, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: 7257679221847934946, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: -1466947835845212873, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  - {fileID: 8869442856293547957, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
 --- !u!1001 &1513685783
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     public float moveSpeed; // Speed value
+    public bool IsMoving { get; private set; }
 
     CharacterAnimator animator;
     private void Awake()
@@ -16,8 +17,8 @@ public class Character : MonoBehaviour
 
     public IEnumerator Move(Vector2 moveVec, Action OnMoveOver=null) //We can check for an action only when needed (encounter for player, battle for trainers..)
     {
-        animator.MoveX = moveVec.x; //Link the moveX from the animator with the moveVec.x of the code
-        animator.MoveY = moveVec.y; //Same for the Y
+        animator.MoveX = Mathf.Clamp(moveVec.x, -1f, 1f); //Link the moveX from the animator with the moveVec.x of the code, clamp it for the NPC 
+        animator.MoveY = Mathf.Clamp(moveVec.y, -1f, 1f); //Same for the Y
 
         var targetPos = transform.position;
         targetPos.x += moveVec.x;
@@ -27,7 +28,7 @@ public class Character : MonoBehaviour
             yield break;
 
         //We set IsMoving to true in the beggining and false at the end
-        animator.IsMoving = true;
+        IsMoving = true;
 
         //this part get us a smooth movement, instead of juste moving tile to tile
         while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
@@ -35,9 +36,14 @@ public class Character : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
             yield return null;
         }
-        animator.IsMoving = false;
+        IsMoving = false;
 
         OnMoveOver?.Invoke(); //We use this to check for encounter ONLY in the end of our Player movement, not the npc
+    }
+
+    public void HandleUpdate()
+    {
+        animator.IsMoving = IsMoving;
     }
 
     //Function to know if the target tile is a solid objects or if we can walk on it, we get the target pos in the Update.
