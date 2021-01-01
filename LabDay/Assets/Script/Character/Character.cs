@@ -24,7 +24,7 @@ public class Character : MonoBehaviour
         targetPos.x += moveVec.x;
         targetPos.y += moveVec.y;
 
-        if (!IsWalkable(targetPos))
+        if (!IsPathClear(targetPos))
             yield break;
 
         //We set IsMoving to true in the beggining and false at the end
@@ -46,6 +46,18 @@ public class Character : MonoBehaviour
         animator.IsMoving = IsMoving;
     }
 
+    private bool IsPathClear(Vector3 targetPos) //Know if there is a solidObject, character, or other, in the path
+    {
+        var diff = targetPos - transform.position; //Value of the direction beetween the actual position, and the target position
+        var dir = diff.normalized; //Return a new vector with the same Direction, but with a lenghht of 1 
+
+        if (Physics2D.BoxCast(transform.position + dir, new Vector2(0.2f, 0.2f), 0f, dir, diff.magnitude - 1, GameLayers.i.SolidLayer | GameLayers.i.InteractableLayer | GameLayers.i.PlayerLayer) == true)
+            return false;
+        else
+            return true;
+
+    }
+
     //Function to know if the target tile is a solid objects or if we can walk on it, we get the target pos in the Update.
     private bool IsWalkable(Vector3 targetPos)
     {
@@ -55,6 +67,21 @@ public class Character : MonoBehaviour
             return false;
         }
         else return true;
+    }
+
+    public void LookTowards(Vector3 targetPos)
+    {
+        //Fin the difference beetween X and Y coordinates
+        var xdiff = Mathf.Floor(targetPos.x) - Mathf.Floor(transform.position.x);
+        var ydiff = Mathf.Floor(targetPos.y) - Mathf.Floor(transform.position.y);
+
+        if (xdiff == 0 || ydiff == 0)
+        {
+            animator.MoveX = Mathf.Clamp(xdiff, -1f, 1f);
+            animator.MoveY = Mathf.Clamp(ydiff, -1f, 1f);
+        }
+        else
+            Debug.LogError("Error in Look Towards : You can't ask the character to look diagonaly");
     }
 
     public CharacterAnimator Animator { get => animator; }

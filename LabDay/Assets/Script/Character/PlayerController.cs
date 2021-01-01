@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
         var collider = Physics2D.OverlapCircle(interactPos, 0.3f, GameLayers.i.InteractableLayer); //If there is any interactable objects within a radius of 0.3, this will return a collider
         if (collider != null) //If there is an interactable object in that tile
         {
-            collider.GetComponent<Interactable>()?.Interact();
+            collider.GetComponent<Interactable>()?.Interact(transform);
         }
     }
 

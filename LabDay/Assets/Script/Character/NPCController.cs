@@ -18,17 +18,24 @@ public class NPCController : MonoBehaviour, Interactable
         character = GetComponent<Character>();
     }
 
-    public void Interact() //We implement the function bc we used the interface
+    public void Interact(Transform initiator) //We implement the function bc we used the interface
     {
         if (state == NPCState.Idle)
-            StartCoroutine(DialogManager.Instance.ShowDialog(dialog));
+        {
+            state = NPCState.Dialog;
+
+            character.LookTowards(initiator.position);
+
+            StartCoroutine(DialogManager.Instance.ShowDialog(dialog, () => {
+                idleTimer = 0;
+                state = NPCState.Idle; //Change back the state, when the action finish the dialog happen
+            }));
+        }
     }
 
     private void Update()
     {
-        if (DialogManager.Instance.IsShowing) return; //If the NPC is talking, we don't want it to move
-
-        if (state == NPCState.Idle) //We want the idle to long a certain time, then the NPC will move
+        if (state == NPCState.Idle) //We want the idle to long a certain time, then the NPC will move, and not be able to move while a dialog is happening
         {
             idleTimer += Time.deltaTime;
             if (idleTimer > timeBetweenPattern)
@@ -45,12 +52,15 @@ public class NPCController : MonoBehaviour, Interactable
     {
         state = NPCState.Walking;
 
+        var oldPos = transform.position; //Keep track of the previous pos
+
         yield return character.Move(movementPattern[currentMovementPattern]);
-        currentMovementPattern = (currentMovementPattern + 1) % movementPattern.Count;
+
+        if (transform.position != oldPos)
+            currentMovementPattern = (currentMovementPattern + 1) % movementPattern.Count;
 
         state = NPCState.Idle;
     }
-
 }
 
-public enum NPCState { Idle, Walking }
+public enum NPCState { Idle, Walking, Dialog }

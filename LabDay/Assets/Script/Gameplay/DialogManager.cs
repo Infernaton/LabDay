@@ -20,12 +20,13 @@ public class DialogManager : MonoBehaviour
     }
 
     Dialog dialog; //Reference the dialog object so we can use it in this script
+    Action onDialogFinished;
     int currentLine = 0; //The first line is the 0
     bool isTyping; //Var to track what happen in the dialog box
 
     public bool IsShowing { get; private set; }
 
-    public IEnumerator ShowDialog(Dialog dialog)
+    public IEnumerator ShowDialog(Dialog dialog, Action onFinished = null)
     {
         yield return new WaitForEndOfFrame(); //This is to avoid issues with key pressed while interacting and not being in the dialog state 
 
@@ -33,6 +34,8 @@ public class DialogManager : MonoBehaviour
 
         IsShowing = true;
         this.dialog = dialog;
+        onDialogFinished = onFinished;
+
         dialogBox.SetActive(true); //First we active the dialogBox
         StartCoroutine(TypeDialog(dialog.Lines[0])); //This will show the first line of the dialog
     }
@@ -53,6 +56,7 @@ public class DialogManager : MonoBehaviour
                     currentLine = 0; //Set back to 0, so the next dialog will start from 0
                     IsShowing = false;
                     dialogBox.SetActive(false); //Deactivate the dialog box
+                    onDialogFinished?.Invoke();
                     OnCloseDialog?.Invoke(); //Call the close dialog action, to change back the gameState
                 }
             }
