@@ -23,6 +23,15 @@ public class GameController : MonoBehaviour
         playerController.OnEncountered += StartBattle;
         battleSystem.OnBattleOver += EndBattle;
 
+        playerController.OnEnterTrainersView += (Collider2D trainerCollider) => //Use this collider to get reference of the trainerController
+        {
+            var trainer = trainerCollider.GetComponentInParent<TrainerController>();
+            if (trainer != null)
+            {
+                StartCoroutine(trainer.TriggerTrainerBattle(playerController));
+            }
+        };
+
         DialogManager.Instance.OnShowDialog += () => //Change the state to dialog so the player won't be able to move will a dialog appears
         {
             state = GameState.Dialog;

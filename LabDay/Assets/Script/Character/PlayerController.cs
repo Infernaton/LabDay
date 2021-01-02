@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    public event Action OnEncountered; //Creating an action with "using. System"
+    public event Action<Collider2D> OnEnterTrainersView; //Action for entering a trainer's view, with a collider 2d as parameter to know wich trainer we saw
+    public event Action OnEncountered; //Creating an action we'll cal when an encounter appears
 
     private Vector2 input; // For getting the Input
 
@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
             //While the player is not moving, we read the input, and move the player in the choosen direction
             if (input != Vector2.zero)
             {
-                StartCoroutine(character.Move(input, CheckForEncounter));
+                StartCoroutine(character.Move(input, OnMoveOver));
             }
         }
 
@@ -57,16 +57,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnMoveOver()
+    {
+        CheckForEncounter();
+        CheckIfInTrainersView();
+    }
+
     //Function to know if the player walk on a grass tile
     private void CheckForEncounter()
     {
-        if (Physics2D.OverlapCircle(transform.position, 0.2f, GameLayers.i.GrassLayer) != null) //Same as IsWalkable
+        if (Physics2D.OverlapCircle(transform.position, 0.1f, GameLayers.i.GrassLayer) != null) //Check if there is something in a radius, in the grass layer
         {
             if (UnityEngine.Random.Range(1, 101) <= 10) //If, within a range of 1 to 100, we hit below 10 (10% chances), we will encounter a creature
             {
                 character.Animator.IsMoving = false; //Set it to false when a battle appear
                 OnEncountered();//We call our BattleSystem by changing the GameState to battle
             }
+        }
+    }
+    private void CheckIfInTrainersView()
+    {
+        var collider = Physics2D.OverlapCircle(transform.position, 0.2f, GameLayers.i.FovLayer);
+        if (collider != null) //Same as CheckForEncounter but with trainers
+        {
+            OnEnterTrainersView?.Invoke(collider);
         }
     }
 }
