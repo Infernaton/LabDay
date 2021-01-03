@@ -4,7 +4,7 @@ using UnityEngine;
 
 //We'll use GameStates to switch beetween Scenes (Overworld, Battle, etc)
 
-public enum GameState { FreeRoam, Battle, Dialog} //For now we have just two states
+public enum GameState { FreeRoam, Battle, Dialog, Cutscene } //List every states we'll use
 public class GameController : MonoBehaviour
 {
     GameState state;//Reference to our GameState
@@ -28,6 +28,7 @@ public class GameController : MonoBehaviour
             var trainer = trainerCollider.GetComponentInParent<TrainerController>();
             if (trainer != null)
             {
+                state = GameState.Cutscene;
                 StartCoroutine(trainer.TriggerTrainerBattle(playerController));
             }
         };

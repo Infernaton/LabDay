@@ -80,7 +80,8 @@ public class PlayerController : MonoBehaviour
         var collider = Physics2D.OverlapCircle(transform.position, 0.2f, GameLayers.i.FovLayer);
         if (collider != null) //Same as CheckForEncounter but with trainers
         {
-            OnEnterTrainersView?.Invoke(collider);
+            character.Animator.IsMoving = false; //Set it to false when a battle appear
+            OnEnterTrainersView?.Invoke(collider); //Call the trainer battle when the player collide with the field of view
         }
     }
 }

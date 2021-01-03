@@ -1743,6 +1743,7 @@ MonoBehaviour:
   - {fileID: -790699523677361007, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
   - {fileID: 8470420716495695676, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
   - {fileID: 6167071470516247665, guid: b0733abdf8ecc69469ff2a86f1f23051, type: 3}
+  defaultDirection: 1
 --- !u!114 &900875533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2490,6 +2491,7 @@ MonoBehaviour:
   - {fileID: 7257679221847934946, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
   - {fileID: -1466947835845212873, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
   - {fileID: 8869442856293547957, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  defaultDirection: 3
 --- !u!114 &1329772815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2519,6 +2521,7 @@ MonoBehaviour:
     lines:
     - LOREM ISPUM SON OF A BITCH
   exclamation: {fileID: 37361444}
+  fov: {fileID: 1754433228}
 --- !u!61 &1329772817
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2606,7 +2609,7 @@ SpriteRenderer:
   m_SortingLayerID: 95047823
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2757298984738394219, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  m_Sprite: {fileID: 4411923371137299535, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3184,6 +3187,7 @@ MonoBehaviour:
   - {fileID: 7257679221847934946, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
   - {fileID: -1466947835845212873, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
   - {fileID: 8869442856293547957, guid: 233ed2c3c57795e428932b6a36398fec, type: 3}
+  defaultDirection: 1
 --- !u!1001 &1513685783
 PrefabInstance:
   m_ObjectHideFlags: 0

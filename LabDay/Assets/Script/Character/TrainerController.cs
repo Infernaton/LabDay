@@ -7,12 +7,17 @@ public class TrainerController : MonoBehaviour
 {
     [SerializeField] Dialog dialog;
     [SerializeField] GameObject exclamation; //Reference the exclamation point
+    [SerializeField] GameObject fov; //Reference the fov
 
     Character character;
 
     private void Awake()
     {
         character = GetComponent<Character>();
+    }
+    private void Start()
+    {
+        SetFovRotation(character.Animator.DefaultDirection); //Call the function to change the fov
     }
 
     public IEnumerator TriggerTrainerBattle(PlayerController player)
@@ -35,5 +40,22 @@ public class TrainerController : MonoBehaviour
             //Start the battle
             Debug.Log("Start trainer Battle");
         }));
+    }
+
+    //Set the fov direction
+    public void SetFovRotation(FacingDirection dir)
+    {
+        float angle = 0f; //Angle of the fov
+        //Set the angle according to the trainer rotation
+        if (dir == FacingDirection.Right)
+            angle = 90f;
+        else if (dir == FacingDirection.Up)
+            angle = 180f;
+        else if (dir == FacingDirection.Left)
+            angle = 270f;
+        else if (dir == FacingDirection.Down)
+            angle = 0f;
+
+        fov.transform.eulerAngles = new Vector3(0f, 0f, angle); //Set the rotation on, the Z axis, as the angle defined earlier
     }
 }
