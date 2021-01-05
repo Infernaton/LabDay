@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Here is where we manage our battle system, by calling every needed function, that we create in other classes
 
@@ -14,6 +15,8 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] BattleUnit enemyUnit;
     [SerializeField] BattleDialogBox dialogBox;
     [SerializeField] PartyScreen partyScreen;
+    [SerializeField] Image playerImage;
+    [SerializeField] Image trainerImage;
 
     public event Action<bool> OnBattleOver; //Add an action happening when the battle ended (Action<bool> is to add a bool to the Action)
 
@@ -26,7 +29,12 @@ public class BattleSystem : MonoBehaviour
     int currentMember; //We have 6 pokemons
 
     PokemonParty playerParty;
+    PokemonParty trainerParty;
     Pokemon wildPokemon;
+
+    bool isTrainerBattle = false; //Bool we use to check what kind of battle it is
+    PlayerController player;
+    TrainerController trainer;
 
     //We want to setup everything at the very first frame of the battle
     public void StartBattle(PokemonParty playerParty, Pokemon wildPokemon)
@@ -35,17 +43,50 @@ public class BattleSystem : MonoBehaviour
         this.wildPokemon = wildPokemon;
         StartCoroutine(SetupBattle()); //We call our SetupBattle function
     }
-    public IEnumerator SetupBattle() //We use the data created in the BattleUnit and BattleHud scripts
+
+    public void StartTrainerBattle(PokemonParty playerParty, PokemonParty trainerParty) //Beggin the trainer battle
     {
-        playerUnit.Setup(playerParty.GetHealthyPokemon());
-        enemyUnit.Setup(wildPokemon);
+        this.playerParty = playerParty; //this. is to use our variable and not the parameter
+        this.trainerParty = trainerParty;
+
+        isTrainerBattle = true;
+        player = playerParty.GetComponent<PlayerController>(); //Set a reference the player party
+        trainer = trainerParty.GetComponent<TrainerController>(); //Same with trainer
+
+        StartCoroutine(SetupBattle()); //We call our SetupBattle function
+    }
+
+    public IEnumerator SetupBattle() //We use the data created in the BattleUnit and BattleHud scripts
+    {   
+        //Everything NOT in the if/else, is common at Trainer and WildPokemon battles
+        if (!isTrainerBattle)
+        {
+            //Wild pokemon battle
+            playerUnit.Setup(playerParty.GetHealthyPokemon()); //Setup both pokemons
+            enemyUnit.Setup(wildPokemon);
+
+            dialogBox.SetMoveNames(playerUnit.Pokemon.Moves); //Enable the moves, and set the right names
+
+            //We return the function Typedialog
+            yield return dialogBox.TypeDialog($"A wild {enemyUnit.Pokemon.Base.Name} appeared."); //With the $, a string can show a special variable in it
+        }
+        else
+        {
+            //Trainer Battle
+
+            //Show player and trainer images
+            playerUnit.gameObject.SetActive(false); //Disable both player and enemy pokemons
+            enemyUnit.gameObject.SetActive(false);
+
+            playerImage.gameObject.SetActive(true); //Enable both player and trainer images
+            trainerImage.gameObject.SetActive(true);
+            playerImage.sprite = player.Sprite;
+            trainerImage.sprite = trainer.Sprite;
+
+            yield return dialogBox.TypeDialog($"{trainer.Name} wants to battle");
+        }
 
         partyScreen.Init();
-
-        dialogBox.SetMoveNames(playerUnit.Pokemon.Moves);
-
-        //We return the function Typedialog
-        yield return dialogBox.TypeDialog($"A wild {enemyUnit.Pokemon.Base.Name} appeared."); //With the $, a string can show a special variable in it
 
         //This is the function where the player choose a specific action
         ActionSelection(); 

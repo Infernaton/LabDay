@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //We'll use GameStates to switch beetween Scenes (Overworld, Battle, etc)
-
 public enum GameState { FreeRoam, Battle, Dialog, Cutscene } //List every states we'll use
 public class GameController : MonoBehaviour
 {
@@ -12,8 +11,11 @@ public class GameController : MonoBehaviour
     [SerializeField] BattleSystem battleSystem;//Reference to the BattleSystem Script 
     [SerializeField] Camera worldCamera; //Reference to our Camera
 
+    public static GameController Instance { get; private set; } //Get reference from the game controller anywhere we want
+
     private void Awake()
     {
+        Instance = this;
         ConditionsDB.Init();
     }
 
@@ -56,6 +58,19 @@ public class GameController : MonoBehaviour
 
         battleSystem.StartBattle(playerParty, wildPokemon); //Call our StartBattle, so every fight are not the same
     }
+
+    public void StartTrainerBattle(TrainerController trainer)
+    {
+        state = GameState.Battle;
+        battleSystem.gameObject.SetActive(true);
+        worldCamera.gameObject.SetActive(false);
+
+        var playerParty = playerController.GetComponent<PokemonParty>(); //Store our party in a var
+        var trainerParty = trainer.GetComponent<PokemonParty>(); //Store the trainer party in a var
+
+        battleSystem.StartTrainerBattle(playerParty, trainerParty); //Call our StartBattle, so every fight are not the same
+    }
+
     //Change our battle state, camera active, and gameobject of the Battle System
     void EndBattle(bool won)
     {

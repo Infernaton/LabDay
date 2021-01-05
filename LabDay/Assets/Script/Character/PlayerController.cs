@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] string name;
+    [SerializeField] Sprite sprite;
+
     public event Action<Collider2D> OnEnterTrainersView; //Action for entering a trainer's view, with a collider 2d as parameter to know wich trainer we saw
     public event Action OnEncountered; //Creating an action we'll cal when an encounter appears
 
@@ -83,5 +86,15 @@ public class PlayerController : MonoBehaviour
             character.Animator.IsMoving = false; //Set it to false when a battle appear
             OnEnterTrainersView?.Invoke(collider); //Call the trainer battle when the player collide with the field of view
         }
+    }
+
+    //Properties to expose names and sprites
+    public string Name
+    {
+        get => name;
+    }
+    public Sprite Sprite
+    {
+        get => sprite;
     }
 }
