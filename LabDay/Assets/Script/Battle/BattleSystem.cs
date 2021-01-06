@@ -57,7 +57,10 @@ public class BattleSystem : MonoBehaviour
     }
 
     public IEnumerator SetupBattle() //We use the data created in the BattleUnit and BattleHud scripts
-    {   
+    {
+        playerUnit.Clear();
+        enemyUnit.Clear();
+
         //Everything NOT in the if/else, is common at Trainer and WildPokemon battles
         if (!isTrainerBattle)
         {
@@ -84,12 +87,27 @@ public class BattleSystem : MonoBehaviour
             trainerImage.sprite = trainer.Sprite;
 
             yield return dialogBox.TypeDialog($"{trainer.Name} wants to battle");
+
+            //Send out first pokemon of the trainer, disabling image of trainer, enabling image ok pokemon
+            trainerImage.gameObject.SetActive(false);
+            enemyUnit.gameObject.SetActive(true);
+            var enemyPokemon = trainerParty.GetHealthyPokemon(); //Get the first healthy pokemon
+            enemyUnit.Setup(enemyPokemon); //And setup the battle
+
+            yield return dialogBox.TypeDialog($"{trainer.Name} send out {enemyPokemon.Base.Name}");
+
+            //Send out first pokemon of the player
+            playerImage.gameObject.SetActive(false);
+            playerUnit.gameObject.SetActive(true);
+            var playerPokemon = playerParty.GetHealthyPokemon(); //Get the first healthy pokemon
+            playerUnit.Setup(playerPokemon); //And setup the battle
+            yield return dialogBox.TypeDialog($"Go {playerPokemon.Base.Name}! ");
+            dialogBox.SetMoveNames(playerUnit.Pokemon.Moves); //Enable the moves, and set the right names
         }
 
         partyScreen.Init();
-
         //This is the function where the player choose a specific action
-        ActionSelection(); 
+        ActionSelection();
     }
 
     void BattleOver(bool won) //Function to know if the battle is over or not
@@ -141,8 +159,8 @@ public class BattleSystem : MonoBehaviour
             else if (enemyMovePriority == playerMovePriority) //If moves has the same priority, the speed will determine
                 playerGoesFirst = playerUnit.Pokemon.Speed >= enemyUnit.Pokemon.Speed; //True if the player's pokemon speed is higher
 
-            var firstUnit = (playerGoesFirst) ? playerUnit:enemyUnit; //If the bool is true, the player unit goes first, then the enemy
-            var secondUnit = (playerGoesFirst) ? enemyUnit:playerUnit; //Else, we reverse it
+            var firstUnit = (playerGoesFirst) ? playerUnit : enemyUnit; //If the bool is true, the player unit goes first, then the enemy
+            var secondUnit = (playerGoesFirst) ? enemyUnit : playerUnit; //Else, we reverse it
 
             var secondPokemon = secondUnit.Pokemon; //This is in case the player switch as an action
 
@@ -303,7 +321,7 @@ public class BattleSystem : MonoBehaviour
         int accuracy = source.StatBoosts[Stat.Accuracy]; //Store in an int the accuracy
         int evasion = target.StatBoosts[Stat.Evasion]; //And the evasion
 
-        var boostValues = new float[] { 1f, 4f/3f, 5f/3f, 2f, 7f/3f, 8f/3f, 3f }; //Store the possible value of boosting
+        var boostValues = new float[] { 1f, 4f / 3f, 5f / 3f, 2f, 7f / 3f, 8f / 3f, 3f }; //Store the possible value of boosting
 
         //Modify accuracy
         if (accuracy > 0)
@@ -329,7 +347,7 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    void CheckForBattleOver (BattleUnit faintedUnit) //Logic to know if the fainted pokemon is the player's one or the enemy one, and so if the battle is over or not
+    void CheckForBattleOver(BattleUnit faintedUnit) //Logic to know if the fainted pokemon is the player's one or the enemy one, and so if the battle is over or not
     {
         if (faintedUnit.IsPlayerUnit)
         {
@@ -339,8 +357,24 @@ public class BattleSystem : MonoBehaviour
             else
                 BattleOver(false); //False is when the player lost
         }
-        else
-            BattleOver(true); //True when the player won
+        else //If the fainted pokemon is not the player one
+        {
+            if (!isTrainerBattle) //If it's a wild pokemon battle, the player won
+            {
+                BattleOver(true); //True when the player won
+            }
+            else //If it's a trainer battle, we check if the trainer has other pokemons
+            {
+                var nextPokemon = trainerParty.GetHealthyPokemon(); //store the next healthy pokemon of the trainer
+                if (nextPokemon != null) //If there is still at least one healthy pokemon
+                {
+                    //Send next pokemon
+                    StartCoroutine(SendNextTrainerPokemon(nextPokemon));
+                }
+                else
+                    BattleOver(true); //Truc bc the player won
+            }
+        }
     }
 
     IEnumerator ShowDamageDetails(DamageDetails damageDetails)
@@ -348,7 +382,7 @@ public class BattleSystem : MonoBehaviour
         if (damageDetails.Critical > 1f) //Check the value of Critical to show a message saying we had a critical hit
             yield return dialogBox.TypeDialog("A critical hit!");
 
-        if(damageDetails.TypeEffectiveness > 1)
+        if (damageDetails.TypeEffectiveness > 1)
             yield return dialogBox.TypeDialog("That's super effective!");
         else if (damageDetails.TypeEffectiveness < 1)
             yield return dialogBox.TypeDialog("That was not very effective..");
@@ -384,7 +418,7 @@ public class BattleSystem : MonoBehaviour
 
         currentAction = Mathf.Clamp(currentAction, 0, 3); //Since we have 4 actions we want to loop throught each one of them and not going beyond 3
 
-            dialogBox.UpdateActionSelection(currentAction);
+        dialogBox.UpdateActionSelection(currentAction);
 
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
@@ -489,7 +523,7 @@ public class BattleSystem : MonoBehaviour
                 state = BattleState.Busy; //State is changed to busy so player won't mess with the UI
                 StartCoroutine(SwitchPokemon(selectedMember)); //Calling coroutine to switch pokemons
             }
-            
+
         }
         else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
         {
@@ -498,7 +532,7 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    IEnumerator SwitchPokemon (Pokemon newPokemon) //Coroutine to make the switch happen
+    IEnumerator SwitchPokemon(Pokemon newPokemon) //Coroutine to make the switch happen
     {
         if (playerUnit.Pokemon.HP > 0) //This will play ONLY if the player change pokemon by choosing the action, if the pokemon fainted and we have to send another one, this will not play
         {
@@ -512,5 +546,15 @@ public class BattleSystem : MonoBehaviour
         yield return dialogBox.TypeDialog($"Go {newPokemon.Base.Name}!");
 
         state = BattleState.RunningTurn; //go back to the running turn state
+    }
+
+    IEnumerator SendNextTrainerPokemon(Pokemon nextTrainerPokemon)
+    {
+        state = BattleState.Busy; //Change the state
+
+        enemyUnit.Setup(nextTrainerPokemon); //Send out the next pokemon
+        yield return dialogBox.TypeDialog($"{trainer.Name} send out {nextTrainerPokemon.Base.Name}!");
+
+        state = BattleState.RunningTurn;
     }
 }

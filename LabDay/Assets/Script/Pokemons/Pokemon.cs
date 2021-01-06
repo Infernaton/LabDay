@@ -174,7 +174,7 @@ public class Pokemon
         //Here is the actual formula used in the pokemons game, might change later
         float modifiers = Random.Range(0.85f, 1f) * type * critical;
         float a = (2 * attacker.Level + 10) / 250f;
-        float d = a * move.Base.Power * ((float)attack / defense) + 2;
+        float d = a * move.Base.Power * (attack / defense) + 2;
         int damage = Mathf.FloorToInt(d * modifiers);
 
         //After that we substract the damage to the actual life of the pokemon, and check if he died or no
