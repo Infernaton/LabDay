@@ -26,6 +26,11 @@ public class TrainerController : MonoBehaviour, Interactable
         SetFovRotation(character.Animator.DefaultDirection); //Call the function to change the fov
     }
 
+    private void Update()
+    {
+        character.HandleUpdate();
+    }
+
     //When we interact with the trainer from another side
     public void Interact(Transform initiator) //Implementation of the Interact Interface
     {

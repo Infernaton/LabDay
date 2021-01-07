@@ -147,7 +147,6 @@ public class BattleSystem : MonoBehaviour
         yield return dialogBox.TypeDialog($"{trainer.Name} is about to use {newPokemon.Base.Name}. Do you want to change your pokemon?");
         state = BattleState.AboutToUse; //Change state
         dialogBox.EnableChoiceBox(true); //Enable choice selector
-
     }
 
     IEnumerator RunTurns(BattleActions playerAction) //Coroutine to manage the turns
@@ -543,8 +542,21 @@ public class BattleSystem : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
         {
-            partyScreen.gameObject.SetActive(false);
-            ActionSelection();
+            if (playerUnit.Pokemon.HP <= 0) //Player has to change if the actual pokemon is dead
+            {
+                partyScreen.SetMessageText("You have to choose a pokemon to continue");
+                return;
+            }
+
+            partyScreen.gameObject.SetActive(false); //Disable party screen
+
+            if (prevState == BattleState.AboutToUse)
+            {
+                prevState = null; //Change prev state
+                StartCoroutine(SendNextTrainerPokemon()); //Continue battle
+            }
+            else
+                ActionSelection();
         }
     }
 
@@ -554,6 +566,28 @@ public class BattleSystem : MonoBehaviour
             aboutToUseChoice = !aboutToUseChoice; //Reverse the choice every time we press a key
 
         dialogBox.UpdateChoiceBox(aboutToUseChoice); //Highlight the choice
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) //When the player made it choice
+        {
+            dialogBox.EnableChoiceBox(false); //Disable choice box
+            
+            if (aboutToUseChoice == true)
+            {
+                //Yes, Open party selection
+                prevState = BattleState.AboutToUse; //Set the previous state to know in the SwitchPokemon
+                OpenPartyScreen();
+            }
+            else
+            {
+                //It's no, continue battle
+                StartCoroutine(SendNextTrainerPokemon());
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+        {
+            dialogBox.EnableChoiceBox(false);
+            StartCoroutine(SendNextTrainerPokemon());
+        }
     }
 
     IEnumerator SwitchPokemon(Pokemon newPokemon) //Coroutine to make the switch happen
@@ -569,12 +603,20 @@ public class BattleSystem : MonoBehaviour
         dialogBox.SetMoveNames(newPokemon.Moves);
         yield return dialogBox.TypeDialog($"Go {newPokemon.Base.Name}!");
 
-        state = BattleState.RunningTurn; //go back to the running turn state
+        if (prevState == null)
+            state = BattleState.RunningTurn; //go back to the running turn state
+        else if (prevState == BattleState.AboutToUse)
+        {
+            prevState = null;
+            StartCoroutine(SendNextTrainerPokemon());
+        }
     }
 
-    IEnumerator SendNextTrainerPokemon(Pokemon nextTrainerPokemon)
+    IEnumerator SendNextTrainerPokemon()
     {
         state = BattleState.Busy; //Change the state
+
+        var nextTrainerPokemon = trainerParty.GetHealthyPokemon(); //Store the next pokemon used in a var
 
         enemyUnit.Setup(nextTrainerPokemon); //Send out the next pokemon
         yield return dialogBox.TypeDialog($"{trainer.Name} send out {nextTrainerPokemon.Base.Name}!");
