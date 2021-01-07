@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 //Here is where we manage our battle system, by calling every needed function, that we create in other classes
 
-public enum BattleState { Start, ActionSelection, MoveSelection, RunningTurn, Busy, PartyScreen, BattleOver} //We will use different state in our BattleSystem, and show what need to be shown in a specific state
+public enum BattleState { Start, ActionSelection, MoveSelection, RunningTurn, Busy, PartyScreen, AboutToUse, BattleOver} //We will use different state in our BattleSystem, and show what need to be shown in a specific state
 public enum BattleActions { Move, SwitchPokemon, UseItem, Run}
 
 public class BattleSystem : MonoBehaviour
@@ -27,6 +27,7 @@ public class BattleSystem : MonoBehaviour
     int currentAction; //Actually, 0 is Fight, 1 is Bag, 2 is Party, 4 is Run
     int currentMove; //We'll have 4 moves
     int currentMember; //We have 6 pokemons
+    bool aboutToUseChoice = true;
 
     PokemonParty playerParty;
     PokemonParty trainerParty;
@@ -138,6 +139,15 @@ public class BattleSystem : MonoBehaviour
         dialogBox.EnableActionSelector(false); //Then disable player to choose an action, and allow it to choose a move
         dialogBox.EnableDialogText(false); //Disable the DialogText
         dialogBox.EnableMoveSelector(true); //Enable the MoveSelector
+    }
+
+    IEnumerator AboutToUse(Pokemon newPokemon) //Changing state to AboutToUse
+    {
+        state = BattleState.Busy; //Player won't be able to do anything before the dialog has been written
+        yield return dialogBox.TypeDialog($"{trainer.Name} is about to use {newPokemon.Base.Name}. Do you want to change your pokemon?");
+        state = BattleState.AboutToUse; //Change state
+        dialogBox.EnableChoiceBox(true); //Enable choice selector
+
     }
 
     IEnumerator RunTurns(BattleActions playerAction) //Coroutine to manage the turns
@@ -370,8 +380,8 @@ public class BattleSystem : MonoBehaviour
                 var nextPokemon = trainerParty.GetHealthyPokemon(); //store the next healthy pokemon of the trainer
                 if (nextPokemon != null) //If there is still at least one healthy pokemon
                 {
-                    //Send next pokemon
-                    StartCoroutine(SendNextTrainerPokemon(nextPokemon));
+                    //Send next pokemon after giving
+                    StartCoroutine(AboutToUse(nextPokemon));
                 }
                 else
                     BattleOver(true); //Truc bc the player won
@@ -404,6 +414,10 @@ public class BattleSystem : MonoBehaviour
         else if (state == BattleState.PartyScreen)
         {
             HandlePartySelection();
+        }
+        else if (state == BattleState.AboutToUse)
+        {
+            HandleAboutSelection();
         }
     }
 
@@ -532,6 +546,14 @@ public class BattleSystem : MonoBehaviour
             partyScreen.gameObject.SetActive(false);
             ActionSelection();
         }
+    }
+
+    void HandleAboutSelection()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            aboutToUseChoice = !aboutToUseChoice; //Reverse the choice every time we press a key
+
+        dialogBox.UpdateChoiceBox(aboutToUseChoice); //Highlight the choice
     }
 
     IEnumerator SwitchPokemon(Pokemon newPokemon) //Coroutine to make the switch happen
