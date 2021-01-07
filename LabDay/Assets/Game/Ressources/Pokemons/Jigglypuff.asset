@@ -16,8 +16,13 @@ MonoBehaviour:
   description: 
   frontSprite: {fileID: 21300000, guid: d66734356918d8a478c329ac0ce97925, type: 3}
   backSprite: {fileID: 21300000, guid: 2906174aaac84884f9933a7cf542ba07, type: 3}
+<<<<<<< Updated upstream
   type1: 5
   type2: 13
+=======
+  type1: 13
+  type2: 5
+>>>>>>> Stashed changes
   maxHp: 115
   attack: 45
   defense: 20
