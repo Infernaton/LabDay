@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Trainer controller script
-public class TrainerController : MonoBehaviour
+public class TrainerController : MonoBehaviour, Interactable
 {
     [SerializeField] string name;
     [SerializeField] Sprite sprite;
@@ -20,6 +20,19 @@ public class TrainerController : MonoBehaviour
     private void Start()
     {
         SetFovRotation(character.Animator.DefaultDirection); //Call the function to change the fov
+    }
+
+    //When we interact with the trainer from another side
+    public void Interact(Transform initiator) //Implementation of the Interact Interface
+    {
+        character.LookTowards(initiator.position);
+
+        //Show dialog
+        StartCoroutine(DialogManager.Instance.ShowDialog(dialog, () =>
+        {
+            //Start the battle
+            GameController.Instance.StartTrainerBattle(this);
+        }));
     }
 
     public IEnumerator TriggerTrainerBattle(PlayerController player)
