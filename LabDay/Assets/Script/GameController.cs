@@ -59,11 +59,15 @@ public class GameController : MonoBehaviour
         battleSystem.StartBattle(playerParty, wildPokemon); //Call our StartBattle, so every fight are not the same
     }
 
+    TrainerController trainer; //Reference the trainer
+
     public void StartTrainerBattle(TrainerController trainer)
     {
         state = GameState.Battle;
         battleSystem.gameObject.SetActive(true);
         worldCamera.gameObject.SetActive(false);
+
+        this.trainer = trainer; //Set THIS specific trainer as our reference
 
         var playerParty = playerController.GetComponent<PokemonParty>(); //Store our party in a var
         var trainerParty = trainer.GetComponent<PokemonParty>(); //Store the trainer party in a var
@@ -74,6 +78,13 @@ public class GameController : MonoBehaviour
     //Change our battle state, camera active, and gameobject of the Battle System
     void EndBattle(bool won)
     {
+        if (trainer != null && won == true) //If it is a trainer battle, won by the player
+        {
+            trainer.BattleLost(); //Disable the fov, to disable the battle
+            trainer = null;
+        }
+
+
         state = GameState.FreeRoam;
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);

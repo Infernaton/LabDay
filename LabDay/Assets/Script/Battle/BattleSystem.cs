@@ -308,6 +308,8 @@ public class BattleSystem : MonoBehaviour
             yield return new WaitForSeconds(2f);
 
             CheckForBattleOver(sourceUnit);
+            yield return new WaitUntil(() => state == BattleState.RunningTurn); //Wait until the state come back to running turn
+
         }
     }
     //Function to check if the move hits
