@@ -22,9 +22,9 @@ public class NPCController : MonoBehaviour, Interactable
     {
         if (state == NPCState.Idle)
         {
-            state = NPCState.Dialog;
+            state = NPCState.Dialog; //Change the state
 
-            character.LookTowards(initiator.position);
+            character.LookTowards(initiator.position); //Turn the npc towards the player
 
             StartCoroutine(DialogManager.Instance.ShowDialog(dialog, () => {
                 idleTimer = 0;
