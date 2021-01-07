@@ -8,8 +8,12 @@ public class TrainerController : MonoBehaviour, Interactable
     [SerializeField] string name;
     [SerializeField] Sprite sprite;
     [SerializeField] Dialog dialog;
+    [SerializeField] Dialog dialogAfterBattle;
     [SerializeField] GameObject exclamation; //Reference the exclamation point
     [SerializeField] GameObject fov; //Reference the fov
+
+    //State
+    bool battleLost = false;
 
     Character character;
 
@@ -27,12 +31,18 @@ public class TrainerController : MonoBehaviour, Interactable
     {
         character.LookTowards(initiator.position);
 
-        //Show dialog
-        StartCoroutine(DialogManager.Instance.ShowDialog(dialog, () =>
-        {
+        if (!battleLost) //If the battle has not been lost
+        {//Show dialog
+            StartCoroutine(DialogManager.Instance.ShowDialog(dialog, () =>
+            {
             //Start the battle
             GameController.Instance.StartTrainerBattle(this);
-        }));
+            }));
+        }
+        else //Else we show another message
+        {
+            StartCoroutine(DialogManager.Instance.ShowDialog(dialogAfterBattle));
+        }
     }
 
     public IEnumerator TriggerTrainerBattle(PlayerController player)
@@ -55,6 +65,13 @@ public class TrainerController : MonoBehaviour, Interactable
             //Start the battle
             GameController.Instance.StartTrainerBattle(this);
         }));
+    }
+     
+    //When the trainer lost a battle, we won't fight him again
+    public void BattleLost()
+    {
+        battleLost = true;
+        fov.gameObject.SetActive(false); //Disable the fov so we won't encounter a battle again
     }
 
     //Set the fov direction
