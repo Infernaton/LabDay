@@ -14,12 +14,15 @@ public class BattleDialogBox : MonoBehaviour
     [SerializeField] GameObject actionSelector;
     [SerializeField] GameObject moveSelector;
     [SerializeField] GameObject moveDetails;
+    [SerializeField] GameObject choiceBox;
 
     [SerializeField] List<Text> actionTexts; //We use List bc we want the player to choose between several actions
     [SerializeField] List<Text> moveTexts;
 
     [SerializeField] Text ppText;
     [SerializeField] Text typeText;
+    [SerializeField] Text yesText;
+    [SerializeField] Text noText;
 
     //This function will set the dialog when we call it
     public void SetDialog(string dialog)
@@ -53,6 +56,10 @@ public class BattleDialogBox : MonoBehaviour
         moveSelector.SetActive(enabled); //Since moveSelector is a GameObject and not a text, we have to use the SetActive() function
         moveDetails.SetActive(enabled);
     }
+    public void EnableChoiceBox(bool enabled)
+    {
+        choiceBox.SetActive(enabled); //Active the choice Box 
+    }
 
     public void UpdateActionSelection(int selectedAction) //This will actually change the color of the actionSelector selected
     {
@@ -82,6 +89,20 @@ public class BattleDialogBox : MonoBehaviour
             ppText.color = Color.red;
         else
             ppText.color = Color.black; //Else it will be black
+    }
+
+    public void UpdateChoiceBox(bool yesSelected)
+    {
+        if (yesSelected) //Highlight the text selected
+        {
+            yesText.color = highlightedColor;
+            noText.color = Color.black;
+        }
+        else
+        {
+            noText.color = highlightedColor;
+            yesText.color = Color.black;
+        }
     }
 
     public void SetMoveNames(List<Move> moves)
