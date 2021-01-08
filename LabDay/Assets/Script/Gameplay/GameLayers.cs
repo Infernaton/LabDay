@@ -5,11 +5,12 @@ using UnityEngine;
 //This script will reference our layers
 public class GameLayers : MonoBehaviour
 {
-    [SerializeField] LayerMask solidObjectsLayer; //Reference our SolidObjects layer
-    [SerializeField] LayerMask interactableLayer; //Reference our Interactable layer
-    [SerializeField] LayerMask grassLayer; //Reference our LongGrass layer
-    [SerializeField] LayerMask playerLayer; //Reference our player layer
-    [SerializeField] LayerMask fovLayer; //Reference our Fov layer
+    [SerializeField] LayerMask solidObjectsLayer;   //Reference our SolidObjects layer
+    [SerializeField] LayerMask interactableLayer;   //Reference our Interactable layer
+    [SerializeField] LayerMask grassLayer;          //Reference our LongGrass layer
+    [SerializeField] LayerMask playerLayer;         //Reference our player layer
+    [SerializeField] LayerMask fovLayer;            //Reference our Fov layer
+    [SerializeField] LayerMask chgScene;            //Layer that permit to change our scene
 
     public static GameLayers i { get; set; }
     private void Awake()
