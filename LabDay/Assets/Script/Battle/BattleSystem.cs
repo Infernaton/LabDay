@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DG.Tweening; //For the animations (Pokeball mainly)
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -638,8 +639,10 @@ public class BattleSystem : MonoBehaviour
 
         yield return dialogBox.TypeDialog($"{player.Name} used a Pokeball");
 
-        var pokeballObject = Instantiate(pokeballSprite, playerUnit.transform.position, Quaternion.identity); //This will "create" the pokeball, using the prefab
+        var pokeballObject = Instantiate(pokeballSprite, playerUnit.transform.position - new Vector3(2, 0), Quaternion.identity); //This will "create" the pokeball, using the prefab
+        var pokeball = pokeballObject.GetComponent<SpriteRenderer>(); //Grab a reference to the pokeball sprite
 
-
+        //Animation
+        yield return pokeball.transform.DOJump(enemyUnit.transform.position + new Vector3(0, 2), 2f, 1, 1f).WaitForCompletion(); //DOJump will make it look like a jump. Vector2(0, 2) is ti get a bit above the target pos
     }
 }
