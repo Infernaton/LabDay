@@ -17,6 +17,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] PartyScreen partyScreen;
     [SerializeField] Image playerImage;
     [SerializeField] Image trainerImage;
+    [SerializeField] GameObject pokeballSprite; //Reference to the pokeball
 
     public event Action<bool> OnBattleOver; //Add an action happening when the battle ended (Action<bool> is to add a bool to the Action)
 
@@ -40,8 +41,12 @@ public class BattleSystem : MonoBehaviour
     //We want to setup everything at the very first frame of the battle
     public void StartBattle(PokemonParty playerParty, Pokemon wildPokemon)
     {
+        isTrainerBattle = false;
+
         this.playerParty = playerParty; //this. is to use our variable and not the parameter
         this.wildPokemon = wildPokemon;
+        player = playerParty.GetComponent<PlayerController>(); //Set a reference the player party
+
         StartCoroutine(SetupBattle()); //We call our SetupBattle function
     }
 
@@ -418,6 +423,9 @@ public class BattleSystem : MonoBehaviour
         {
             HandleAboutSelection();
         }
+
+        if (Input.GetKeyDown(KeyCode.T))
+            StartCoroutine(ThrowPokeball());
     }
 
     void HandleActionSelection()
@@ -611,7 +619,6 @@ public class BattleSystem : MonoBehaviour
             StartCoroutine(SendNextTrainerPokemon());
         }
     }
-
     IEnumerator SendNextTrainerPokemon()
     {
         state = BattleState.Busy; //Change the state
@@ -622,5 +629,17 @@ public class BattleSystem : MonoBehaviour
         yield return dialogBox.TypeDialog($"{trainer.Name} send out {nextTrainerPokemon.Base.Name}!");
 
         state = BattleState.RunningTurn;
+    }
+
+    //Coroutine to throw the ball
+    IEnumerator ThrowPokeball()
+    {
+        state = BattleState.Busy;
+
+        yield return dialogBox.TypeDialog($"{player.Name} used a Pokeball");
+
+        var pokeballObject = Instantiate(pokeballSprite, playerUnit.transform.position, Quaternion.identity); //This will "create" the pokeball, using the prefab
+
+
     }
 }

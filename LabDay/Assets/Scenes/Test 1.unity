@@ -1310,7 +1310,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1192577597}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1372,7 +1372,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5620234722483810716, guid: 2e1402c9f36eee74c80d4bd867596be1, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5620234722483810716, guid: 2e1402c9f36eee74c80d4bd867596be1, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2777,11 +2777,11 @@ RectTransform:
   - {fileID: 655896648}
   - {fileID: 1843981735}
   - {fileID: 2122663865}
-  - {fileID: 1956376248}
   - {fileID: 2009347022}
   - {fileID: 558838326}
   - {fileID: 20225845}
   - {fileID: 1085620280}
+  - {fileID: 1956376248}
   - {fileID: 435112384}
   m_Father: {fileID: 1546004489}
   m_RootOrder: 1
@@ -3881,7 +3881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1546004489
 Transform:
   m_ObjectHideFlags: 0
@@ -105187,7 +105187,7 @@ RectTransform:
   - {fileID: 1245549835}
   - {fileID: 479095561}
   m_Father: {fileID: 1192577597}
-  m_RootOrder: 3
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -105295,7 +105295,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1192577597}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -105549,7 +105549,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5620234722483810716, guid: 2e1402c9f36eee74c80d4bd867596be1, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5620234722483810716, guid: 2e1402c9f36eee74c80d4bd867596be1, type: 3}
       propertyPath: m_AnchorMax.x
