@@ -90,6 +90,11 @@ public class GameController : MonoBehaviour
         worldCamera.gameObject.SetActive(true);
     }
 
+    public void ChangeTab()
+    {
+        Debug.Log("Change to tab 2");
+    }
+
     private void Update()
     {
         if (state == GameState.FreeRoam) //While we are in the overworld, we use our PlayerController script
