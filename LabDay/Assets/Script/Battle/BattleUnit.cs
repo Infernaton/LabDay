@@ -98,4 +98,13 @@ public class BattleUnit : MonoBehaviour
         sequence.Append(image.transform.DOLocalMoveY(originalPos.y - 150f, 0.5f)); //Taking the sprite down first
         sequence.Join(image.DOFade(0f, 0.5f)); //Join is for this animation playing WHILE the other one is playing (set the Alpha to 0, in 0.5 seconds)
     }
+
+    public IEnumerator PlayCaptureAnimation()
+    {
+        var captureSequence = DOTween.Sequence();
+        captureSequence.Append(image.DOFade(0, 0.5f)); //Fade the sprite
+        captureSequence.Join(transform.DOMoveY(originalPos.y - 50f, 0.5f)); //Move Up the sprite in the same time
+        captureSequence.Join(transform.DOScale(new Vector3(0.3f, 0.3f, 1f), 0.5f));//Reduce the sprite
+        yield return captureSequence.WaitForCompletion();
+    }
 }
