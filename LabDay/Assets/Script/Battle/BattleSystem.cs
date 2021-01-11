@@ -645,7 +645,12 @@ public class BattleSystem : MonoBehaviour
         //Animations
         yield return pokeball.transform.DOJump(enemyUnit.transform.position + new Vector3(0, 2), 2f, 1, 1f).WaitForCompletion(); //DOJump will make it look like a jump. Vector2(0, 2) is ti get a bit above the target pos
         yield return enemyUnit.PlayCaptureAnimation(); //Call the animation to make the pokemon go into the ball
-        //yield return pokeball.transform.DOMoveY(pokeball.transform.position.y - 1, 0.5f).WaitForCompletion(); //The ball fall on the ground
-    }
+        yield return pokeball.transform.DOMoveY(-3.5f, 0.5f).WaitForCompletion(); //The ball fall on the ground
 
+        for (int i=0; i<3; ++i) //Shake it 3 times
+        {
+            yield return new WaitForSeconds(0.5f);
+            yield return pokeball.transform.DOPunchRotation(new Vector3(0, 0, 10f), 0.8f).WaitForCompletion();
+        }
+    }
 }

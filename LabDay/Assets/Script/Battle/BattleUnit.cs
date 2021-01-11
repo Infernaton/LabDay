@@ -103,7 +103,7 @@ public class BattleUnit : MonoBehaviour
     {
         var captureSequence = DOTween.Sequence();
         captureSequence.Append(image.DOFade(0, 0.5f)); //Fade the sprite
-        captureSequence.Join(transform.DOMoveY(originalPos.y - 50f, 0.5f)); //Move Up the sprite in the same time
+        captureSequence.Join(transform.DOLocalMoveY(originalPos.y + 50f, 0.5f)); //Move Up the sprite in the same time
         captureSequence.Join(transform.DOScale(new Vector3(0.3f, 0.3f, 1f), 0.5f));//Reduce the sprite
         yield return captureSequence.WaitForCompletion();
     }
