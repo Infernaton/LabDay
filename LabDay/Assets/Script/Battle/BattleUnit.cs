@@ -107,4 +107,12 @@ public class BattleUnit : MonoBehaviour
         captureSequence.Join(transform.DOScale(new Vector3(0.3f, 0.3f, 1f), 0.5f));//Reduce the sprite
         yield return captureSequence.WaitForCompletion();
     }
+    public IEnumerator PlayBreakOutAnimation() //Animation when the pokemon was not caught
+    {
+        var breakCaptureSequence = DOTween.Sequence();
+        breakCaptureSequence.Append(image.DOFade(1, 0.3f)); //Fade in the sprite
+        breakCaptureSequence.Join(transform.DOLocalMoveY(originalPos.y, 0.3f)); //Move back the sprite in the same time, at it's original pos
+        breakCaptureSequence.Join(transform.DOScale(new Vector3(1f, 1f, 1f), 0.5f));//Give it's size back
+        yield return breakCaptureSequence.WaitForCompletion();
+    }
 }

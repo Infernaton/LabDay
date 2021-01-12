@@ -647,10 +647,57 @@ public class BattleSystem : MonoBehaviour
         yield return enemyUnit.PlayCaptureAnimation(); //Call the animation to make the pokemon go into the ball
         yield return pokeball.transform.DOMoveY(-3.5f, 0.5f).WaitForCompletion(); //The ball fall on the ground
 
-        for (int i=0; i<3; ++i) //Shake it 3 times
+        int shakeCount = TryToCatchPokemon(enemyUnit.Pokemon); //Int to know how many times we need to shake
+
+        for (int i=0; i<Mathf.Min(shakeCount, 3); ++i) //Shake it "shakeCount" times, maximum 3 times
         {
             yield return new WaitForSeconds(0.5f);
             yield return pokeball.transform.DOPunchRotation(new Vector3(0, 0, 10f), 0.8f).WaitForCompletion();
         }
+
+        if (shakeCount == 4)
+        {
+            //Pokemon is caught
+            yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.name} was caught!"); //Display a message
+            yield return pokeball.DOFade(0, 1.5f).WaitForCompletion(); //Fade out the ball
+
+            Destroy(pokeball); //Destroy the ball
+            BattleOver(true); //End the battle
+        }
+        else
+        {
+            //Pokemon broke out
+            yield return new WaitForSeconds(1f);
+            pokeball.DOFade(0, 0.2f).WaitForCompletion(); //Destroy the ball
+            yield return enemyUnit.PlayBreakOutAnimation(); //Play the animation in reverse
+
+            if (shakeCount < 2) //Show a dialog based on the shake count
+                yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} broke free..");
+            else
+                yield return dialogBox.TypeDialog($"Almost got it!");
+            Destroy(pokeball);
+            state = BattleState.RunningTurn;
+        }
+    }
+    int TryToCatchPokemon (Pokemon pokemon) //Number of shake the ball will do, and know if the pokemon is captured or not
+    {
+        //a is a value we'll use in the calculation of the number of shake the ball have to do
+        float a = (3 * pokemon.MaxHp - 2 * pokemon.HP) * pokemon.Base.CatchRate * ConditionsDB.GetStatusBonus(pokemon.Status) / (3 * pokemon.MaxHp);
+
+        if (a >= 255) //If a is enough (the pokemon already has 255, or by the calculus it's up to this value
+            return 4;
+
+        float b = 1048560 / Mathf.Sqrt(Mathf.Sqrt(16711680 / a)); //We'll use be to determine how many counts we have to do
+
+        int shakeCount = 0;
+        while (shakeCount < 4)
+        {
+            if (UnityEngine.Random.Range(0, 65535) >= b)
+                break;
+
+            ++shakeCount;
+        }
+
+        return shakeCount;
     }
 }
