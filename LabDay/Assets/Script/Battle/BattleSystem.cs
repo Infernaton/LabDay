@@ -201,6 +201,12 @@ public class BattleSystem : MonoBehaviour
                 state = BattleState.Busy; //Set to busy
                 yield return SwitchPokemon(selectedPokemon); //Call the coroutine
             }
+            else if (playerAction == BattleActions.UseItem)
+            {
+                //For now just call the throw ball, later we'll just open the bag
+                dialogBox.EnableActionSelector(false); //Disable action selector
+                yield return ThrowPokeball(); //Then trow the ball
+            }
 
             //Once the player switched, the enemy get the turn
             var enemyMove = enemyUnit.Pokemon.GetRandomMove();
@@ -424,9 +430,6 @@ public class BattleSystem : MonoBehaviour
         {
             HandleAboutSelection();
         }
-
-        if (Input.GetKeyDown(KeyCode.T))
-            StartCoroutine(ThrowPokeball());
     }
 
     void HandleActionSelection()
@@ -441,6 +444,7 @@ public class BattleSystem : MonoBehaviour
             currentAction -= 2;
 
         currentAction = Mathf.Clamp(currentAction, 0, 3); //Since we have 4 actions we want to loop throught each one of them and not going beyond 3
+        //0 is Fight, 1 is Bag, 2 is party, 3 is Run
 
         dialogBox.UpdateActionSelection(currentAction);
 
@@ -448,12 +452,13 @@ public class BattleSystem : MonoBehaviour
         {
             if (currentAction == 0)
             {
-                //Fight*
+                //Fight
                 MoveSelection();
             }
             else if (currentAction == 1)
             {
                 //Bag
+                StartCoroutine(RunTurns(BattleActions.UseItem));
             }
             else if (currentAction == 2)
             {
@@ -637,6 +642,13 @@ public class BattleSystem : MonoBehaviour
     {
         state = BattleState.Busy;
 
+        if (isTrainerBattle)
+        {
+            yield return dialogBox.TypeDialog($"You can't steal the trainer's pokemon"); //Display a message
+            state = BattleState.RunningTurn;
+            yield break;
+        }
+
         yield return dialogBox.TypeDialog($"{player.Name} used a Pokeball");
 
         var pokeballObject = Instantiate(pokeballSprite, playerUnit.transform.position - new Vector3(2, 0), Quaternion.identity); //This will "create" the pokeball, using the prefab
@@ -660,6 +672,9 @@ public class BattleSystem : MonoBehaviour
             //Pokemon is caught
             yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.name} was caught!"); //Display a message
             yield return pokeball.DOFade(0, 1.5f).WaitForCompletion(); //Fade out the ball
+
+            playerParty.AddPokemon(enemyUnit.Pokemon); //Add the pokemon to the party
+            yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.name} has been added to you party."); //Display a message
 
             Destroy(pokeball); //Destroy the ball
             BattleOver(true); //End the battle

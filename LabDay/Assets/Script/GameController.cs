@@ -56,7 +56,9 @@ public class GameController : MonoBehaviour
         var playerParty = playerController.GetComponent<PokemonParty>(); //Store our party in a var
         var wildPokemon = FindObjectOfType<MapArea>().GetComponent<MapArea>().GetRandomWildPokemon(); //Store a random wild pokemon FROM our map area in a var
 
-        battleSystem.StartBattle(playerParty, wildPokemon); //Call our StartBattle, so every fight are not the same
+        var wildPokemonCopy = new Pokemon(wildPokemon.Base, wildPokemon.Level); //Create a copy of the pokemon in the case the player want to catch it
+
+        battleSystem.StartBattle(playerParty, wildPokemonCopy); //Call our StartBattle, so every fight are not the same
     }
 
     TrainerController trainer; //Reference the trainer

@@ -12,6 +12,14 @@ public class Pokemon
     [SerializeField] PokemonBase _base; //Setting a serialized field of it to acces it in unity
     [SerializeField] int level;
 
+    public Pokemon(PokemonBase pBAse, int pLevel) //Create an instance of the pokemon, moslty use with wild pokemon, to catch a copy of the wild pokemon, and not THE pokemon itself
+    {
+        _base = pBAse;
+        level = pLevel;
+
+        Init();
+    }
+
     public PokemonBase Base //we call this variable Name bc we use it as a property. This variable is going to use the base data
     {
         get { return _base; }
@@ -34,7 +42,7 @@ public class Pokemon
     public Condition VolatileStatus { get; private set; } //These are the volatile status like confusion, love..
     public int VolatileStatusTime { get; set; }
 
-    public Queue<string> StatusChanges { get; private set; } = new Queue<string>(); //Queue is used to store a list of strings we can take out and they'll be in the order we added them, so it'll be easier
+    public Queue<string> StatusChanges { get; private set; } //Queue is used to store a list of strings we can take out and they'll be in the order we added them, so it'll be easier
     public bool HpChanged { get; set; }
 
     public event System.Action OnStatusChanged; //Track our status condition
@@ -55,8 +63,12 @@ public class Pokemon
         }
 
         CalculateStats(); //Calling function to get the stats
-
         HP = MaxHp;
+
+        StatusChanges = new Queue<string>();
+        ResetStatBoost();
+        Status = null;
+        VolatileStatus = null;
     }
 
     void CalculateStats() //Function to calculate stats at a specific level

@@ -24,4 +24,16 @@ public class PokemonParty : MonoBehaviour
     {
         return pokemons.Where(x => x.HP > 0).FirstOrDefault(); //Where loops throught all our pokemons in order, and when the condition is clear, returns the first not fainted
     }
+
+    public void AddPokemon(Pokemon newPokemon) //Call this when catching a pokemon
+    {
+        if (pokemons.Count < 6) //Only happen if th player has less than 6 pokemons
+        {
+            pokemons.Add(newPokemon);
+        }
+        else
+        {
+            //TODO : ADd to the Pc
+        }
+    }
 }
