@@ -38,6 +38,7 @@ public class BattleSystem : MonoBehaviour
     bool isTrainerBattle = false; //Bool we use to check what kind of battle it is
     PlayerController player;
     TrainerController trainer;
+    int escapeAttempts; //Int to keep track of how many times the player tried to escape
 
     //We want to setup everything at the very first frame of the battle
     public void StartBattle(PokemonParty playerParty, Pokemon wildPokemon)
@@ -111,7 +112,7 @@ public class BattleSystem : MonoBehaviour
             yield return dialogBox.TypeDialog($"Go {playerPokemon.Base.Name}! ");
             dialogBox.SetMoveNames(playerUnit.Pokemon.Moves); //Enable the moves, and set the right names
         }
-
+        escapeAttempts = 0; //Set escape attemp to 0, we'll use it in tryToEscape
         partyScreen.Init();
         //This is the function where the player choose a specific action
         ActionSelection();
@@ -206,6 +207,10 @@ public class BattleSystem : MonoBehaviour
                 //For now just call the throw ball, later we'll just open the bag
                 dialogBox.EnableActionSelector(false); //Disable action selector
                 yield return ThrowPokeball(); //Then trow the ball
+            }
+            else if (playerAction == BattleActions.Run)
+            {
+                yield return TryToEscape(); //Call the coroutine
             }
 
             //Once the player switched, the enemy get the turn
@@ -469,6 +474,7 @@ public class BattleSystem : MonoBehaviour
             else if (currentAction == 3)
             {
                 //Run
+                StartCoroutine(RunTurns(BattleActions.Run));
             }
         }
     }
@@ -714,5 +720,44 @@ public class BattleSystem : MonoBehaviour
         }
 
         return shakeCount;
+    }
+
+    IEnumerator TryToEscape() //Call this when trying to escape a battle
+    {
+        state = BattleState.Busy;
+
+        if (isTrainerBattle) //Can not espace a trainer battle
+        {
+            yield return dialogBox.TypeDialog($"You can not run out of a trainer battle"); //Display a message
+            state = BattleState.RunningTurn; //Set back the state
+            yield break; //Get out of this function
+        }
+
+        ++escapeAttempts; //Increase this value by 1 every time the player try to escape
+
+        int playerSpeed = playerUnit.Pokemon.Speed; //Check for both speed
+        int enemySpeed = enemyUnit.Pokemon.Speed;
+
+        if (enemySpeed < playerSpeed) //If player is faster, got away safely
+        {
+            yield return dialogBox.TypeDialog($"Ran away safely");
+            BattleOver(true);
+        }
+        else //Else calucate the luck to get away, or lose a turn
+        {
+            float f = (playerSpeed * 128) / enemySpeed + 30 * escapeAttempts; //Actual formula used in games
+            f = f % 256;
+
+            if (UnityEngine.Random.Range(0, 256) < f)
+            {
+                yield return dialogBox.TypeDialog($"Ran away safely");
+                BattleOver(true);
+            }
+            else
+            {
+                yield return dialogBox.TypeDialog($"You failed to escape, the creature run after you");
+                state = BattleState.RunningTurn; //If the player did not got awya, it has lost a turn
+            }
+        }
     }
 }
