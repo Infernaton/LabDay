@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
         {
             if (UnityEngine.Random.Range(1, 101) <= 10) //If, within a range of 1 to 100, we hit below 10 (10% chances), we will encounter a creature
             {
-                background.mute = true;
+                background.Stop();
                 Debug.Log("Mute music");
                 introTallGrass.Play();
                 character.Animator.IsMoving = false; //Set it to false when a battle appear
