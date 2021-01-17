@@ -13,10 +13,11 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 input; // For getting the Input
 
-    public GameObject Player;
-
     private Character character;
-    private AudioSource myAudio;
+
+    private AudioSource[] myAudio;
+    private AudioSource background;
+    private AudioSource introTallGrass;
 
     //With this void Awake, we set the Animator so it plays the animation of the direction the player asked
     private void Awake()
@@ -25,7 +26,9 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
-        myAudio = character.transform.GetChild(0).GetComponent<AudioSource>();
+        myAudio = character.transform.GetChild(0).GetComponents<AudioSource>();
+        background = myAudio[0];
+        introTallGrass = myAudio[1];
     }
 
     public void HandleUpdate()
@@ -80,8 +83,9 @@ public class PlayerController : MonoBehaviour
         {
             if (UnityEngine.Random.Range(1, 101) <= 10) //If, within a range of 1 to 100, we hit below 10 (10% chances), we will encounter a creature
             {
-                myAudio.mute = true;
+                background.mute = true;
                 Debug.Log("Mute music");
+                introTallGrass.Play();
                 character.Animator.IsMoving = false; //Set it to false when a battle appear
                 OnEncountered();//We call our BattleSystem by changing the GameState to battle
             }

@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
     //Change our battle state, camera active, and gameobject of the Battle System
     void StartBattle()
     {
-        if (frame < 2000)
+        if (frame < 2100)
         {
             state = GameState.Cutscene;
             StartCoroutine(Example());
@@ -76,7 +76,7 @@ public class GameController : MonoBehaviour
     IEnumerator Example()
     {
         Debug.Log("you will wait...");
-        yield return new WaitUntil(() => frame == 2000);
+        yield return new WaitUntil(() => frame == 2100);
         Debug.Log("... until that append.");
         StartBattle();
     }
@@ -116,7 +116,7 @@ public class GameController : MonoBehaviour
     {
         if (state == GameState.Cutscene)
         {
-            if (frame <= 2000)
+            if (frame <= 5000)
             {
                 frame++;
             }
