@@ -13,12 +13,19 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 input; // For getting the Input
 
+    public GameObject Player;
+
     private Character character;
+    private AudioSource myAudio;
 
     //With this void Awake, we set the Animator so it plays the animation of the direction the player asked
     private void Awake()
     {
         character = GetComponent<Character>(); //Set the character object
+    }
+    private void Start()
+    {
+        myAudio = character.transform.GetChild(0).GetComponent<AudioSource>();
     }
 
     public void HandleUpdate()
@@ -73,6 +80,8 @@ public class PlayerController : MonoBehaviour
         {
             if (UnityEngine.Random.Range(1, 101) <= 10) //If, within a range of 1 to 100, we hit below 10 (10% chances), we will encounter a creature
             {
+                myAudio.mute = true;
+                Debug.Log("Mute music");
                 character.Animator.IsMoving = false; //Set it to false when a battle appear
                 OnEncountered();//We call our BattleSystem by changing the GameState to battle
             }

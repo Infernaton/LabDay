@@ -14,6 +14,8 @@ public class GameController : MonoBehaviour
 
     public static GameController Instance { get; private set; } //Get reference from the game controller anywhere we want
 
+    public int frame;
+
     private void Awake()
     {
         Instance = this;
@@ -50,16 +52,33 @@ public class GameController : MonoBehaviour
     //Change our battle state, camera active, and gameobject of the Battle System
     void StartBattle()
     {
-        state = GameState.Battle;
-        battleSystem.gameObject.SetActive(true);
-        worldCamera.gameObject.SetActive(false);
+        if (frame < 2000)
+        {
+            state = GameState.Cutscene;
+            StartCoroutine(Example());
+        }
+        else
+        {
+            Debug.Log("Start Combat");
+            state = GameState.Battle;
+            battleSystem.gameObject.SetActive(true);
+            worldCamera.gameObject.SetActive(false);
 
-        var playerParty = playerController.GetComponent<PokemonParty>(); //Store our party in a var
-        var wildPokemon = FindObjectOfType<MapArea>().GetComponent<MapArea>().GetRandomWildPokemon(); //Store a random wild pokemon FROM our map area in a var
+            var playerParty = playerController.GetComponent<PokemonParty>(); //Store our party in a var
+            var wildPokemon = FindObjectOfType<MapArea>().GetComponent<MapArea>().GetRandomWildPokemon(); //Store a random wild pokemon FROM our map area in a var
 
-        var wildPokemonCopy = new Pokemon(wildPokemon.Base, wildPokemon.Level); //Create a copy of the pokemon in the case the player want to catch it
+            var wildPokemonCopy = new Pokemon(wildPokemon.Base, wildPokemon.Level); //Create a copy of the pokemon in the case the player want to catch it
 
-        battleSystem.StartBattle(playerParty, wildPokemonCopy); //Call our StartBattle, so every fight are not the same
+            battleSystem.StartBattle(playerParty, wildPokemonCopy);   //Call our StartBattle, so every fight are not the same
+        }
+    }
+
+    IEnumerator Example()
+    {
+        Debug.Log("you will wait...");
+        yield return new WaitUntil(() => frame == 2000);
+        Debug.Log("... until that append.");
+        StartBattle();
     }
 
     TrainerController trainer; //Reference the trainer
@@ -95,6 +114,13 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
+        if (state == GameState.Cutscene)
+        {
+            if (frame <= 2000)
+            {
+                frame++;
+            }
+        }
         if (state == GameState.FreeRoam) //While we are in the overworld, we use our PlayerController script
         {
             playerController.HandleUpdate();
