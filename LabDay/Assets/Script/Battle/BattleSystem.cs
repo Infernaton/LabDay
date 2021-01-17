@@ -271,14 +271,7 @@ public class BattleSystem : MonoBehaviour
             //If a pokemon died, we display a message, then check if the battle is over or not
             if (targetUnit.Pokemon.HP <= 0) //Since with status move the pokemon can faint at mostly any moment, we don't check DamageDetails.fainted
             {
-                if (targetUnit == enemyUnit)
-                    yield return dialogBox.TypeDialog($"{targetUnit.Pokemon.Base.Name} enemy fainted");
-                else
-                    yield return dialogBox.TypeDialog($"Your {targetUnit.Pokemon.Base.Name} fainted");
-                targetUnit.PlayFaintAnimation();
-                yield return new WaitForSeconds(2f);
-
-                CheckForBattleOver(targetUnit);
+                yield return HandlePokemonFainted(targetUnit);
             }
         }
 
@@ -326,14 +319,7 @@ public class BattleSystem : MonoBehaviour
 
         if (sourceUnit.Pokemon.HP <= 0) //Check again bc the pokemon could have fainted due to poison or burn
         {
-            if (sourceUnit == enemyUnit)
-                yield return dialogBox.TypeDialog($"{sourceUnit.Pokemon.Base.Name} enemy fainted");
-            else
-                yield return dialogBox.TypeDialog($"Your {sourceUnit.Pokemon.Base.Name} fainted");
-            sourceUnit.PlayFaintAnimation();
-            yield return new WaitForSeconds(2f);
-
-            CheckForBattleOver(sourceUnit);
+            yield return HandlePokemonFainted(sourceUnit);
             yield return new WaitUntil(() => state == BattleState.RunningTurn); //Wait until the state come back to running turn
 
         }
@@ -373,6 +359,30 @@ public class BattleSystem : MonoBehaviour
             var message = pokemon.StatusChanges.Dequeue();
             yield return dialogBox.TypeDialog(message);
         }
+    }
+
+    IEnumerator HandlePokemonFainted(BattleUnit faintedUnit) //Function to handle death of a pokemon, and make it easier to re use it
+    {
+        if (!faintedUnit.IsPlayerUnit) //Check a first time for the message
+            yield return dialogBox.TypeDialog($"{faintedUnit.Pokemon.Base.Name} enemy fainted");
+        else
+            yield return dialogBox.TypeDialog($"Your {faintedUnit.Pokemon.Base.Name} fainted");
+        faintedUnit.PlayFaintAnimation();
+        yield return new WaitForSeconds(2f);
+
+        //Recheck for the exp logic
+        if (!faintedUnit.IsPlayerUnit)
+        {
+            //Exp Gain
+            int expYield = faintedUnit.Pokemon.Base.ExpYield;
+            int enemyLevel = faintedUnit.Pokemon.Level;
+            float trainerBonus = (isTrainerBattle) ? 1.5f : 1f;
+
+            int expGain = Mathf.FloorToInt(expYield * enemyLevel * trainerBonus) / 7; //Formula to get the exp gain
+            //Check lvl up
+        }
+
+        CheckForBattleOver(faintedUnit);
     }
 
     void CheckForBattleOver(BattleUnit faintedUnit) //Logic to know if the fainted pokemon is the player's one or the enemy one, and so if the battle is over or not

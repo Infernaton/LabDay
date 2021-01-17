@@ -29,6 +29,8 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
     [SerializeField] int spDefense;
     [SerializeField] int speed;
 
+    [SerializeField] int expYield; //Int to know how much xp a pokemon is gonna get from winning against this pokemon
+
     [SerializeField] int catchRate = 255; //int we'll use in the catching algorithm. The higher the catchRate, the easier it will be caught. Max value is 255
 
     [SerializeField] List<LearnableMoves> learnableMoves;
@@ -93,6 +95,7 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
         get { return learnableMoves; }
     }
     public int CatchRate => catchRate; //Just learned a new way of writing a property
+    public int ExpYield => expYield;
 }
 
 //Here we set the moves a pokemon can learn
