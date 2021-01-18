@@ -29,6 +29,8 @@ public class Pokemon
         get { return level; }
     }
 
+    public int Exp { get; set; }
+
     public int HP { get; set; }
 
     public List<Move> Moves { get; set; } //This is a reference to the List of move the pokemon will have in game
@@ -62,11 +64,13 @@ public class Pokemon
                 break;
         }
 
+        Exp = Base.GetExpForLevel(Level);
+
         CalculateStats(); //Calling function to get the stats
         HP = MaxHp;
 
         StatusChanges = new Queue<string>();
-        ResetStatBoost();
+        ResetStatBoost(); 
         Status = null;
         VolatileStatus = null;
     }

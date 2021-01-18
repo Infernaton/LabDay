@@ -30,10 +30,25 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
     [SerializeField] int speed;
 
     [SerializeField] int expYield; //Int to know how much xp a pokemon is gonna get from winning against this pokemon
+    [SerializeField] GrowthRate growthRate;
 
     [SerializeField] int catchRate = 255; //int we'll use in the catching algorithm. The higher the catchRate, the easier it will be caught. Max value is 255
 
     [SerializeField] List<LearnableMoves> learnableMoves;
+
+    public int GetExpForLevel(int level) //Function to get the xp needed to level up
+    {
+        if (growthRate == GrowthRate.Fast) //Different values for different growth rate
+        {
+            return 4 * (level * level * level) / 5;
+        }
+        else if (growthRate == GrowthRate.MediumFast)
+        {
+            return level * level * level;
+        }
+
+        return -1;
+    }
 
     //Here we'll use Properties instead of Functions so it will not look like
     // public string GetName()
@@ -96,6 +111,8 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
     }
     public int CatchRate => catchRate; //Just learned a new way of writing a property
     public int ExpYield => expYield;
+    public GrowthRate GrowthRate => growthRate;
+
 }
 
 //Here we set the moves a pokemon can learn
@@ -137,6 +154,11 @@ public enum PokemonType //Using an enum to acces all the pokemon types easily
     Rock,
     Steel,
     Water,
+}
+
+public enum GrowthRate //We use these var to know how much xp a pokemon will need to get to next lvl
+{
+    Fast, MediumFast
 }
 
 //We'll use this in a Dictionnary to get the stat at any given level
