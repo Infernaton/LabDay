@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
     {
         CheckForEncounter();
         CheckIfInTrainersView();
+        CheckIfChangeScene();
     }
 
     //Function to know if the player walk on a grass tile
@@ -100,10 +101,15 @@ public class PlayerController : MonoBehaviour
             OnEnterTrainersView?.Invoke(collider); //Call the trainer battle when the player collide with the field of view
         }
     }
-    /*private void CheckIfChangeScene()
+
+    private void CheckIfChangeScene()
     {
-        var collider = Physics2D.OverlapCircle(transform.position,0.2f, GameLayers.i.)
-    }*/
+        var colliderScn = Physics2D.OverlapCircle(transform.position, 0.2f, GameLayers.i.ChangeScene);
+        if (colliderScn != null)
+        {
+            Debug.Log("ChgScene !!");
+        }
+    }
 
     //Properties to expose names and sprites
     public string Name

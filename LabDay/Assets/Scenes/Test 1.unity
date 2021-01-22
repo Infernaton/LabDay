@@ -2579,7 +2579,7 @@ GameObject:
   m_Component:
   - component: {fileID: 988435278}
   - component: {fileID: 988435277}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: ChangerCollider
   m_TagString: Untagged
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
@@ -2936,7 +2936,6 @@ MonoBehaviour:
   playerController: {fileID: 900875529}
   battleSystem: {fileID: 1546004490}
   worldCamera: {fileID: 830219081}
-  frame: 0
 --- !u!4 &1095657797
 Transform:
   m_ObjectHideFlags: 0
@@ -2993,9 +2992,9 @@ MonoBehaviour:
   fovLayer:
     serializedVersion: 2
     m_Bits: 4096
-  chgScene:
+  changeScene:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8192
 --- !u!1 &1192577596
 GameObject:
   m_ObjectHideFlags: 0

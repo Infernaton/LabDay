@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
 
     public static GameController Instance { get; private set; } //Get reference from the game controller anywhere we want
 
-    public int frame;
+    private int frame;
 
     private void Awake()
     {
