@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; //We use this library bc we actually work with UI
@@ -9,6 +10,7 @@ public class BattleHud : MonoBehaviour
     [SerializeField] Text levelText;
     [SerializeField] Text statusText;
     [SerializeField] HPBar hpBar;
+    [SerializeField] GameObject expBar;
 
     //Set all the text colors we'll use
     [SerializeField] Color psnColor;
@@ -29,6 +31,7 @@ public class BattleHud : MonoBehaviour
         nameText.text = pokemon.Base.Name;
         levelText.text = "Lvl " + pokemon.Level;
         hpBar.SetHP((float) pokemon.HP / pokemon.MaxHp );
+        SetExp();
 
         statusColors = new Dictionary<ConditionID, Color>() //Initialize the dictionnary
         {
@@ -52,6 +55,32 @@ public class BattleHud : MonoBehaviour
             statusText.text = _pokemon.Status.Id.ToString().ToUpper(); //call the ID of the status, to know what we should print in the StatusText, and convert it to string
             statusText.color = statusColors[_pokemon.Status.Id]; //Set the color of the text from our dictionnary
         }
+    }
+
+    public void SetExp() //Set the xp bar
+    {
+        if (expBar == null) return; //Make sure only the player hud has an Exp Bar
+
+        float normalizedExp = GetNormalizedExp();
+        expBar.transform.localScale = new Vector3(normalizedExp, 1, 1);
+    }
+
+    public IEnumerator SetExpSmooth() //Set the xp bar smoothly when a pokemon gain xp
+    {
+        if (expBar == null) yield break; //Make sure only the player hud has an Exp Bar
+
+        float normalizedExp = GetNormalizedExp();
+        yield return expBar.transform.DOScaleX(normalizedExp, 1f).WaitForCompletion(); //Use DotWeen to make it look good
+    }
+
+    //Calculate the normalize exp, to make it fit in the xp bar (It has to be between 0 and 1, for the scale)
+    float GetNormalizedExp()
+    {
+        int currLevelExp = _pokemon.Base.GetExpForLevel(_pokemon.Level);
+        int nextLevelExp = _pokemon.Base.GetExpForLevel(_pokemon.Level + 1);
+
+        float normalizedExp = (float)(_pokemon.Exp - currLevelExp) / (nextLevelExp - currLevelExp); //Formula to normalize the current exp
+        return Mathf.Clamp01(normalizedExp);
     }
 
     //We use coroutine here to set the Hp after a hit was taken

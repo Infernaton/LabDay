@@ -381,7 +381,11 @@ public class BattleSystem : MonoBehaviour
             int expGain = Mathf.FloorToInt(expYield * enemyLevel * trainerBonus) / 7; //Formula to get the exp gain
             playerUnit.Pokemon.Exp += expGain;
             yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} gained {expGain} exp.");
+
+            yield return playerUnit.Hud.SetExpSmooth(); //Scale the exp bar smoothly
+
             //Check lvl up
+
         }
 
         CheckForBattleOver(faintedUnit);
