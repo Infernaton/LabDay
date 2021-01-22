@@ -100,6 +100,10 @@ public class PlayerController : MonoBehaviour
             OnEnterTrainersView?.Invoke(collider); //Call the trainer battle when the player collide with the field of view
         }
     }
+    /*private void CheckIfChangeScene()
+    {
+        var collider = Physics2D.OverlapCircle(transform.position,0.2f, GameLayers.i.)
+    }*/
 
     //Properties to expose names and sprites
     public string Name
