@@ -2611,7 +2611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemons:
   - _base: {fileID: 11400000, guid: d441cf756e97db94bbb55b357f6046bc, type: 2}
-    level: 6
+    level: 13
   - _base: {fileID: 11400000, guid: b62318bbe804d234fbfd113b4a766cf9, type: 2}
     level: 3
   - _base: {fileID: 11400000, guid: 1d588af9d42112640892b10202f72f58, type: 2}
@@ -3065,7 +3065,6 @@ MonoBehaviour:
   playerController: {fileID: 900875529}
   battleSystem: {fileID: 1546004490}
   worldCamera: {fileID: 830219081}
-  frame: 0
 --- !u!4 &1095657797
 Transform:
   m_ObjectHideFlags: 0
@@ -3122,7 +3121,7 @@ MonoBehaviour:
   fovLayer:
     serializedVersion: 2
     m_Bits: 4096
-  chgScene:
+  changeScene:
     serializedVersion: 2
     m_Bits: 0
 --- !u!1 &1192577596

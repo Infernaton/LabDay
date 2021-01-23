@@ -142,6 +142,18 @@ public class Pokemon
         }
     }
 
+    public bool CheckForLevelUp() //Bool to know if the pokemon level up
+    {
+        //Return true if the pkmn lvl up
+        if (Exp > Base.GetExpForLevel(level + 1)) //If the actual xp is greater than the exp needed, level up
+        {
+            ++level; //Increase by 1 the lvl
+            return true;
+        }
+
+        return false;
+    }
+
     public int Attack
     {
         //Calling the function to get the actual stat

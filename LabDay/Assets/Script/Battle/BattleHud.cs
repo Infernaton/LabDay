@@ -29,7 +29,7 @@ public class BattleHud : MonoBehaviour
         _pokemon = pokemon;
 
         nameText.text = pokemon.Base.Name;
-        levelText.text = "Lvl " + pokemon.Level;
+        SetLevel();
         hpBar.SetHP((float) pokemon.HP / pokemon.MaxHp );
         SetExp();
 
@@ -57,6 +57,11 @@ public class BattleHud : MonoBehaviour
         }
     }
 
+    public void SetLevel() //Set the lvl in a function that we can call on a lvl up
+    {
+        levelText.text = "Lvl " + _pokemon.Level;
+    }
+
     public void SetExp() //Set the xp bar
     {
         if (expBar == null) return; //Make sure only the player hud has an Exp Bar
@@ -65,9 +70,12 @@ public class BattleHud : MonoBehaviour
         expBar.transform.localScale = new Vector3(normalizedExp, 1, 1);
     }
 
-    public IEnumerator SetExpSmooth() //Set the xp bar smoothly when a pokemon gain xp
+    public IEnumerator SetExpSmooth(bool reset=false) //Set the xp bar smoothly when a pokemon gain xp. Take a bool as parameter to know if we need to reset the exp bar
     {
         if (expBar == null) yield break; //Make sure only the player hud has an Exp Bar
+
+        if (reset == true)
+            expBar.transform.localScale = new Vector3(0, 1, 1);
 
         float normalizedExp = GetNormalizedExp();
         yield return expBar.transform.DOScaleX(normalizedExp, 1f).WaitForCompletion(); //Use DotWeen to make it look good
