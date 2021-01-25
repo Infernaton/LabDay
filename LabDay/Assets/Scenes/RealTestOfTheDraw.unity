@@ -2741,7 +2741,7 @@ MonoBehaviour:
   fovLayer:
     serializedVersion: 2
     m_Bits: 4096
-  chgScene:
+  changeScene:
     serializedVersion: 2
     m_Bits: 0
 --- !u!1 &1192577596
@@ -3881,7 +3881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1546004489
 Transform:
   m_ObjectHideFlags: 0
@@ -3916,6 +3916,7 @@ MonoBehaviour:
   partyScreen: {fileID: 435112383}
   playerImage: {fileID: 2009347023}
   trainerImage: {fileID: 558838327}
+  pokeballSprite: {fileID: 0}
 --- !u!1 &1555560034
 GameObject:
   m_ObjectHideFlags: 0
