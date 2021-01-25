@@ -385,7 +385,7 @@ public class BattleSystem : MonoBehaviour
             yield return playerUnit.Hud.SetExpSmooth(); //Scale the exp bar smoothly
 
             //Check lvl up
-            if (playerUnit.Pokemon.CheckForLevelUp()) //If true, lvl up
+            while (playerUnit.Pokemon.CheckForLevelUp()) //If true, lvl up, we use While if the pokemon has to lvl up mutliple times
             {
                 playerUnit.Hud.SetLevel();
                 yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} just grew up at level {playerUnit.Pokemon.Level}");

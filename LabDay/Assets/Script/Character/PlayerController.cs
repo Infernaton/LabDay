@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] string name;
     [SerializeField] Sprite sprite;
 
+    const float offsetY = 0.3f;
+
     public event Action<Collider2D> OnEnterTrainersView; //Action for entering a trainer's view, with a collider 2d as parameter to know wich trainer we saw
     public event Action OnEncountered; //Creating an action we'll cal when an encounter appears
 
@@ -80,7 +82,7 @@ public class PlayerController : MonoBehaviour
     //Function to know if the player walk on a grass tile
     private void CheckForEncounter()
     {
-        if (Physics2D.OverlapCircle(transform.position, 0.1f, GameLayers.i.GrassLayer) != null) //Check if there is something in a radius, in the grass layer
+        if (Physics2D.OverlapCircle(transform.position - new Vector3(0, offsetY), 0.2f, GameLayers.i.GrassLayer) != null) //Check if there is something in a radius, in the grass layer
         {
             if (UnityEngine.Random.Range(1, 101) <= 10) //If, within a range of 1 to 100, we hit below 10 (10% chances), we will encounter a creature
             {
@@ -94,7 +96,7 @@ public class PlayerController : MonoBehaviour
     }
     private void CheckIfInTrainersView()
     {
-        var collider = Physics2D.OverlapCircle(transform.position, 0.2f, GameLayers.i.FovLayer);
+        var collider = Physics2D.OverlapCircle(transform.position - new Vector3(0, offsetY), 0.2f, GameLayers.i.FovLayer);
         if (collider != null) //Same as CheckForEncounter but with trainers
         {
             character.Animator.IsMoving = false; //Set it to false when a battle appear
