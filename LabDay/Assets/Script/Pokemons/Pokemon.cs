@@ -60,7 +60,7 @@ public class Pokemon
             {
                 Moves.Add(new Move(move.Base));
             }
-            if (Moves.Count >= 4)
+            if (Moves.Count >= PokemonBase.MaxNumberOfMoves)
                 break;
         }
 
@@ -152,6 +152,19 @@ public class Pokemon
         }
 
         return false;
+    }
+
+    public LearnableMoves GetLearnableMoveAtCurrentLevel()
+    {
+        return Base.LearnableMoves.Where(x => x.Level == level).FirstOrDefault(); //Level is the current level, and level is the level needed for the move. This get the first item of the list
+    }
+
+    public void LearnMove(LearnableMoves moveToLearn) //Add a new move to the current list of moves
+    {
+        if (Moves.Count > PokemonBase.MaxNumberOfMoves)
+            return;
+        
+        Moves.Add(new Move(moveToLearn.Base)); //Add the move by creating a new instance of the move to learn
     }
 
     public int Attack

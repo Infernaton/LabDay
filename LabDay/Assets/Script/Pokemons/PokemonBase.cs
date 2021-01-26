@@ -10,7 +10,7 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
     // Inside we'll create variables to store the data of the pokemons
 
     // SerializedField is used instead of public, so we can use them in some other classes more easily, and modify them in Unity, or others scripts
-    [SerializeField]string name;
+    [SerializeField] string name;
 
     [TextArea] //This will give us some space to write a description
     [SerializeField] string description;
@@ -35,6 +35,8 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
     [SerializeField] int catchRate = 255; //int we'll use in the catching algorithm. The higher the catchRate, the easier it will be caught. Max value is 255
 
     [SerializeField] List<LearnableMoves> learnableMoves;
+
+    public static int MaxNumberOfMoves { get; set;} = 4;
 
     public int GetExpForLevel(int level) //Function to get the xp needed to level up
     {
