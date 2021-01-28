@@ -10,31 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61210d3cc0c171d4b9a4c0d84608f037, type: 3}
-  m_Name: Bulbasaure
+  m_Name: Herbillon
   m_EditorClassIdentifier: 
-  name: Bulbasaure
+  name: Herbillon
   description: 
-  frontSprite: {fileID: 21300000, guid: 0f37bf3cf5680a64d863b5f155b2a597, type: 3}
-  backSprite: {fileID: 21300000, guid: aacaae602a38f884ab9e02e43de3736d, type: 3}
+  frontSprite: {fileID: 0}
+  backSprite: {fileID: 21300000, guid: 7f55eedf666cfda4c8ee7f89c1d6e3d2, type: 3}
   type1: 10
-  type2: 14
-  maxHp: 45
-  attack: 49
-  defense: 49
-  spAttack: 65
-  spDefense: 65
-  speed: 45
-  expYield: 64
-  growthRate: 1
+  type2: 0
+  maxHp: 70
+  attack: 65
+  defense: 55
+  spAttack: 45
+  spDefense: 50
+  speed: 35
+  expYield: 60
+  growthRate: 0
   catchRate: 255
   learnableMoves:
-  - moveBase: {fileID: 11400000, guid: f55afa9ede914eb4b94e29dd8ebca402, type: 2}
+  - moveBase: {fileID: 11400000, guid: a5c95282277299f4d8effd484f783f32, type: 2}
     level: 1
-  - moveBase: {fileID: 11400000, guid: d005c2641d1fd3f45a0c27f9bc5d1759, type: 2}
+  - moveBase: {fileID: 11400000, guid: 42f810563fb316145b70430b361b7713, type: 2}
     level: 4
   - moveBase: {fileID: 11400000, guid: 9a8a8bd8be85c4441aa33f917ac1f130, type: 2}
     level: 7
   - moveBase: {fileID: 11400000, guid: e57694d768bc2f241befe92e22e21f73, type: 2}
-    level: 7
-  - moveBase: {fileID: 11400000, guid: 42f810563fb316145b70430b361b7713, type: 2}
-    level: 7
+    level: 11
