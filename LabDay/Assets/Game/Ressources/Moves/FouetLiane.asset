@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49799ef17ca61f247b0c7dbb3abe6961, type: 3}
-  m_Name: QuickAttack
+  m_Name: FouetLiane
   m_EditorClassIdentifier: 
-  name: QuickAttack
+  name: Fouet Liane
   description: 
-  type: 13
-  power: 40
+  type: 10
+  power: 45
   accuracy: 100
   alwaysHits: 0
   pp: 20
-  priority: 1
-  category: 0
+  priority: 0
+  category: 1
   effects:
     boosts: []
     status: 0
