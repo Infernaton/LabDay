@@ -807,7 +807,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: This is a test dialog.
+  m_Text: Test de dialogue
 --- !u!222 &165521791
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3440,9 +3440,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Lvl.
-
-'
+  m_Text: Niv.
 --- !u!222 &1251130969
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3574,7 +3572,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 59af58a9a07244c4396b19bbb2b08006, type: 3}
   dialog:
     lines:
-    - LOREM ISPUM SON OF A BITCH
+    - Lorem ispum ma bonne dame.
   dialogAfterBattle:
     lines:
     - Gg bro
@@ -4211,8 +4209,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialog:
     lines:
-    - Hi, have you tried walking on the long grass over here?
-    - Don't do it if you don't have any pokemon to fight with tho!
+    - Salut l'amie!
+    - "T'es all\xE9e marcher dans les hautes herbes la bas?"
   movementPattern:
   - {x: 8, y: 0}
   - {x: -4, y: 0}
@@ -4462,7 +4460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1546004489
 Transform:
   m_ObjectHideFlags: 0
@@ -6080,7 +6078,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Name
+  m_Text: Nom
 --- !u!222 &1571679304
 CanvasRenderer:
   m_ObjectHideFlags: 0

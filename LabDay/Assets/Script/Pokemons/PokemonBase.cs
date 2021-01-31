@@ -4,7 +4,7 @@ using UnityEngine;
 
 // !!! THIS SCRIPT IS THE BASE FROM ALL POKEMON, WITH STATS, TYPES, SPRITES, ETC, NOT THE ACTUAL POKEMONS !!!
 
-[CreateAssetMenu(fileName = "Pokemon", menuName = "Pokemon/Create new pokemon")] //We create a menu in Unity to acces this blueprint
+[CreateAssetMenu(fileName = "Pokemon", menuName = "Pokemon/Créer un nouveau pokemon")] //We create a menu in Unity to acces this blueprint
 public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "ScriptableObject" because we'll do some blueprints with theses datas
 {
     // Inside we'll create variables to store the data of the pokemons

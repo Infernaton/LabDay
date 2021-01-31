@@ -157,9 +157,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Lvl.
-
-'
+  m_Text: Niv.
 --- !u!1 &5620234721391491465
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +311,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Name
+  m_Text: Nom
 --- !u!1 &5620234722483810717
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +408,7 @@ MonoBehaviour:
   levelText: {fileID: 5620234721214632177}
   statusText: {fileID: 4968767856912028022}
   hpBar: {fileID: 5620234722510747492}
+  expBar: {fileID: 0}
   psnColor: {r: 0.9811321, g: 0.023139905, b: 0.7050608, a: 1}
   brnColor: {r: 0.8679245, g: 0.040794753, b: 0, a: 1}
   slpColor: {r: 0.3254717, g: 1, b: 0.7814528, a: 1}

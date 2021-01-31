@@ -22,24 +22,24 @@ public class ConditionsDB //Db stands for Database
             new Condition()
             {
                 Name = "Poison",
-                SartMessage = "has been poisoned",
+                SartMessage = "est empoisonné",
                 OnAfterTurn = (Pokemon pokemon) => //This create the function right into the Condition
                 {
                     pokemon.UpdateHP(pokemon.MaxHp / 8);
-                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} got hurt by poison");
+                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} souffre de son poison");
                 }
             }
         },
         {
-            ConditionID.brn,
+            ConditionID.brl,
             new Condition()
             {
-                Name = "Burn",
-                SartMessage = "has been burned",
+                Name = "Brûlure",
+                SartMessage = "est brûlé",
                 OnAfterTurn = (Pokemon pokemon) => //This create the function right into the Condition
                 {
                     pokemon.UpdateHP(pokemon.MaxHp / 16);
-                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} got hurt by burn");
+                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} souffre de sa brûlure");
                 }
             }
         },
@@ -47,13 +47,13 @@ public class ConditionsDB //Db stands for Database
             ConditionID.par,
             new Condition()
             {
-                Name = "Paralyzed",
-                SartMessage = "has been paralyzed",
+                Name = "Paralisé",
+                SartMessage = "est paralisé",
                 OnBeforeMove = (Pokemon pokemon) =>
                 {
                     if (Random.Range(1,5) ==1)
                     {
-                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name}'s paralyzed and can not move!");
+                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name}est paralisé et ne peux plus bouger!");
                         return false;
                     }
                     else
@@ -62,48 +62,48 @@ public class ConditionsDB //Db stands for Database
             }
         },
         {
-            ConditionID.frz, //Same logic that paralyzed, but may disappear instead of happening on 1 on 4 chance
+            ConditionID.gel, //Same logic that paralyzed, but may disappear instead of happening on 1 on 4 chance
             new Condition()
             {
-                Name = "Freeze",
-                SartMessage = "has been frozen",
+                Name = "Gel",
+                SartMessage = "est gelé",
                 OnBeforeMove = (Pokemon pokemon) =>
                 {
                     if (Random.Range(1,5) ==1)
                     {
                         pokemon.CureStatus();
-                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name}'s not frozen anymore!");
+                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} n'est plus gelé!");
                         return true;
                     }
                     else
-                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name}'is frozen and can not move!");
+                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} est bloqué dans la glace");
                         return false;
                 }
             }
         },
         {
-            ConditionID.slp, //Same logic that paralyzed, but may disappear instead of happening on 1 on 4 chance
+            ConditionID.som, //Same logic that paralyzed, but may disappear instead of happening on 1 on 4 chance
             new Condition()
             {
-                Name = "Sleep",
-                SartMessage = "has fallen asleep",
+                Name = "Endormi",
+                SartMessage = "s'est endormi",
                 OnStart = (Pokemon pokemon) => //Calling the action to determine how many number will the pokemon sleep
                 {
                     //Sleep for a random number of turns (2-3)
                     pokemon.StatusTime = Random.Range(2, 4);
-                    Debug.Log($"Will be asleep for {pokemon.StatusTime} turns");
+                    Debug.Log($"sera endormi pour {pokemon.StatusTime} tours");
                 },
                 OnBeforeMove = (Pokemon pokemon) =>
                 {
                     if (pokemon.StatusTime <= 0)
                     {
                         pokemon.CureStatus();
-                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} woke up!");
+                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} s'est réveillé!");
                         return true;
                     }
 
                     pokemon.StatusTime--;
-                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} is sleeping");
+                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} dort profondément");
                     return false;
                 }
             }
@@ -114,19 +114,19 @@ public class ConditionsDB //Db stands for Database
             new Condition()
             {
                 Name = "Confusion",
-                SartMessage = "has been confused",
+                SartMessage = "a été confus",
                 OnStart = (Pokemon pokemon) => //Calling the action to determine how many number will the pokemon be confuse
                 {
                     //Confused for a random number of turns (1-4)
                     pokemon.VolatileStatusTime = Random.Range(1, 5);
-                    Debug.Log($"Will be confused for {pokemon.VolatileStatusTime} turns");
+                    Debug.Log($"Sera confus pour {pokemon.VolatileStatusTime} tours");
                 },
                 OnBeforeMove = (Pokemon pokemon) =>
                 {
                     if (pokemon.VolatileStatusTime <= 0)
                     {
                         pokemon.CureVolatileStatus();
-                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} kicked out from confusion");
+                        pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} est sorti de sa confusion!");
                         return true;
                     }
 
@@ -138,9 +138,9 @@ public class ConditionsDB //Db stands for Database
                     if (Random.Range(1, 3) == 1)
                         return true;
                     //Hurt itself
-                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} is confused");
+                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} est confus");
                     pokemon.UpdateHP(pokemon.MaxHp / 8);
-                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} hurt itself from confusion");
+                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} s'est bléssé dans sa confusion");
                     return false;
                 }
             }
@@ -152,9 +152,9 @@ public class ConditionsDB //Db stands for Database
     {
         if (condition == null)
             return 1f;
-        else if (condition.Id == ConditionID.slp || condition.Id == ConditionID.frz)
+        else if (condition.Id == ConditionID.som || condition.Id == ConditionID.gel)
             return 2f;
-        else if (condition.Id == ConditionID.par || condition.Id == ConditionID.psn || condition.Id == ConditionID.brn)
+        else if (condition.Id == ConditionID.par || condition.Id == ConditionID.psn || condition.Id == ConditionID.brl)
             return 1.5f;
 
         return 1f;
@@ -163,6 +163,6 @@ public class ConditionsDB //Db stands for Database
 
 public enum ConditionID //Key of a dictionnary with all the conditions we have
 {
-    none, psn, brn, slp, par, frz, //Poison, Burn, Sleep, Paralized, Frozen
+    none, psn, brl, som, par, gel, //Poison, Burn, Sleep, Paralized, Frozen
     confusion
 }

@@ -3326,7 +3326,8 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 59af58a9a07244c4396b19bbb2b08006, type: 3}
   dialog:
     lines:
-    - LOREM ISPUM SON OF A BITCH
+    - Lorem ipsum mon ami..
+    - Lorem ipsum...
   dialogAfterBattle:
     lines: []
   exclamation: {fileID: 37361444}
@@ -3962,8 +3963,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialog:
     lines:
-    - Hi, have you tried walking on the long grass over here?
-    - Don't do it if you don't have any pokemon to fight with tho!
+    - "Salut! T'as essay\xE9 de marcher dans les hautes herbes juste l\xE0?"
+    - "Ne le fais pas si t'as aucun pok\xE9mon avec toi cependant!"
   movementPattern:
   - {x: 8, y: 0}
   - {x: -4, y: 0}
@@ -51273,7 +51274,8 @@ MonoBehaviour:
     lines:
     - Bah alors?
   dialogAfterBattle:
-    lines: []
+    lines:
+    - Ok bg
   exclamation: {fileID: 431458978}
   fov: {fileID: 983416524}
 --- !u!114 &1613869568

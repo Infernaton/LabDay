@@ -79,7 +79,7 @@ public class BattleSystem : MonoBehaviour
             dialogBox.SetMoveNames(playerUnit.Pokemon.Moves); //Enable the moves, and set the right names
 
             //We return the function Typedialog
-            yield return dialogBox.TypeDialog($"A wild {enemyUnit.Pokemon.Base.Name} appeared."); //With the $, a string can show a special variable in it
+            yield return dialogBox.TypeDialog($"Un {enemyUnit.Pokemon.Base.Name} sauvage est apparu."); //With the $, a string can show a special variable in it
         }
         else
         {
@@ -94,7 +94,7 @@ public class BattleSystem : MonoBehaviour
             playerImage.sprite = player.Sprite;
             trainerImage.sprite = trainer.Sprite;
 
-            yield return dialogBox.TypeDialog($"{trainer.Name} wants to battle");
+            yield return dialogBox.TypeDialog($"{trainer.Name} veut se battre");
 
             //Send out first pokemon of the trainer, disabling image of trainer, enabling image ok pokemon
             trainerImage.gameObject.SetActive(false);
@@ -102,7 +102,7 @@ public class BattleSystem : MonoBehaviour
             var enemyPokemon = trainerParty.GetHealthyPokemon(); //Get the first healthy pokemon
             enemyUnit.Setup(enemyPokemon); //And setup the battle
 
-            yield return dialogBox.TypeDialog($"{trainer.Name} send out {enemyPokemon.Base.Name}");
+            yield return dialogBox.TypeDialog($"{trainer.Name} envoie {enemyPokemon.Base.Name}");
 
             //Send out first pokemon of the player
             playerImage.gameObject.SetActive(false);
@@ -129,7 +129,7 @@ public class BattleSystem : MonoBehaviour
     void ActionSelection()
     {
         state = BattleState.ActionSelection; //Change the state to ActionSelection
-        dialogBox.SetDialog("Choose an action"); //Then write a text
+        dialogBox.SetDialog("Choisissez une action"); //Then write a text
         dialogBox.EnableActionSelector(true); //Then allow player to choose an Action
     }
 
@@ -151,7 +151,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator AboutToUse(Pokemon newPokemon) //Changing state to AboutToUse
     {
         state = BattleState.Busy; //Player won't be able to do anything before the dialog has been written
-        yield return dialogBox.TypeDialog($"{trainer.Name} is about to use {newPokemon.Base.Name}. Do you want to change your pokemon?");
+        yield return dialogBox.TypeDialog($"{trainer.Name} va utiliser {newPokemon.Base.Name}. Voulez vous changer de pokemon?");
         state = BattleState.AboutToUse; //Change state
         dialogBox.EnableChoiceBox(true); //Enable choice selector
     }
@@ -237,9 +237,9 @@ public class BattleSystem : MonoBehaviour
 
         move.PP--; //Redcing PP of the move on use
         if (targetUnit == playerUnit) //If statement to show if the pokemon using a move is the player's one of the enemy
-            yield return dialogBox.TypeDialog($"The enemy {sourceUnit.Pokemon.Base.Name} used {move.Base.Name}"); //We write to the player that a pokemon used a move
+            yield return dialogBox.TypeDialog($"Le {sourceUnit.Pokemon.Base.Name} enemi a utilisé {move.Base.Name}"); //We write to the player that a pokemon used a move
         else
-            yield return dialogBox.TypeDialog($"Your {sourceUnit.Pokemon.Base.Name} used {move.Base.Name}");
+            yield return dialogBox.TypeDialog($"Votre {sourceUnit.Pokemon.Base.Name} utilise {move.Base.Name}");
 
         if (CheckIfMoveHits(move, sourceUnit.Pokemon, targetUnit.Pokemon))
         {
@@ -277,7 +277,7 @@ public class BattleSystem : MonoBehaviour
 
         else
         {
-            yield return dialogBox.TypeDialog($"{sourceUnit.Pokemon.Base.Name}'s attack missed");
+            yield return dialogBox.TypeDialog($"{sourceUnit.Pokemon.Base.Name} a raté son attaque!");
         }
     }
 
@@ -364,9 +364,9 @@ public class BattleSystem : MonoBehaviour
     IEnumerator HandlePokemonFainted(BattleUnit faintedUnit) //Function to handle death of a pokemon, and make it easier to re use it
     {
         if (!faintedUnit.IsPlayerUnit) //Check a first time for the message
-            yield return dialogBox.TypeDialog($"{faintedUnit.Pokemon.Base.Name} enemy fainted");
+            yield return dialogBox.TypeDialog($"Le {faintedUnit.Pokemon.Base.Name} ennemi s'est évanouit");
         else
-            yield return dialogBox.TypeDialog($"Your {faintedUnit.Pokemon.Base.Name} fainted");
+            yield return dialogBox.TypeDialog($"Votre {faintedUnit.Pokemon.Base.Name} s'est évanouit");
         faintedUnit.PlayFaintAnimation();
         yield return new WaitForSeconds(2f);
 
@@ -380,7 +380,7 @@ public class BattleSystem : MonoBehaviour
 
             int expGain = Mathf.FloorToInt(expYield * enemyLevel * trainerBonus) / 7; //Formula to get the exp gain
             playerUnit.Pokemon.Exp += expGain;
-            yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} gained {expGain} exp.");
+            yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a gagné {expGain} exp.");
 
             yield return playerUnit.Hud.SetExpSmooth(); //Scale the exp bar smoothly
 
@@ -388,7 +388,7 @@ public class BattleSystem : MonoBehaviour
             while (playerUnit.Pokemon.CheckForLevelUp()) //If true, lvl up, we use While if the pokemon has to lvl up mutliple times
             {
                 playerUnit.Hud.SetLevel();
-                yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} just grew up at level {playerUnit.Pokemon.Level}");
+                yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} est passé {playerUnit.Pokemon.Level}");
 
                 //Try to learn a new move
                 var newMove = playerUnit.Pokemon.GetLearnableMoveAtCurrentLevel();
@@ -398,7 +398,7 @@ public class BattleSystem : MonoBehaviour
                     {
                         //Automaticly learn the move
                         playerUnit.Pokemon.LearnMove(newMove);
-                        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} learned {newMove.Base.Name}");
+                        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a appris {newMove.Base.Name}");
                         dialogBox.SetMoveNames(playerUnit.Pokemon.Moves);
                     }
                     else
@@ -451,12 +451,12 @@ public class BattleSystem : MonoBehaviour
     IEnumerator ShowDamageDetails(DamageDetails damageDetails)
     {
         if (damageDetails.Critical > 1f) //Check the value of Critical to show a message saying we had a critical hit
-            yield return dialogBox.TypeDialog("A critical hit!");
+            yield return dialogBox.TypeDialog("Coup critique!");
 
         if (damageDetails.TypeEffectiveness > 1)
-            yield return dialogBox.TypeDialog("That's super effective!");
+            yield return dialogBox.TypeDialog("C'est super efficace!");
         else if (damageDetails.TypeEffectiveness < 1)
-            yield return dialogBox.TypeDialog("That was not very effective..");
+            yield return dialogBox.TypeDialog("Ce n'était pas très efficace..");
 
     }
 
@@ -580,12 +580,12 @@ public class BattleSystem : MonoBehaviour
             var selectedMember = playerParty.Pokemons[currentMember]; //Creating a var of the actual pokemon we are on
             if (selectedMember.HP <= 0) //Making sure the actual pokemon selected ain't fainted
             {
-                partyScreen.SetMessageText("You can't send out a fainted pokemon!");
+                partyScreen.SetMessageText("Vous ne pouvez pas envoyer un pokemon évanouit!");
                 return;
             }
             if (selectedMember == playerUnit.Pokemon) //Making sure the actual selected pokemon is not the same as the one in the battle
             {
-                partyScreen.SetMessageText("This pokemon is already in the battle.");
+                partyScreen.SetMessageText("Ce pokemon est déjà au combat.");
                 return;
             }
 
@@ -607,7 +607,7 @@ public class BattleSystem : MonoBehaviour
         {
             if (playerUnit.Pokemon.HP <= 0) //Player has to change if the actual pokemon is dead
             {
-                partyScreen.SetMessageText("You have to choose a pokemon to continue");
+                partyScreen.SetMessageText("Vous devez choisir un pokemon pour continuer");
                 return;
             }
 
@@ -657,7 +657,7 @@ public class BattleSystem : MonoBehaviour
     {
         if (playerUnit.Pokemon.HP > 0) //This will play ONLY if the player change pokemon by choosing the action, if the pokemon fainted and we have to send another one, this will not play
         {
-            yield return dialogBox.TypeDialog($"Come back {playerUnit.Pokemon.Base.Name}"); //First we change the message
+            yield return dialogBox.TypeDialog($"Reviens {playerUnit.Pokemon.Base.Name}!"); //First we change the message
             playerUnit.PlayFaintAnimation(); //Then we play the faint animation to show that our pokemon came back
             yield return new WaitForSeconds(1f); //Then we wait before it ends
         }
@@ -681,7 +681,7 @@ public class BattleSystem : MonoBehaviour
         var nextTrainerPokemon = trainerParty.GetHealthyPokemon(); //Store the next pokemon used in a var
 
         enemyUnit.Setup(nextTrainerPokemon); //Send out the next pokemon
-        yield return dialogBox.TypeDialog($"{trainer.Name} send out {nextTrainerPokemon.Base.Name}!");
+        yield return dialogBox.TypeDialog($"{trainer.Name} envoie un {nextTrainerPokemon.Base.Name}!");
 
         state = BattleState.RunningTurn;
     }
@@ -693,12 +693,12 @@ public class BattleSystem : MonoBehaviour
 
         if (isTrainerBattle)
         {
-            yield return dialogBox.TypeDialog($"You can't steal the trainer's pokemon"); //Display a message
+            yield return dialogBox.TypeDialog($"On ne vole pas les pokemon des autres dresseurs!"); //Display a message
             state = BattleState.RunningTurn;
             yield break;
         }
 
-        yield return dialogBox.TypeDialog($"{player.Name} used a Pokeball");
+        yield return dialogBox.TypeDialog($"{player.Name} a lancé une pokeball");
 
         var pokeballObject = Instantiate(pokeballSprite, playerUnit.transform.position - new Vector3(2, 0), Quaternion.identity); //This will "create" the pokeball, using the prefab
         var pokeball = pokeballObject.GetComponent<SpriteRenderer>(); //Grab a reference to the pokeball sprite
@@ -719,11 +719,11 @@ public class BattleSystem : MonoBehaviour
         if (shakeCount == 4)
         {
             //Pokemon is caught
-            yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.name} was caught!"); //Display a message
+            yield return dialogBox.TypeDialog($"Vous avez attrapé {enemyUnit.Pokemon.Base.name}!"); //Display a message
             yield return pokeball.DOFade(0, 1.5f).WaitForCompletion(); //Fade out the ball
 
             playerParty.AddPokemon(enemyUnit.Pokemon); //Add the pokemon to the party
-            yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.name} has been added to you party."); //Display a message
+            yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.name} fait partie de votre équipe."); //Display a message
 
             Destroy(pokeball); //Destroy the ball
             BattleOver(true); //End the battle
@@ -736,9 +736,9 @@ public class BattleSystem : MonoBehaviour
             yield return enemyUnit.PlayBreakOutAnimation(); //Play the animation in reverse
 
             if (shakeCount < 2) //Show a dialog based on the shake count
-                yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} broke free..");
+                yield return dialogBox.TypeDialog($"{enemyUnit.Pokemon.Base.Name} s'est libéré..");
             else
-                yield return dialogBox.TypeDialog($"Almost got it!");
+                yield return dialogBox.TypeDialog($"Argh, c'était presque ça!");
             Destroy(pokeball);
             state = BattleState.RunningTurn;
         }
@@ -771,7 +771,7 @@ public class BattleSystem : MonoBehaviour
 
         if (isTrainerBattle) //Can not espace a trainer battle
         {
-            yield return dialogBox.TypeDialog($"You can not run out of a trainer battle"); //Display a message
+            yield return dialogBox.TypeDialog($"On ne s'enfuit pas d'un combat de dresseur."); //Display a message
             state = BattleState.RunningTurn; //Set back the state
             yield break; //Get out of this function
         }
@@ -783,7 +783,7 @@ public class BattleSystem : MonoBehaviour
 
         if (enemySpeed < playerSpeed) //If player is faster, got away safely
         {
-            yield return dialogBox.TypeDialog($"Ran away safely");
+            yield return dialogBox.TypeDialog($"Vous vous êtes enfuis");
             BattleOver(true);
         }
         else //Else calucate the luck to get away, or lose a turn
@@ -793,12 +793,12 @@ public class BattleSystem : MonoBehaviour
 
             if (UnityEngine.Random.Range(0, 256) < f)
             {
-                yield return dialogBox.TypeDialog($"Ran away safely");
+                yield return dialogBox.TypeDialog($"Vous êtes partis sans soucis");
                 BattleOver(true);
             }
             else
             {
-                yield return dialogBox.TypeDialog($"You failed to escape, the creature run after you");
+                yield return dialogBox.TypeDialog($"La fuite a échouée, la créature vous poursuit!");
                 state = BattleState.RunningTurn; //If the player did not got awya, it has lost a turn
             }
         }
