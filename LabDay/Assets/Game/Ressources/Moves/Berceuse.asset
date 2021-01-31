@@ -10,24 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49799ef17ca61f247b0c7dbb3abe6961, type: 3}
-  m_Name: Ember
+  m_Name: Berceuse
   m_EditorClassIdentifier: 
-  name: Ember
+  name: Berceuse
   description: 
-  type: 7
-  power: 45
-  accuracy: 100
+  type: 5
+  power: 0
+  accuracy: 55
   alwaysHits: 0
-  pp: 20
-  category: 1
+  pp: 25
+  priority: 0
+  category: 2
   effects:
     boosts: []
-    status: 2
+    status: 3
     volatileStatus: 0
-  secondaries:
-  - boosts: []
-    status: 2
-    volatileStatus: 0
-    chance: 10
-    target: 0
+  secondaries: []
   target: 0

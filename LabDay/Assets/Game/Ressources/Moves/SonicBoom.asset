@@ -10,15 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49799ef17ca61f247b0c7dbb3abe6961, type: 3}
-  m_Name: Scratch
+  m_Name: SonicBoom
   m_EditorClassIdentifier: 
-  name: Scratch
+  name: Sonic Boom
   description: 
   type: 13
-  power: 40
+  power: 0
   accuracy: 100
+  alwaysHits: 0
   pp: 20
-  category: 0
+  priority: 0
+  category: 2
   effects:
     boosts: []
+    status: 0
+    volatileStatus: 6
+  secondaries: []
   target: 0

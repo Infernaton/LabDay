@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61210d3cc0c171d4b9a4c0d84608f037, type: 3}
   m_Name: Pikachu
   m_EditorClassIdentifier: 
-  name: Pickachu
+  name: Pikachu
   description: 
   frontSprite: {fileID: 21300000, guid: 2670ef637ec4f514ebc8af19f7203ae3, type: 3}
   backSprite: {fileID: 21300000, guid: 801dcf60992659741b295a0287bff5e6, type: 3}

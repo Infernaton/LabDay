@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 61210d3cc0c171d4b9a4c0d84608f037, type: 3}
-  m_Name: Papalusion
+  m_Name: Papilusion
   m_EditorClassIdentifier: 
   name: Papalusion
   description: 
