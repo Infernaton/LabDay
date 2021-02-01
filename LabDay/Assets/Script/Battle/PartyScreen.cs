@@ -30,7 +30,7 @@ public class PartyScreen : MonoBehaviour
                 memberSlots[i].gameObject.SetActive(false); //If we don't get 6, we deactivate the last spots unused
         }
 
-        messageText.text = "Choose a Pokemon";
+        messageText.text = "Choisissez un pokemon";
     }
 
     public void UpdateMemberSelection(int selectedMember) //Loop throught all pokemon we have, then showing on wich one we actually are

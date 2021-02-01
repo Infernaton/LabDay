@@ -59,7 +59,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Start Combat");
+            Debug.Log("Début du combat");
             state = GameState.Battle;
             battleSystem.gameObject.SetActive(true);
             worldCamera.gameObject.SetActive(false);
