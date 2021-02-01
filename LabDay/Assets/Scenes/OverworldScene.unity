@@ -480,7 +480,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Move1
+  m_Text: Attaque2
 --- !u!222 &122850603
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2020,7 +2020,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Run
+  m_Text: Fuite
 --- !u!222 &781980497
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2750,7 +2750,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Move1
+  m_Text: Attaque4
 --- !u!222 &948734684
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2829,7 +2829,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Move1
+  m_Text: Attaque1
 --- !u!222 &999480604
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3843,7 +3843,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Bag
+  m_Text: Sac
 --- !u!222 &1401202982
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4052,7 +4052,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Fight
+  m_Text: Attaque
 --- !u!222 &1478549692
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4210,7 +4210,7 @@ MonoBehaviour:
   dialog:
     lines:
     - Salut l'amie!
-    - "T'es all\xE9e marcher dans les hautes herbes la bas?"
+    - "Tas march\xE9 dans les hautes herbes la bas?"
   movementPattern:
   - {x: 8, y: 0}
   - {x: -4, y: 0}
@@ -4435,7 +4435,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Yes
+  m_Text: Oui
 --- !u!222 &1515752649
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4460,7 +4460,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1546004489
 Transform:
   m_ObjectHideFlags: 0
@@ -25556,7 +25556,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Move1
+  m_Text: Attaque3
 --- !u!222 &1873742643
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25978,7 +25978,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: No
+  m_Text: Non
 --- !u!222 &2060458915
 CanvasRenderer:
   m_ObjectHideFlags: 0
