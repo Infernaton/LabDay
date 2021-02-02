@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public event Action<Collider2D> OnEnterTrainersView; //Action for entering a trainer's view, with a collider 2d as parameter to know wich trainer we saw
     public event Action OnEncountered; //Creating an action we'll cal when an encounter appears
 
+    public GameObject chgSceneScreenUI;
+
     private Vector2 input; // For getting the Input
 
     private Character character;
@@ -109,7 +111,8 @@ public class PlayerController : MonoBehaviour
         var colliderScn = Physics2D.OverlapCircle(transform.position, 0.2f, GameLayers.i.ChangeScene);
         if (colliderScn != null)
         {
-            Debug.Log("ChgScene !!");
+            chgSceneScreenUI.SetActive(true);
+            Debug.Log("Detect");
         }
     }
 
