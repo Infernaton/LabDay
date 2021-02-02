@@ -237,7 +237,7 @@ public class BattleSystem : MonoBehaviour
 
         move.PP--; //Redcing PP of the move on use
         if (targetUnit == playerUnit) //If statement to show if the pokemon using a move is the player's one of the enemy
-            yield return dialogBox.TypeDialog($"Le {sourceUnit.Pokemon.Base.Name} enemi a utilisé {move.Base.Name}"); //We write to the player that a pokemon used a move
+            yield return dialogBox.TypeDialog($"Le {sourceUnit.Pokemon.Base.Name} enemi utilise {move.Base.Name}"); //We write to the player that a pokemon used a move
         else
             yield return dialogBox.TypeDialog($"Votre {sourceUnit.Pokemon.Base.Name} utilise {move.Base.Name}");
 
@@ -388,7 +388,7 @@ public class BattleSystem : MonoBehaviour
             while (playerUnit.Pokemon.CheckForLevelUp()) //If true, lvl up, we use While if the pokemon has to lvl up mutliple times
             {
                 playerUnit.Hud.SetLevel();
-                yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} est passé {playerUnit.Pokemon.Level}");
+                yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} est passé niveau {playerUnit.Pokemon.Level}");
 
                 //Try to learn a new move
                 var newMove = playerUnit.Pokemon.GetLearnableMoveAtCurrentLevel();
@@ -398,7 +398,7 @@ public class BattleSystem : MonoBehaviour
                     {
                         //Automaticly learn the move
                         playerUnit.Pokemon.LearnMove(newMove);
-                        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a appris {newMove.Base.Name}");
+                        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a apprit {newMove.Base.Name}");
                         dialogBox.SetMoveNames(playerUnit.Pokemon.Moves);
                     }
                     else
@@ -456,7 +456,7 @@ public class BattleSystem : MonoBehaviour
         if (damageDetails.TypeEffectiveness > 1)
             yield return dialogBox.TypeDialog("C'est super efficace!");
         else if (damageDetails.TypeEffectiveness < 1)
-            yield return dialogBox.TypeDialog("Ce n'était pas très efficace..");
+            yield return dialogBox.TypeDialog("Ce n'est pas très efficace..");
 
     }
 
@@ -698,7 +698,7 @@ public class BattleSystem : MonoBehaviour
             yield break;
         }
 
-        yield return dialogBox.TypeDialog($"{player.Name} a lancé une pokeball");
+        yield return dialogBox.TypeDialog($"{player.Name} lance une pokeball");
 
         var pokeballObject = Instantiate(pokeballSprite, playerUnit.transform.position - new Vector3(2, 0), Quaternion.identity); //This will "create" the pokeball, using the prefab
         var pokeball = pokeballObject.GetComponent<SpriteRenderer>(); //Grab a reference to the pokeball sprite
@@ -783,7 +783,7 @@ public class BattleSystem : MonoBehaviour
 
         if (enemySpeed < playerSpeed) //If player is faster, got away safely
         {
-            yield return dialogBox.TypeDialog($"Vous vous êtes enfuis");
+            yield return dialogBox.TypeDialog($"Vous avez pris la fuite");
             BattleOver(true);
         }
         else //Else calucate the luck to get away, or lose a turn
