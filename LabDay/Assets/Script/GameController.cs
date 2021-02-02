@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
 
     public static GameController Instance { get; private set; } //Get reference from the game controller anywhere we want
 
-    private int frame;
+    private int frame=0;
 
     private void Awake()
     {
@@ -52,13 +52,14 @@ public class GameController : MonoBehaviour
     //Change our battle state, camera active, and gameobject of the Battle System
     void StartBattle()
     {
-        if (frame < 2000)
+        if (frame < 1900)
         {
             state = GameState.Cutscene;
             StartCoroutine(introWildAppeared());
         }
         else
         {
+            frame = 0;
             Debug.Log("Début du combat");
             state = GameState.Battle;
             battleSystem.gameObject.SetActive(true);
@@ -75,7 +76,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator introWildAppeared()
     {
-        yield return new WaitUntil(() => frame == 2000);
+        yield return new WaitUntil(() => frame == 1900);
         StartBattle();
     }
 
@@ -117,7 +118,7 @@ public class GameController : MonoBehaviour
             if (frame <= 5000)
             {
                 frame++;
-            }
+            } 
         }
         if (state == GameState.FreeRoam) //While we are in the overworld, we use our PlayerController script
         {
