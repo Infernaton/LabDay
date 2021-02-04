@@ -2498,6 +2498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Naply
   sprite: {fileID: -8767312052336156492, guid: a367bdfbd1c9e1f459c56cfb493e9173, type: 3}
+  chgSceneScreenUI: {fileID: 0}
 --- !u!212 &900875530
 SpriteRenderer:
   m_ObjectHideFlags: 0

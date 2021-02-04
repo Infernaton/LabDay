@@ -155,12 +155,12 @@ TextureImporter:
       name: zx2nMAW_0
       rect:
         serializedVersion: 2
-        x: 18
+        x: 16
         y: 0
-        width: 108
-        height: 140
+        width: 57
+        height: 70
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -176,12 +176,12 @@ TextureImporter:
       name: zx2nMAW_1
       rect:
         serializedVersion: 2
-        x: 160
+        x: 106
         y: 0
-        width: 118
-        height: 134
+        width: 63
+        height: 64
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -197,12 +197,12 @@ TextureImporter:
       name: zx2nMAW_2
       rect:
         serializedVersion: 2
-        x: 322
+        x: 221
         y: 0
-        width: 134
-        height: 138
+        width: 68
+        height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -218,12 +218,12 @@ TextureImporter:
       name: zx2nMAW_3
       rect:
         serializedVersion: 2
-        x: 500
+        x: 336
         y: 0
-        width: 136
-        height: 136
+        width: 88
+        height: 66
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -239,12 +239,12 @@ TextureImporter:
       name: zx2nMAW_4
       rect:
         serializedVersion: 2
-        x: 642
+        x: 446
         y: 0
-        width: 142
-        height: 128
+        width: 84
+        height: 60
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
