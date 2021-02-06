@@ -20,6 +20,11 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] Image trainerImage;
     [SerializeField] GameObject pokeballSprite; //Reference to the pokeball
 
+    [SerializeField] List<Sprite> playerEnterTrainerBattleSprites; //Reference to the sprites of the animation from the "Entering trainer battle"
+    SpriteAnimator playerEnterTrainerBattleAnim; //Reference to the animation of the player
+    SpriteRenderer spriteRenderer;
+
+
     public event Action<bool> OnBattleOver; //Add an action happening when the battle ended (Action<bool> is to add a bool to the Action)
 
     BattleState state;
@@ -54,8 +59,13 @@ public class BattleSystem : MonoBehaviour
 
     public void StartTrainerBattle(PokemonParty playerParty, PokemonParty trainerParty) //Beggin the trainer battle
     {
-        this.playerParty = playerParty; //this. is to use our variable and not the parameter
+        this.playerParty = playerParty; //this. is to use the variable and not the parameter
         this.trainerParty = trainerParty;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        //Initialize animation of the player
+        playerEnterTrainerBattleAnim = new SpriteAnimator(playerEnterTrainerBattleSprites, spriteRenderer);
+
 
         isTrainerBattle = true;
         player = playerParty.GetComponent<PlayerController>(); //Set a reference the player party
@@ -104,8 +114,12 @@ public class BattleSystem : MonoBehaviour
 
             yield return dialogBox.TypeDialog($"{trainer.Name} envoie {enemyPokemon.Base.Name}");
 
-            //Send out first pokemon of the player
+            //playerEnterTrainerBattleAnim.Start();
+            playerImage.transform.DOLocalMoveX(-600f, 1f);
+            yield return new WaitForSeconds(0.5f);
             playerImage.gameObject.SetActive(false);
+
+            //Send out first pokemon of the player
             playerUnit.gameObject.SetActive(true);
             var playerPokemon = playerParty.GetHealthyPokemon(); //Get the first healthy pokemon
             playerUnit.Setup(playerPokemon); //And setup the battle
