@@ -2,12 +2,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 //Here is where we manage our battle system, by calling every needed function, that we create in other classes
 
-public enum BattleState { Start, ActionSelection, MoveSelection, RunningTurn, Busy, PartyScreen, AboutToUse, BattleOver} //We will use different state in our BattleSystem, and show what need to be shown in a specific state
+public enum BattleState { Start, ActionSelection, MoveSelection, RunningTurn, Busy, PartyScreen, AboutToUse, MoveToForget, BattleOver} //We will use different state in our BattleSystem, and show what need to be shown in a specific state
 public enum BattleActions { Move, SwitchPokemon, UseItem, Run}
 
 public class BattleSystem : MonoBehaviour
@@ -19,6 +20,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] Image playerImage;
     [SerializeField] Image trainerImage;
     [SerializeField] GameObject pokeballSprite; //Reference to the pokeball
+    [SerializeField] MoveSelectionUI moveSelectionUI;
 
     [SerializeField] List<Sprite> playerEnterTrainerBattleSprites; //Reference to the sprites of the animation from the "Entering trainer battle"
     SpriteAnimator playerEnterTrainerBattleAnim; //Reference to the animation of the player
@@ -168,6 +170,16 @@ public class BattleSystem : MonoBehaviour
         yield return dialogBox.TypeDialog($"{trainer.Name} va utiliser {newPokemon.Base.Name}. Voulez vous changer de pokemon?");
         state = BattleState.AboutToUse; //Change state
         dialogBox.EnableChoiceBox(true); //Enable choice selector
+    }
+
+    IEnumerator ChooseMoveToForget(Pokemon pokemon, MoveBase newMove)
+    {
+        state = BattleState.Busy;
+        yield return dialogBox.TypeDialog($"Choisissez une attaque à oublier");
+        moveSelectionUI.gameObject.SetActive(true); 
+        moveSelectionUI.SetMoveData(pokemon.Moves.Select(x => x.Base).ToList(), newMove); //Set the data using Select and Linq to acces base.
+
+        state = BattleState.MoveToForget; //Finally move to the moveToForget state
     }
 
     IEnumerator RunTurns(BattleActions playerAction) //Coroutine to manage the turns
@@ -418,7 +430,9 @@ public class BattleSystem : MonoBehaviour
                     else
                     {
                         //Ask to forget a move before
-                        //TODO
+                        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} essaie d'apprendre {newMove.Base.Name}");
+                        yield return dialogBox.TypeDialog($"Mais un pokemon ne peut pas connaitre plus de {PokemonBase.MaxNumberOfMoves} attaques à la fois.");
+                        yield return ChooseMoveToForget(playerUnit.Pokemon, newMove.Base);
                     }
                 }
 
