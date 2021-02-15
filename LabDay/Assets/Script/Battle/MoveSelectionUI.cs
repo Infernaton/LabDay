@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ public class MoveSelectionUI : MonoBehaviour
         moveTexts[currentMoves.Count].text = newMove.Name; //Set the name of the new move
     }
 
-    public void HandleMoveSelection() //Same logic as every other Handle***
+    public void HandleMoveSelection(Action<int> onSelected) //Same logic as every other Handle***
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
             ++currentSelection;
@@ -29,6 +30,11 @@ public class MoveSelectionUI : MonoBehaviour
         currentSelection = Mathf.Clamp(currentSelection, 0, PokemonBase.MaxNumberOfMoves);
 
         UpdateMoveUISelection(currentSelection);
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
+        {
+            onSelected?.Invoke(currentSelection);
+        }
     }
 
     public void UpdateMoveUISelection (int selection) //Same logic as UpdateMoveSelection in BattleSystem.cs
