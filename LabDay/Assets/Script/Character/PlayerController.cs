@@ -13,8 +13,6 @@ public class PlayerController : MonoBehaviour
     public event Action<Collider2D> OnEnterTrainersView; //Action for entering a trainer's view, with a collider 2d as parameter to know wich trainer we saw
     public event Action OnEncountered; //Creating an action we'll cal when an encounter appears
 
-    public GameObject chgSceneScreenUI;
-
     private Vector2 input; // For getting the Input
 
     private Character character;
@@ -78,7 +76,6 @@ public class PlayerController : MonoBehaviour
     {
         CheckForEncounter();
         CheckIfInTrainersView();
-        CheckIfChangeScene();
     }
 
     //Function to know if the player walk on a grass tile
@@ -103,16 +100,6 @@ public class PlayerController : MonoBehaviour
         {
             character.Animator.IsMoving = false; //Set it to false when a battle appear
             OnEnterTrainersView?.Invoke(collider); //Call the trainer battle when the player collide with the field of view
-        }
-    }
-
-    private void CheckIfChangeScene()
-    {
-        var colliderScn = Physics2D.OverlapCircle(transform.position, 0.2f, GameLayers.i.ChangeScene);
-        if (colliderScn != null)
-        {
-            chgSceneScreenUI.SetActive(true);
-            Debug.Log("Detect");
         }
     }
 

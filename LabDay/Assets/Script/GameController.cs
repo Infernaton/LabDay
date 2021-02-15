@@ -10,7 +10,6 @@ public class GameController : MonoBehaviour
     [SerializeField] PlayerController playerController;//Reference to the PlayerController script
     [SerializeField] BattleSystem battleSystem;//Reference to the BattleSystem Script 
     [SerializeField] Camera worldCamera; //Reference to our Camera
-    //[SerializeField] GameObject changerScene;
 
     public static GameController Instance { get; private set; } //Get reference from the game controller anywhere we want
 
