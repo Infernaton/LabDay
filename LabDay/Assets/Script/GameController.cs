@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
     //Change our battle state, camera active, and gameobject of the Battle System
     void StartBattle()
     {
-        if (frame < 1900)
+        if (frame < 1300)
         {
             state = GameState.Cutscene;
             StartCoroutine(introWildAppeared());
@@ -76,7 +76,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator introWildAppeared()
     {
-        yield return new WaitUntil(() => frame == 1900);
+        yield return new WaitUntil(() => frame == 1300);
         StartBattle();
     }
 
@@ -104,7 +104,6 @@ public class GameController : MonoBehaviour
             trainer.BattleLost(); //Disable the fov, to disable the battle
             trainer = null;
         }
-
 
         state = GameState.FreeRoam;
         battleSystem.gameObject.SetActive(false);
