@@ -155,9 +155,9 @@ TextureImporter:
       name: zx2nMAW_0
       rect:
         serializedVersion: 2
-        x: 16
+        x: 0
         y: 0
-        width: 57
+        width: 88
         height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -176,10 +176,10 @@ TextureImporter:
       name: zx2nMAW_1
       rect:
         serializedVersion: 2
-        x: 106
+        x: 95
         y: 0
-        width: 63
-        height: 64
+        width: 88
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -197,10 +197,10 @@ TextureImporter:
       name: zx2nMAW_2
       rect:
         serializedVersion: 2
-        x: 221
+        x: 211
         y: 0
-        width: 68
-        height: 66
+        width: 88
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,7 +221,7 @@ TextureImporter:
         x: 336
         y: 0
         width: 88
-        height: 66
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -242,7 +242,7 @@ TextureImporter:
         x: 446
         y: 0
         width: 84
-        height: 60
+        height: 70
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
