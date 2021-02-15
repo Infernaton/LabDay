@@ -21,9 +21,8 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] Image trainerImage;
     [SerializeField] GameObject pokeballSprite; //Reference to the pokeball
     [SerializeField] MoveSelectionUI moveSelectionUI;
+    public Animator animator;
 
-    [SerializeField] List<Sprite> playerEnterTrainerBattleSprites; //Reference to the sprites of the animation from the "Entering trainer battle"
-    SpriteAnimator playerEnterTrainerBattleAnim; //Reference to the animation of the player
     SpriteRenderer spriteRenderer;
 
 
@@ -65,9 +64,6 @@ public class BattleSystem : MonoBehaviour
         this.trainerParty = trainerParty;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
-        //Initialize animation of the player
-        playerEnterTrainerBattleAnim = new SpriteAnimator(playerEnterTrainerBattleSprites, spriteRenderer);
-
 
         isTrainerBattle = true;
         player = playerParty.GetComponent<PlayerController>(); //Set a reference the player party
@@ -114,15 +110,16 @@ public class BattleSystem : MonoBehaviour
             var enemyPokemon = trainerParty.GetHealthyPokemon(); //Get the first healthy pokemon
             enemyUnit.Setup(enemyPokemon); //And setup the battle
 
-            yield return dialogBox.TypeDialog($"{trainer.Name} envoie {enemyPokemon.Base.Name}");
+            yield return dialogBox.TypeDialog($"{trainer.Name} envoie {enemyPokemon.Base.Name} !");
 
-            //playerEnterTrainerBattleAnim.Start();
-            playerImage.transform.DOLocalMoveX(-600f, 1f);
-            yield return new WaitForSeconds(0.5f);
-            playerImage.gameObject.SetActive(false);
+            playerImage.transform.DOLocalMoveX(-550f, 1f);
+            animator.SetBool("throw", true);
+            yield return new WaitForSeconds(0.75f);
+            
 
             //Send out first pokemon of the player
             playerUnit.gameObject.SetActive(true);
+            playerImage.gameObject.SetActive(false);
             var playerPokemon = playerParty.GetHealthyPokemon(); //Get the first healthy pokemon
             playerUnit.Setup(playerPokemon); //And setup the battle
             yield return dialogBox.TypeDialog($"Go {playerPokemon.Base.Name}! ");
@@ -167,7 +164,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator AboutToUse(Pokemon newPokemon) //Changing state to AboutToUse
     {
         state = BattleState.Busy; //Player won't be able to do anything before the dialog has been written
-        yield return dialogBox.TypeDialog($"{trainer.Name} va utiliser {newPokemon.Base.Name}. Voulez vous changer de pokemon?");
+        yield return dialogBox.TypeDialog($"{trainer.Name} va envoyer {newPokemon.Base.Name}. Voulez vous changer de pokemon?");
         state = BattleState.AboutToUse; //Change state
         dialogBox.EnableChoiceBox(true); //Enable choice selector
     }
@@ -390,9 +387,9 @@ public class BattleSystem : MonoBehaviour
     IEnumerator HandlePokemonFainted(BattleUnit faintedUnit) //Function to handle death of a pokemon, and make it easier to re use it
     {
         if (!faintedUnit.IsPlayerUnit) //Check a first time for the message
-            yield return dialogBox.TypeDialog($"Le {faintedUnit.Pokemon.Base.Name} ennemi s'est évanouit");
+            yield return dialogBox.TypeDialog($"Le {faintedUnit.Pokemon.Base.Name} ennemi est mis K.O !");
         else
-            yield return dialogBox.TypeDialog($"Votre {faintedUnit.Pokemon.Base.Name} s'est évanouit");
+            yield return dialogBox.TypeDialog($"Votre {faintedUnit.Pokemon.Base.Name} est mis K.O");
         faintedUnit.PlayFaintAnimation();
         yield return new WaitForSeconds(2f);
 
@@ -406,7 +403,7 @@ public class BattleSystem : MonoBehaviour
 
             int expGain = Mathf.FloorToInt(expYield * enemyLevel * trainerBonus) / 7; //Formula to get the exp gain
             playerUnit.Pokemon.Exp += expGain;
-            yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a gagné {expGain} exp.");
+            yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a gagné {expGain} exp !");
 
             yield return playerUnit.Hud.SetExpSmooth(); //Scale the exp bar smoothly
 
@@ -414,7 +411,7 @@ public class BattleSystem : MonoBehaviour
             while (playerUnit.Pokemon.CheckForLevelUp()) //If true, lvl up, we use While if the pokemon has to lvl up mutliple times
             {
                 playerUnit.Hud.SetLevel();
-                yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} est passé niveau {playerUnit.Pokemon.Level}");
+                yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} est passé au niveau {playerUnit.Pokemon.Level}");
 
                 //Try to learn a new move
                 var newMove = playerUnit.Pokemon.GetLearnableMoveAtCurrentLevel();
@@ -484,7 +481,7 @@ public class BattleSystem : MonoBehaviour
         if (damageDetails.TypeEffectiveness > 1)
             yield return dialogBox.TypeDialog("C'est super efficace!");
         else if (damageDetails.TypeEffectiveness < 1)
-            yield return dialogBox.TypeDialog("Ce n'est pas très efficace..");
+            yield return dialogBox.TypeDialog("Ce n'est pas très efficace...");
 
     }
 
@@ -608,7 +605,7 @@ public class BattleSystem : MonoBehaviour
             var selectedMember = playerParty.Pokemons[currentMember]; //Creating a var of the actual pokemon we are on
             if (selectedMember.HP <= 0) //Making sure the actual pokemon selected ain't fainted
             {
-                partyScreen.SetMessageText("Vous ne pouvez pas envoyer un pokemon évanouit!");
+                partyScreen.SetMessageText("Vous ne pouvez pas envoyer un pokemon K.O!");
                 return;
             }
             if (selectedMember == playerUnit.Pokemon) //Making sure the actual selected pokemon is not the same as the one in the battle
@@ -747,7 +744,7 @@ public class BattleSystem : MonoBehaviour
         if (shakeCount == 4)
         {
             //Pokemon is caught
-            yield return dialogBox.TypeDialog($"Vous avez attrapé {enemyUnit.Pokemon.Base.name}!"); //Display a message
+            yield return dialogBox.TypeDialog($"Vous avez attrapé un {enemyUnit.Pokemon.Base.name}!"); //Display a message
             yield return pokeball.DOFade(0, 1.5f).WaitForCompletion(); //Fade out the ball
 
             playerParty.AddPokemon(enemyUnit.Pokemon); //Add the pokemon to the party
