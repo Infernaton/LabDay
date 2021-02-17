@@ -30,7 +30,9 @@ public class PlayerController : MonoBehaviour
     {
         myAudio = character.transform.GetChild(0).GetComponents<AudioSource>();
         background = myAudio[0];
+        Debug.Log(introTallGrass);
         introTallGrass = myAudio[1];
+        
     }
 
     public void HandleUpdate()
