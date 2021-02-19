@@ -7,9 +7,7 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     public float moveSpeed; // Speed value
-    public float runSpeed; // Run Speed value
     public bool IsMoving { get; private set; }
-    public bool IsRunning;
 
     CharacterAnimator animator;
     private void Awake()
@@ -35,14 +33,6 @@ public class Character : MonoBehaviour
         //this part get us a smooth movement, instead of juste moving tile to tile
         while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
         {
-            IsRunning = false;
-
-            if (Input.GetKeyDown(KeyCode.B))
-                { 
-                    IsRunning = true;
-                    moveSpeed = runSpeed;
-                }
-
             transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
             yield return null;
         }
@@ -54,6 +44,7 @@ public class Character : MonoBehaviour
     public void HandleUpdate()
     {
         animator.IsMoving = IsMoving;
+        
     }
 
     private bool IsPathClear(Vector3 targetPos) //Know if there is a solidObject, character, or other, in the path
