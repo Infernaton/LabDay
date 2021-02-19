@@ -6,8 +6,9 @@ using UnityEngine;
 //This class will be used in every moving character, including NPC
 public class Character : MonoBehaviour
 {
-    public float moveSpeed; // Speed value
+    public float moveSpeed; //Defauld Speed value
     public bool IsMoving { get; private set; }
+    private float currentSpeed;
 
     CharacterAnimator animator;
     private void Awake()
@@ -15,7 +16,7 @@ public class Character : MonoBehaviour
         animator = GetComponent<CharacterAnimator>();
     }
 
-    public IEnumerator Move(Vector2 moveVec, Action OnMoveOver=null) //We can check for an action only when needed (encounter for player, battle for trainers..)
+    public IEnumerator Move(Vector2 moveVec, Action OnMoveOver=null, bool isRunning=false) //We can check for an action only when needed (encounter for player, battle for trainers..)
     {
         animator.MoveX = Mathf.Clamp(moveVec.x, -1f, 1f); //Link the moveX from the animator with the moveVec.x of the code, clamp it for the NPC 
         animator.MoveY = Mathf.Clamp(moveVec.y, -1f, 1f); //Same for the Y
@@ -33,7 +34,13 @@ public class Character : MonoBehaviour
         //this part get us a smooth movement, instead of juste moving tile to tile
         while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+            if (isRunning){
+                transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * 2 * Time.deltaTime);
+            }
+            else{
+                transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+            }
+            
             yield return null;
         }
         IsMoving = false;

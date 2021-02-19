@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] string name;
     [SerializeField] Sprite sprite;
+    public float runSpeed; //Run Speed value
 
     const float offsetY = 0.3f;
 
@@ -49,7 +50,12 @@ public class PlayerController : MonoBehaviour
             //While the player is not moving, we read the input, and move the player in the choosen direction
             if (input != Vector2.zero)
             {
-                StartCoroutine(character.Move(input, OnMoveOver));
+                if(Input.GetKey(KeyCode.B)){
+                    StartCoroutine(character.Move(input, OnMoveOver, true));
+                }
+                else {
+                    StartCoroutine(character.Move(input, OnMoveOver));
+                }
             }
         }
 
