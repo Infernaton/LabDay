@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class MenuController : MonoBehaviour
 {
-    HandleUpdate()
+    public void Awake(){}
+    public void HandleUpdate()
     {
         //TODO : Gérer le menu
-        yield break;
+        Debug.Log("Update !");
+        //yield break;
     }
 }

@@ -2498,7 +2498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Naply
   sprite: {fileID: -8767312052336156492, guid: a367bdfbd1c9e1f459c56cfb493e9173, type: 3}
-  chgSceneScreenUI: {fileID: 0}
+  runSpeed: 0
 --- !u!212 &900875530
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4497,12 +4497,8 @@ MonoBehaviour:
   playerImage: {fileID: 2009347023}
   trainerImage: {fileID: 558838327}
   pokeballSprite: {fileID: 6206110093001833937, guid: c81ab97a745f6f74db5b4c4f4de7b7d6, type: 3}
-  playerEnterTrainerBattleSprites:
-  - {fileID: -8767312052336156492, guid: a367bdfbd1c9e1f459c56cfb493e9173, type: 3}
-  - {fileID: 1960556527956487333, guid: a367bdfbd1c9e1f459c56cfb493e9173, type: 3}
-  - {fileID: 7750193504882550462, guid: a367bdfbd1c9e1f459c56cfb493e9173, type: 3}
-  - {fileID: -1545674940206412253, guid: a367bdfbd1c9e1f459c56cfb493e9173, type: 3}
-  - {fileID: 82628986890364847, guid: a367bdfbd1c9e1f459c56cfb493e9173, type: 3}
+  moveSelectionUI: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!1 &1555560034
 GameObject:
   m_ObjectHideFlags: 0

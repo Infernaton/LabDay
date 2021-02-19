@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     GameState state;//Reference to our GameState
     [SerializeField] PlayerController playerController;//Reference to the PlayerController script
     [SerializeField] BattleSystem battleSystem;//Reference to the BattleSystem Script 
-    [SerializeField] MenuSystem menuSystem;//Reference to the MenuSystem Script 
+    [SerializeField] MenuController menuController;//Reference to the MenuSystem Script 
     [SerializeField] Camera worldCamera; //Reference to our Camera
 
     public static GameController Instance { get; private set; } //Get reference from the game controller anywhere we want
@@ -117,7 +117,7 @@ public class GameController : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.I))
             {
             state = GameState.Menu;
-            menuSystem.SetActive(true);
+            menuController.SetActive(true);
             }
         }
         else if (state == GameState.Menu)
@@ -125,7 +125,7 @@ public class GameController : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Escape))
             {
             state = GameState.FreeRoam;
-            menuSystem.SetActive(false);
+            menuController.SetActive(false);
             }
         }
         
