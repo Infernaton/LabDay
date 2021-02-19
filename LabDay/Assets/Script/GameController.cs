@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //We'll use GameStates to switch beetween Scenes (Overworld, Battle, etc)
-public enum GameState { FreeRoam, Battle, Dialog, Cutscene } //List every states we'll use
+public enum GameState { FreeRoam, Battle, Dialog, Cutscene, Menu } //List every states we'll use
 public class GameController : MonoBehaviour
 {
     GameState state;//Reference to our GameState
@@ -107,6 +107,14 @@ public class GameController : MonoBehaviour
         state = GameState.FreeRoam;
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
+    }
+
+    void OpenMenu()
+    {
+        if (state == GameState.FreeRoam && Input.GetKeyDown.)
+        {
+
+        }
     }
 
     private void Update()
