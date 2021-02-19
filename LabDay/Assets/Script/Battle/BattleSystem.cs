@@ -104,7 +104,7 @@ public class BattleSystem : MonoBehaviour
             playerImage.sprite = player.Sprite;
             trainerImage.sprite = trainer.Sprite;
 
-            yield return dialogBox.TypeDialog($"{trainer.Name} veut se battre");
+            yield return dialogBox.TypeDialog($"{trainer.Name} veut se battre !");
 
             //Send out first pokemon of the trainer, disabling image of trainer, enabling image ok pokemon
             trainerImage.gameObject.SetActive(false);
@@ -144,7 +144,7 @@ public class BattleSystem : MonoBehaviour
     void ActionSelection()
     {
         state = BattleState.ActionSelection; //Change the state to ActionSelection
-        dialogBox.SetDialog("Choisissez une action"); //Then write a text
+        dialogBox.SetDialog("Choisissez une action :"); //Then write a text
         dialogBox.EnableActionSelector(true); //Then allow player to choose an Action
     }
 
@@ -174,7 +174,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator ChooseMoveToForget(Pokemon pokemon, MoveBase newMove)
     {
         state = BattleState.Busy;
-        yield return dialogBox.TypeDialog($"Choisissez une attaque à oublier");
+        yield return dialogBox.TypeDialog($"Choisissez une attaque à oublier.");
         moveSelectionUI.gameObject.SetActive(true); 
         moveSelectionUI.SetMoveData(pokemon.Moves.Select(x => x.Base).ToList(), newMove); //Set the data using Select and Linq to acces base.
         moveToLearn = newMove;
@@ -263,9 +263,9 @@ public class BattleSystem : MonoBehaviour
 
         move.PP--; //Redcing PP of the move on use
         if (targetUnit == playerUnit) //If statement to show if the pokemon using a move is the player's one of the enemy
-            yield return dialogBox.TypeDialog($"Le {sourceUnit.Pokemon.Base.Name} enemi utilise {move.Base.Name}"); //We write to the player that a pokemon used a move
+            yield return dialogBox.TypeDialog($"Le {sourceUnit.Pokemon.Base.Name} enemi utilise {move.Base.Name}."); //We write to the player that a pokemon used a move
         else
-            yield return dialogBox.TypeDialog($"Votre {sourceUnit.Pokemon.Base.Name} utilise {move.Base.Name}");
+            yield return dialogBox.TypeDialog($"Votre {sourceUnit.Pokemon.Base.Name} utilise {move.Base.Name}.");
 
         if (CheckIfMoveHits(move, sourceUnit.Pokemon, targetUnit.Pokemon))
         {
@@ -392,7 +392,7 @@ public class BattleSystem : MonoBehaviour
         if (!faintedUnit.IsPlayerUnit) //Check a first time for the message
             yield return dialogBox.TypeDialog($"Le {faintedUnit.Pokemon.Base.Name} ennemi est mis K.O !");
         else
-            yield return dialogBox.TypeDialog($"Votre {faintedUnit.Pokemon.Base.Name} est mis K.O");
+            yield return dialogBox.TypeDialog($"Votre {faintedUnit.Pokemon.Base.Name} est mis K.O !");
         faintedUnit.PlayFaintAnimation();
         yield return new WaitForSeconds(2f);
 
@@ -414,7 +414,7 @@ public class BattleSystem : MonoBehaviour
             while (playerUnit.Pokemon.CheckForLevelUp()) //If true, lvl up, we use While if the pokemon has to lvl up mutliple times
             {
                 playerUnit.Hud.SetLevel();
-                yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} est passé au niveau {playerUnit.Pokemon.Level}");
+                yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} est passé au niveau {playerUnit.Pokemon.Level} !");
 
                 //Try to learn a new move
                 var newMove = playerUnit.Pokemon.GetLearnableMoveAtCurrentLevel();
@@ -424,13 +424,13 @@ public class BattleSystem : MonoBehaviour
                     {
                         //Automaticly learn the move
                         playerUnit.Pokemon.LearnMove(newMove);
-                        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a apprit {newMove.Base.Name}");
+                        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a apprit {newMove.Base.Name} !");
                         dialogBox.SetMoveNames(playerUnit.Pokemon.Moves);
                     }
                     else
                     {
                         //Ask to forget a move before
-                        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} essaie d'apprendre {newMove.Base.Name}");
+                        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} essaie d'apprendre {newMove.Base.Name}.");
                         yield return dialogBox.TypeDialog($"Mais un pokemon ne peut pas connaitre plus de {PokemonBase.MaxNumberOfMoves} attaques à la fois.");
                         yield return ChooseMoveToForget(playerUnit.Pokemon, newMove.Base);
                         yield return new WaitUntil(() => state != BattleState.MoveToForget);
@@ -516,13 +516,13 @@ public class BattleSystem : MonoBehaviour
                 if (moveIndex == PokemonBase.MaxNumberOfMoves)
                 {
                     //Don't learn the new move
-                    StartCoroutine(dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} n'a pas apprit {moveToLearn.Name}"));
+                    StartCoroutine(dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} n'a pas apprit {moveToLearn.Name}."));
                 }
                 else
                 {
                     //Forget selected move and learn the new
                     var selectedMove = playerUnit.Pokemon.Moves[moveIndex].Base;
-                    StartCoroutine(dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a apprit {moveToLearn.Name} à la place de {selectedMove.Name}"));
+                    StartCoroutine(dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a apprit {moveToLearn.Name} à la place de {selectedMove.Name}."));
 
                     playerUnit.Pokemon.Moves[moveIndex] = new Move(moveToLearn);
                 }
@@ -662,7 +662,7 @@ public class BattleSystem : MonoBehaviour
         {
             if (playerUnit.Pokemon.HP <= 0) //Player has to change if the actual pokemon is dead
             {
-                partyScreen.SetMessageText("Vous devez choisir un pokemon pour continuer");
+                partyScreen.SetMessageText("Vous devez choisir un pokemon pour continuer.");
                 return;
             }
 
@@ -753,7 +753,7 @@ public class BattleSystem : MonoBehaviour
             yield break;
         }
 
-        yield return dialogBox.TypeDialog($"{player.Name} lance une pokeball");
+        yield return dialogBox.TypeDialog($"{player.Name} lance une pokeball !");
 
         var pokeballObject = Instantiate(pokeballSprite, playerUnit.transform.position - new Vector3(2, 0), Quaternion.identity); //This will "create" the pokeball, using the prefab
         var pokeball = pokeballObject.GetComponent<SpriteRenderer>(); //Grab a reference to the pokeball sprite
@@ -838,7 +838,7 @@ public class BattleSystem : MonoBehaviour
 
         if (enemySpeed < playerSpeed) //If player is faster, got away safely
         {
-            yield return dialogBox.TypeDialog($"Vous avez pris la fuite");
+            yield return dialogBox.TypeDialog($"Vous avez pris la fuite.");
             BattleOver(true);
         }
         else //Else calucate the luck to get away, or lose a turn
@@ -848,7 +848,7 @@ public class BattleSystem : MonoBehaviour
 
             if (UnityEngine.Random.Range(0, 256) < f)
             {
-                yield return dialogBox.TypeDialog($"Vous êtes partis sans soucis");
+                yield return dialogBox.TypeDialog($"Vous avez pris la fuite.");
                 BattleOver(true);
             }
             else

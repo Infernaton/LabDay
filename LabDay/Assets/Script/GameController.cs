@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour
     //Change our battle state, camera active, and gameobject of the Battle System
     void StartBattle()
     {
-        if (frame < 1300)
+        if (frame < 600)
         {
             state = GameState.Cutscene;
             StartCoroutine(introWildAppeared());
@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator introWildAppeared()
     {
-        yield return new WaitUntil(() => frame == 1300);
+        yield return new WaitUntil(() => frame == 600);
         StartBattle();
     }
 
