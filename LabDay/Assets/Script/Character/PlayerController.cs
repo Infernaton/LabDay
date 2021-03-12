@@ -11,15 +11,12 @@ public class PlayerController : MonoBehaviour
 
     const float offsetY = 0.3f;
 
-    public event Action<Collider2D> OnEnterTrainersView; //Action for entering a trainer's view, with a collider 2d as parameter to know wich trainer we saw
-    public event Action OnEncountered; //Creating an action we'll cal when an encounter appears
-
     private Vector2 input; // For getting the Input
 
     private Character character;
 
     private AudioSource[] myAudio;
-    private AudioSource background;
+    private AudioSource musicBackground;
     private AudioSource introTallGrass;
 
     //With this void Awake, we set the Animator so it plays the animation of the direction the player asked
@@ -30,8 +27,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         myAudio = character.transform.GetChild(0).GetComponents<AudioSource>();
-        background = myAudio[0];
-        Debug.Log(introTallGrass);
+        musicBackground = myAudio[0];
         introTallGrass = myAudio[1];
         
     }
@@ -82,33 +78,29 @@ public class PlayerController : MonoBehaviour
 
     private void OnMoveOver()
     {
-        CheckForEncounter();
-        CheckIfInTrainersView();
-    }
+        var colliders = Physics2D.OverlapCircleAll(transform.position - new Vector3(0, offsetY), 0.2f, GameLayers.i.TriggerableLayers);
 
-    //Function to know if the player walk on a grass tile
-    private void CheckForEncounter()
-    {
-        if (Physics2D.OverlapCircle(transform.position - new Vector3(0, offsetY), 0.2f, GameLayers.i.GrassLayer) != null) //Check if there is something in a radius, in the grass layer
+        foreach (var collider in colliders)
         {
-            if (UnityEngine.Random.Range(1, 101) <= 10) //If, within a range of 1 to 100, we hit below 10 (10% chances), we will encounter a creature
+            var triggerable = collider.GetComponent<IPlayerTriggerable>();
+            if (triggerable != null)
             {
-                background.Stop();
-                Debug.Log("Mute music");
-                introTallGrass.Play();
                 character.Animator.IsMoving = false; //Set it to false when a battle appear
-                OnEncountered();//We call our BattleSystem by changing the GameState to battle
+                triggerable.OnPlayerTriggered(this);
+                break;
             }
         }
     }
-    private void CheckIfInTrainersView()
+
+    public void StopMusic(AudioSource audio)
     {
-        var collider = Physics2D.OverlapCircle(transform.position - new Vector3(0, offsetY), 0.2f, GameLayers.i.FovLayer);
-        if (collider != null) //Same as CheckForEncounter but with trainers
-        {
-            character.Animator.IsMoving = false; //Set it to false when a battle appear
-            OnEnterTrainersView?.Invoke(collider); //Call the trainer battle when the player collide with the field of view
-        }
+        audio.Stop();
+        Debug.Log("Mute ");
+    }
+    public void PlayMusic(AudioSource audio)
+    {
+        audio.Play();
+        Debug.Log("Play ");
     }
 
     //Properties to expose names and sprites
@@ -119,5 +111,14 @@ public class PlayerController : MonoBehaviour
     public Sprite Sprite
     {
         get => sprite;
+    }
+    //To get the music that we play
+    public AudioSource MusicBackground
+    {
+        get => musicBackground;
+    }
+    public AudioSource IntroTallGrass
+    {
+        get => introTallGrass;
     }
 }

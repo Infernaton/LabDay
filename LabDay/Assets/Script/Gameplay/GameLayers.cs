@@ -42,4 +42,8 @@ public class GameLayers : MonoBehaviour
     {
         get => changeScene;
     }
+    public LayerMask TriggerableLayers
+    {
+        get => changeScene | grassLayer | fovLayer;
+    }
 }

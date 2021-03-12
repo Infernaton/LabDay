@@ -25,18 +25,7 @@ public class GameController : MonoBehaviour
     //On the first frame we check if we enable our Overworld script, or the battle one
     private void Start()
     {
-        playerController.OnEncountered += StartBattle;
         battleSystem.OnBattleOver += EndBattle;
-
-        playerController.OnEnterTrainersView += (Collider2D trainerCollider) => //Use this collider to get reference of the trainerController
-        {
-            var trainer = trainerCollider.GetComponentInParent<TrainerController>();
-            if (trainer != null)
-            {
-                state = GameState.Cutscene;
-                StartCoroutine(trainer.TriggerTrainerBattle(playerController));
-            }
-        };
 
         DialogManager.Instance.OnShowDialog += () => //Change the state to dialog so the player won't be able to move will a dialog appears
         {
@@ -50,7 +39,7 @@ public class GameController : MonoBehaviour
     }
 
     //Change our battle state, camera active, and gameobject of the Battle System
-    void StartBattle()
+    public void StartBattle()
     {
         if (frame < 600)
         {
@@ -96,6 +85,12 @@ public class GameController : MonoBehaviour
         battleSystem.StartTrainerBattle(playerParty, trainerParty); //Call our StartBattle, so every fight are not the same
     }
 
+    public void OnEnterTrainersView(TrainerController trainer)
+    {
+        state = GameState.Cutscene;
+        StartCoroutine(trainer.TriggerTrainerBattle(playerController));
+    }
+
     //Change our battle state, camera active, and gameobject of the Battle System
     void EndBattle(bool won)
     {
@@ -117,7 +112,7 @@ public class GameController : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.I))
             {
             state = GameState.Menu;
-            menuController.SetActive(true);
+            //menuController.SetActive(true);
             }
         }
         else if (state == GameState.Menu)
@@ -125,7 +120,7 @@ public class GameController : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Escape))
             {
             state = GameState.FreeRoam;
-            menuController.SetActive(false);
+            //menuController.SetActive(false);
             }
         }
         
@@ -154,7 +149,7 @@ public class GameController : MonoBehaviour
         }
         else if (state == GameState.Menu)
         {
-            MenuController.HandleUpdate();
+            //MenuController.HandleUpdate();
         }
     }
 }
