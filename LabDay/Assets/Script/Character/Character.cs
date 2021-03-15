@@ -8,12 +8,22 @@ public class Character : MonoBehaviour
 {
     public float moveSpeed; //Defauld Speed value
     public bool IsMoving { get; private set; }
-    private float currentSpeed;
+    public float OffSetY { get; private set; } = 0.3f;
+    //private float currentSpeed;
 
     CharacterAnimator animator;
     private void Awake()
     {
         animator = GetComponent<CharacterAnimator>();
+        SetPositionAndSnapToTile(transform.position);
+    }
+
+    public void SetPositionAndSnapToTile(Vector2 pos)
+    {
+        pos.x = Mathf.Floor(pos.x) + 0.5f;
+        pos.y = Mathf.Floor(pos.y) + 0.5f + OffSetY;
+
+        transform.position = pos;
     }
 
     public IEnumerator Move(Vector2 moveVec, Action OnMoveOver=null, bool isRunning=false) //We can check for an action only when needed (encounter for player, battle for trainers..)

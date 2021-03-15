@@ -9,8 +9,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Sprite sprite;
     public float runSpeed; //Run Speed value
 
-    const float offsetY = 0.3f;
-
     private Vector2 input; // For getting the Input
 
     private Character character;
@@ -29,7 +27,7 @@ public class PlayerController : MonoBehaviour
         myAudio = character.transform.GetChild(0).GetComponents<AudioSource>();
         musicBackground = myAudio[0];
         introTallGrass = myAudio[1];
-        
+
     }
 
     public void HandleUpdate()
@@ -46,7 +44,7 @@ public class PlayerController : MonoBehaviour
             //While the player is not moving, we read the input, and move the player in the choosen direction
             if (input != Vector2.zero)
             {
-                if(Input.GetKey(KeyCode.B)){
+                if (Input.GetKey(KeyCode.B)) {
                     StartCoroutine(character.Move(input, OnMoveOver, true));
                 }
                 else {
@@ -62,7 +60,7 @@ public class PlayerController : MonoBehaviour
     }
 
     //Interaction function
-    void Interact() 
+    void Interact()
     {
         var facingDir = new Vector3(character.Animator.MoveX, character.Animator.MoveY);  //Direction the player is facing
         var interactPos = transform.position + facingDir; //this is the position of the tile the player is facing
@@ -78,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnMoveOver()
     {
-        var colliders = Physics2D.OverlapCircleAll(transform.position - new Vector3(0, offsetY), 0.2f, GameLayers.i.TriggerableLayers);
+        var colliders = Physics2D.OverlapCircleAll(transform.position - new Vector3(0, character.OffSetY), 0.2f, GameLayers.i.TriggerableLayers);
 
         foreach (var collider in colliders)
         {
@@ -121,4 +119,8 @@ public class PlayerController : MonoBehaviour
     {
         get => introTallGrass;
     }
+    public Character Character
+    {
+        get => character;
+    } 
 }
