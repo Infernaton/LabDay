@@ -11,7 +11,7 @@ public class Portal : MonoBehaviour, IPlayerTriggerable
 
     PlayerController player;
 
-    public void OnPlayerTriggered(PlayerController playerController)
+    public void OnPlayerTriggered(PlayerController player)
     {
         this.player = player;
         StartCoroutine(SwitchScene());
