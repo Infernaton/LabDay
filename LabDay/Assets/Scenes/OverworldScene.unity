@@ -3510,6 +3510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 900875529}
   battleSystem: {fileID: 1546004490}
+  menuController: {fileID: 0}
   worldCamera: {fileID: 830219081}
 --- !u!4 &1095657797
 Transform:
@@ -3569,7 +3570,7 @@ MonoBehaviour:
     m_Bits: 4096
   changeScene:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8192
 --- !u!1 &1192577596
 GameObject:
   m_ObjectHideFlags: 0
