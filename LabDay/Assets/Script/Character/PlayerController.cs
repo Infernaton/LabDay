@@ -86,7 +86,6 @@ public class PlayerController : MonoBehaviour
             var triggerable = collider.GetComponent<IPlayerTriggerable>();
             if (triggerable != null)
             {
-                GameController.Instance.state = GameState.Cutscene;
                 character.Animator.IsMoving = false; //Set it to false when a battle appear
                 triggerable.OnPlayerTriggered(this);
                 break;

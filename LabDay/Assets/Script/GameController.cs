@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //We'll use GameStates to switch beetween Scenes (Overworld, Battle, etc)
-public enum GameState { FreeRoam, Battle, Dialog, Cutscene, Menu } //List every states we'll use
+public enum GameState { FreeRoam, Battle, Dialog, Cutscene, Menu, Pause } //List every states we'll use
 public class GameController : MonoBehaviour
 {
-    public GameState state;//Reference to our GameState
+    GameState state;//Reference to our GameState
+
+    GameState stateBeforePause;
+
     [SerializeField] PlayerController playerController;//Reference to the PlayerController script
     [SerializeField] BattleSystem battleSystem;//Reference to the BattleSystem Script 
     [SerializeField] MenuController menuController;//Reference to the MenuSystem Script 
@@ -124,6 +127,18 @@ public class GameController : MonoBehaviour
             }
         }
         
+    }
+    public void PauseGame(bool pause)
+    {
+        if (pause)
+        {
+            stateBeforePause = state;
+            state = GameState.Pause;
+        }
+        else
+        {
+            state = stateBeforePause;
+        }
     }
 
     private void Update()
