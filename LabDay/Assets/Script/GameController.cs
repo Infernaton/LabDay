@@ -152,4 +152,9 @@ public class GameController : MonoBehaviour
             //MenuController.HandleUpdate();
         }
     }
+    public GameState State
+    {
+        get => state;
+        set => state = value;
+    }
 }

@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Init.unity
+    guid: 85aba91db9223174db535c0199a4e358
+  - enabled: 1
     path: Assets/Scenes/Test.unity
     guid: e86035b0ae00ee0428b047238c3827b7
-  - enabled: 0
-    path: Assets/Scenes/OverworldScene.unity
-    guid: f105907c1e02c7f4cb6d65c687132d87
   - enabled: 1
     path: Assets/Scenes/RealTestOfTheDraw test maison.unity
     guid: d0493313c21cf42e3a2bebb016ed43f7
+  - enabled: 0
+    path: Assets/Scenes/OverworldScene.unity
+    guid: f105907c1e02c7f4cb6d65c687132d87
   m_configObjects: {}
