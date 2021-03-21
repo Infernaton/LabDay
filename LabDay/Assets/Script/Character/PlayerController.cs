@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
         myAudio = character.transform.GetChild(0).GetComponents<AudioSource>();
         musicBackground = myAudio[0];
         introTallGrass = myAudio[1];
+        OnMoveOver();
 
     }
 
