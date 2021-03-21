@@ -6,7 +6,7 @@ using UnityEngine;
 public enum GameState { FreeRoam, Battle, Dialog, Cutscene, Menu } //List every states we'll use
 public class GameController : MonoBehaviour
 {
-    GameState state;//Reference to our GameState
+    public GameState state;//Reference to our GameState
     [SerializeField] PlayerController playerController;//Reference to the PlayerController script
     [SerializeField] BattleSystem battleSystem;//Reference to the BattleSystem Script 
     [SerializeField] MenuController menuController;//Reference to the MenuSystem Script 
@@ -151,10 +151,5 @@ public class GameController : MonoBehaviour
         {
             //MenuController.HandleUpdate();
         }
-    }
-    public GameState State
-    {
-        get => state;
-        set => state = value;
     }
 }

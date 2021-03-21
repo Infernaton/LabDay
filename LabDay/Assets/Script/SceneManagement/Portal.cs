@@ -18,7 +18,6 @@ public class Portal : MonoBehaviour, IPlayerTriggerable
         this.player = player;
         
         StartCoroutine(SwitchScene());
-        gameController.State = GameState.Cutscene;
     }
 
     IEnumerator SwitchScene()
@@ -36,9 +35,8 @@ public class Portal : MonoBehaviour, IPlayerTriggerable
         {
             player.Character.SetPositionAndSnapToTile(destPortal.SpawnPoint.position);
         }
-
         Destroy(gameObject);
-        gameController.State = GameState.FreeRoam;
+        GameController.Instance.state = GameState.FreeRoam;
     }
     public Transform SpawnPoint => spawnPoint;
 }

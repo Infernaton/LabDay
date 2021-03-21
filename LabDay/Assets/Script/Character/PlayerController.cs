@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     private AudioSource musicBackground;
     private AudioSource introTallGrass;
 
+    GameController gameController;
+
     //With this void Awake, we set the Animator so it plays the animation of the direction the player asked
     private void Awake()
     {
@@ -83,6 +85,7 @@ public class PlayerController : MonoBehaviour
             var triggerable = collider.GetComponent<IPlayerTriggerable>();
             if (triggerable != null)
             {
+                GameController.Instance.state = GameState.Cutscene;
                 character.Animator.IsMoving = false; //Set it to false when a battle appear
                 triggerable.OnPlayerTriggered(this);
                 break;
