@@ -25,8 +25,6 @@ public class Portal : MonoBehaviour, IPlayerTriggerable
     {
         DontDestroyOnLoad(gameObject);
 
-        Debug.Log("YEYE");
-
         GameController.Instance.PauseGame(true);
         yield return SceneManager.LoadSceneAsync(sceneToLoad);
 
@@ -35,7 +33,6 @@ public class Portal : MonoBehaviour, IPlayerTriggerable
             var destPortal = FindObjectsOfType<Portal>().First(x => x != this && x.destinationPortal == this.destinationPortal);
             if (!keepOldPos)
             {
-                Debug.Log("AAAAAA");
                 Debug.Log(destPortal.SpawnPoint.position);
                 player.Character.SetPositionAndSnapToTile(destPortal.SpawnPoint.position);
             }
