@@ -12,9 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Houses.unity
     guid: 1cf9fa9dd4952ce44b8cda00a2ebf594
   - enabled: 1
-    path: Assets/Scenes/Outside.unity
+    path: Assets/Scenes/MaisonJoueur.unity
     guid: 4d0bc8bd99bd9cd4284959224fc5cf10
   - enabled: 1
-    path: Assets/Scenes/Overworld.unity
+    path: Assets/Scenes/Route1.unity
     guid: f105907c1e02c7f4cb6d65c687132d87
   m_configObjects: {}
