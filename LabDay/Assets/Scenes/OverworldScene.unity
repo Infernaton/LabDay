@@ -18469,7 +18469,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 900875528}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -53.5, y: 12.8, z: 0}
+  m_LocalPosition: {x: -6.5, y: -2.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 830219082}
@@ -18778,6 +18778,10 @@ PrefabInstance:
       propertyPath: walkDownSprites.Array.data[0]
       value: 
       objectReference: {fileID: 4479181887894498110, guid: cb3a56e86b2bb9c4991509ad74cde6ad, type: 3}
+    - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
+      propertyPath: timeBetweenPattern
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.size
       value: 3
