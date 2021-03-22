@@ -108,7 +108,7 @@ public class GameController : MonoBehaviour
         worldCamera.gameObject.SetActive(true);
     }
 
-    void OpenMenu()
+    /*void OpenMenu()
     {
         if (state == GameState.FreeRoam)
         {
@@ -127,7 +127,7 @@ public class GameController : MonoBehaviour
             }
         }
         
-    }
+    }*/
     public void PauseGame(bool pause)
     {
         if (pause)
