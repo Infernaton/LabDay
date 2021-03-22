@@ -12,15 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Houses.unity
     guid: 1cf9fa9dd4952ce44b8cda00a2ebf594
   - enabled: 1
-    path: Assets/Scenes/RealTestOfTheDraw.unity
+    path: Assets/Scenes/Outside.unity
     guid: 4d0bc8bd99bd9cd4284959224fc5cf10
   - enabled: 1
     path: Assets/Scenes/OverworldScene.unity
     guid: f105907c1e02c7f4cb6d65c687132d87
-  - enabled: 0
-    path: Assets/Scenes/RealTestOfTheDraw test maison.unity
-    guid: d0493313c21cf42e3a2bebb016ed43f7
-  - enabled: 0
-    path: Assets/Scenes/Test.unity
-    guid: e86035b0ae00ee0428b047238c3827b7
   m_configObjects: {}
