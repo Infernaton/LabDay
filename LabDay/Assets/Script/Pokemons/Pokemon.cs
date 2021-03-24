@@ -146,6 +146,7 @@ public class Pokemon
             {
                 int damage = MaxHp * boost /100;
                 UpdateHP(damage);
+                StatusChanges.Enqueue($"{Base.name} perd quelque PV en contrecoups");
             }
         }
     }
