@@ -25,7 +25,7 @@ public class ConditionsDB //Db stands for Database
                 SartMessage = "est empoisonné",
                 OnAfterTurn = (Pokemon pokemon) => //This create the function right into the Condition
                 {
-                    pokemon.UpdateHP(pokemon.MaxHp / 8);
+                    pokemon.UpdateHP(-pokemon.MaxHp / 8);
                     pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} souffre de son poison");
                 }
             }
@@ -38,7 +38,7 @@ public class ConditionsDB //Db stands for Database
                 SartMessage = "est brûlé",
                 OnAfterTurn = (Pokemon pokemon) => //This create the function right into the Condition
                 {
-                    pokemon.UpdateHP(pokemon.MaxHp / 16);
+                    pokemon.UpdateHP(-pokemon.MaxHp / 16);
                     pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} souffre de sa brûlure");
                 }
             }
@@ -139,7 +139,7 @@ public class ConditionsDB //Db stands for Database
                         return true;
                     //Hurt itself
                     pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} est confus");
-                    pokemon.UpdateHP(pokemon.MaxHp / 8);
+                    pokemon.UpdateHP(-pokemon.MaxHp / 8);
                     pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} s'est bléssé dans sa confusion");
                     return false;
                 }
