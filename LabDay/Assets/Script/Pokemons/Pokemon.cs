@@ -12,6 +12,8 @@ public class Pokemon
     [SerializeField] PokemonBase _base; //Setting a serialized field of it to acces it in unity
     [SerializeField] int level;
 
+    private int lastDamage;
+
     public Pokemon(PokemonBase pBAse, int pLevel) //Create an instance of the pokemon, moslty use with wild pokemon, to catch a copy of the wild pokemon, and not THE pokemon itself
     {
         _base = pBAse;
@@ -144,7 +146,7 @@ public class Pokemon
             }
             else
             {
-                int damage = MaxHp * boost /100;
+                int damage = lastDamage * boost /100;
                 UpdateHP(damage);
                 StatusChanges.Enqueue($"{Base.name} perd quelque PV en contrecoups");
             }
@@ -237,6 +239,7 @@ public class Pokemon
     {
         HP = Mathf.Clamp(HP + damage, 0, MaxHp);
         Debug.Log($"Update PV: {damage}");
+        lastDamage = damage;
         HpChanged = true;
     }
 
