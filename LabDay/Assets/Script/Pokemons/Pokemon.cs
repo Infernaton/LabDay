@@ -146,7 +146,8 @@ public class Pokemon
             }
             else
             {
-                int damage = lastDamage * boost /100;
+                int damage = -(lastDamage) * boost /100;
+                Debug.Log($"{lastDamage} / {damage}");
                 UpdateHP(damage);
                 StatusChanges.Enqueue($"{Base.name} perd quelque PV en contrecoups");
             }
