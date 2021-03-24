@@ -235,6 +235,7 @@ public class Pokemon
     public void UpdateHP(int damage)
     {
         HP = Mathf.Clamp(HP - damage, 0, MaxHp);
+        Debug.Log($"Update PV: {damage}");
         HpChanged = true;
     }
 
