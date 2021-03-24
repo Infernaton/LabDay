@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49799ef17ca61f247b0c7dbb3abe6961, type: 3}
-  m_Name: SonicBoom
+  m_Name: Ultrason
   m_EditorClassIdentifier: 
-  name: Sonic Boom
+  name: Ultrason
   description: 
   type: 13
   power: 0

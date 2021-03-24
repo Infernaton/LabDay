@@ -4520,8 +4520,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pokemons:
-  - _base: {fileID: 11400000, guid: bc82530d4fab1d04e85d6b5132a26e44, type: 2}
-    level: 6
+  - _base: {fileID: 11400000, guid: b62318bbe804d234fbfd113b4a766cf9, type: 2}
+    level: 11
   - _base: {fileID: 11400000, guid: b62318bbe804d234fbfd113b4a766cf9, type: 2}
     level: 3
   - _base: {fileID: 11400000, guid: 1d588af9d42112640892b10202f72f58, type: 2}
