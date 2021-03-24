@@ -142,14 +142,14 @@ public class Pokemon
                 else
                     StatusChanges.Enqueue($"{stat} de {Base.Name} diminue!");
 
-                Debug.Log($"{stat} has been boosted to {StatBoosts[stat]}");
+                Debug.Log($"{stat} has been boosted to {StatBoosts[stat]}.");
             }
             else
             {
-                int damage = -(lastDamage) * boost /100;
-                Debug.Log($"{lastDamage} / {damage}");
+                int damage = MaxHp * boost / 100;
+                
                 UpdateHP(damage);
-                StatusChanges.Enqueue($"{Base.name} perd quelque PV en contrecoups");
+                StatusChanges.Enqueue($"{Base.name} perd quelque PV en contrecoup.");
             }
         }
     }
@@ -230,8 +230,12 @@ public class Pokemon
         float d = a * move.Base.Power * (attack / defense) + 2;
         int damage = Mathf.FloorToInt(d * modifiers);
 
+        lastDamage = damage;
+        Debug.Log($"LastDamage done: {lastDamage}");
+
         //After that we substract the damage to the actual life of the pokemon, and check if he died or no
         UpdateHP(-damage); //Simply call a function to update the Hp before returning
+        
 
         return damageDetails;
     }
@@ -240,7 +244,6 @@ public class Pokemon
     {
         HP = Mathf.Clamp(HP + damage, 0, MaxHp);
         Debug.Log($"Update PV: {damage}");
-        lastDamage = damage;
         HpChanged = true;
     }
 
@@ -308,6 +311,10 @@ public class Pokemon
         ResetStatBoost();
         VolatileStatus = null;
     }
+    public int LastDamage
+    {
+        get => lastDamage;
+    }
 }
 
 public class DamageDetails //Class we'll use to display a message if there was a critical hit, super effective or not..
@@ -316,3 +323,4 @@ public class DamageDetails //Class we'll use to display a message if there was a
     public float Critical { get; set; }
     public float TypeEffectiveness { get; set; }
 }
+
