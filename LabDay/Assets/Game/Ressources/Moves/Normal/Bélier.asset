@@ -28,7 +28,7 @@ MonoBehaviour:
   secondaries:
   - boosts:
     - stat: 7
-      boost: -25
+      boost: -15
     status: 0
     volatileStatus: 0
     chance: 100
