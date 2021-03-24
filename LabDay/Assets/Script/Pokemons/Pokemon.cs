@@ -12,6 +12,8 @@ public class Pokemon
     [SerializeField] PokemonBase _base; //Setting a serialized field of it to acces it in unity
     [SerializeField] int level;
 
+    private int lastDamage;
+
     public Pokemon(PokemonBase pBAse, int pLevel) //Create an instance of the pokemon, moslty use with wild pokemon, to catch a copy of the wild pokemon, and not THE pokemon itself
     {
         _base = pBAse;
@@ -131,14 +133,24 @@ public class Pokemon
             var stat = statBoost.stat;
             var boost = statBoost.boost;
 
-            StatBoosts[stat] = Mathf.Clamp(StatBoosts[stat] + boost, -6, 6); //Set the new value as the stat value + the boost (With a limit of 6)
+            if (stat != Stat.Hp)
+            {
+                StatBoosts[stat] = Mathf.Clamp(StatBoosts[stat] + boost, -6, 6); //Set the new value as the stat value + the boost (With a limit of 6)
 
-            if (boost > 0)
-                StatusChanges.Enqueue($"{Base.Name}'s {stat} rose!");
+                if (boost > 0)
+                    StatusChanges.Enqueue($"{stat} de {Base.Name} augmente!");
+                else
+                    StatusChanges.Enqueue($"{stat} de {Base.Name} diminue!");
+
+                Debug.Log($"{stat} has been boosted to {StatBoosts[stat]}");
+            }
             else
-                StatusChanges.Enqueue($"{Base.Name}'s {stat} fell!");
-
-            Debug.Log($"{stat} has been boosted to {StatBoosts[stat]}");
+            {
+                int damage = -(lastDamage) * boost /100;
+                Debug.Log($"{lastDamage} / {damage}");
+                UpdateHP(damage);
+                StatusChanges.Enqueue($"{Base.name} perd quelque PV en contrecoups");
+            }
         }
     }
 
@@ -219,14 +231,16 @@ public class Pokemon
         int damage = Mathf.FloorToInt(d * modifiers);
 
         //After that we substract the damage to the actual life of the pokemon, and check if he died or no
-        UpdateHP(damage); //Simply call a function to update the Hp before returning
+        UpdateHP(-damage); //Simply call a function to update the Hp before returning
 
         return damageDetails;
     }
 
     public void UpdateHP(int damage)
     {
-        HP = Mathf.Clamp(HP - damage, 0, MaxHp);
+        HP = Mathf.Clamp(HP + damage, 0, MaxHp);
+        Debug.Log($"Update PV: {damage}");
+        lastDamage = damage;
         HpChanged = true;
     }
 
