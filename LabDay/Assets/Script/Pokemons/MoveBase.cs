@@ -16,6 +16,7 @@ public class MoveBase : ScriptableObject //Voir PokemonBase
     [SerializeField] bool alwaysHits; //This bool is for moves that will always hit their target
     [SerializeField] int pp;
     [SerializeField] int priority; //Creating mvoes with priority
+    [SerializeField] int nbHit = 1; //If a move hits multiple times
     [SerializeField] MoveCategory category;
     [SerializeField] MoveEffects effects;
     [SerializeField] List<SecondaryEffects> secondaries; //Since a move can have mutliple secondary effects, we use a list
@@ -52,6 +53,10 @@ public class MoveBase : ScriptableObject //Voir PokemonBase
     public int Priority
     {
         get { return priority; }
+    }
+    public int NumberHit
+    {
+        get { return nbHit; }
     }
     public MoveCategory Category //Property to get the move Category
     {

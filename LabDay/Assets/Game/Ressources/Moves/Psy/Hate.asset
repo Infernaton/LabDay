@@ -10,20 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49799ef17ca61f247b0c7dbb3abe6961, type: 3}
-  m_Name: OndeDeChoc
+  m_Name: Hate
   m_EditorClassIdentifier: 
-  name: Onde de choc
+  name: "H\xE2te"
   description: 
-  type: 4
+  type: 15
   power: 0
   accuracy: 100
-  alwaysHits: 0
-  pp: 20
+  alwaysHits: 1
+  pp: 30
   priority: 0
   category: 2
   effects:
-    boosts: []
-    status: 4
+    boosts:
+    - stat: 4
+      boost: 2
+    status: 0
     volatileStatus: 0
   secondaries: []
-  target: 0
+  target: 1
