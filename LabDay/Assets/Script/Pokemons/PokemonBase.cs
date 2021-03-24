@@ -166,7 +166,6 @@ public enum GrowthRate //We use these var to know how much xp a pokemon will nee
 //We'll use this in a Dictionnary to get the stat at any given level
 public enum Stat
 {
-    Hp,
     Attack,
     Defense,
     SpAttack,
@@ -174,7 +173,8 @@ public enum Stat
     Speed,
     //These 2 are not stats, they're just used to boost the moveAccuracy
     Accuracy,
-    Evasion
+    Evasion,
+    Hp,
 }
 
 public class TypeChart //Create the chart to manage types and their effectiveness. It will look like a chart
