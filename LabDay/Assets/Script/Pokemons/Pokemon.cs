@@ -227,14 +227,14 @@ public class Pokemon
         int damage = Mathf.FloorToInt(d * modifiers);
 
         //After that we substract the damage to the actual life of the pokemon, and check if he died or no
-        UpdateHP(damage); //Simply call a function to update the Hp before returning
+        UpdateHP(-damage); //Simply call a function to update the Hp before returning
 
         return damageDetails;
     }
 
     public void UpdateHP(int damage)
     {
-        HP = Mathf.Clamp(HP - damage, 0, MaxHp);
+        HP = Mathf.Clamp(HP + damage, 0, MaxHp);
         Debug.Log($"Update PV: {damage}");
         HpChanged = true;
     }
