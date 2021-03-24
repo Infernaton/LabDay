@@ -10,20 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49799ef17ca61f247b0c7dbb3abe6961, type: 3}
-  m_Name: PoudreToxik
+  m_Name: Bourdon
   m_EditorClassIdentifier: 
-  name: Poudre Toxik
+  name: Bourdon
   description: 
-  type: 14
-  power: 0
-  accuracy: 75
+  type: 1
+  power: 90
+  accuracy: 100
   alwaysHits: 0
-  pp: 35
+  pp: 10
   priority: 0
-  category: 2
+  category: 1
   effects:
     boosts: []
-    status: 1
+    status: 0
     volatileStatus: 0
-  secondaries: []
+  secondaries:
+  - boosts:
+    - stat: 3
+      boost: -1
+    status: 0
+    volatileStatus: 0
+    chance: 0
+    target: 0
   target: 0

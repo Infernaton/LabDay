@@ -20,7 +20,7 @@ MonoBehaviour:
   alwaysHits: 0
   pp: 20
   priority: 0
-  category: 1
+  category: 0
   effects:
     boosts: []
     status: 0

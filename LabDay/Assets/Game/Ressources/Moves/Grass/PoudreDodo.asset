@@ -16,9 +16,9 @@ MonoBehaviour:
   description: 
   type: 10
   power: 0
-  accuracy: 55
+  accuracy: 75
   alwaysHits: 0
-  pp: 20
+  pp: 15
   priority: 0
   category: 2
   effects:
