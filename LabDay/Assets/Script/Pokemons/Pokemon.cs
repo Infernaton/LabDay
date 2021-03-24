@@ -131,14 +131,22 @@ public class Pokemon
             var stat = statBoost.stat;
             var boost = statBoost.boost;
 
-            StatBoosts[stat] = Mathf.Clamp(StatBoosts[stat] + boost, -6, 6); //Set the new value as the stat value + the boost (With a limit of 6)
+            if (stat != Stat.Hp)
+            {
+                StatBoosts[stat] = Mathf.Clamp(StatBoosts[stat] + boost, -6, 6); //Set the new value as the stat value + the boost (With a limit of 6)
 
-            if (boost > 0)
-                StatusChanges.Enqueue($"{Base.Name}'s {stat} rose!");
+                if (boost > 0)
+                    StatusChanges.Enqueue($"{Base.Name}'s {stat} rose!");
+                else
+                    StatusChanges.Enqueue($"{Base.Name}'s {stat} fell!");
+
+                Debug.Log($"{stat} has been boosted to {StatBoosts[stat]}");
+            }
             else
-                StatusChanges.Enqueue($"{Base.Name}'s {stat} fell!");
-
-            Debug.Log($"{stat} has been boosted to {StatBoosts[stat]}");
+            {
+                int damage = MaxHp * boost /100;
+                UpdateHP(damage);
+            }
         }
     }
 
