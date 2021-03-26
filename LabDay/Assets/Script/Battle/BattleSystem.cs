@@ -431,7 +431,7 @@ public class BattleSystem : MonoBehaviour
                     {
                         //Ask to forget a move before
                         yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} essaie d'apprendre {newMove.Base.Name}.");
-                        yield return dialogBox.TypeDialog($"Mais un pokemon ne peut pas connaitre plus de {PokemonBase.MaxNumberOfMoves} attaques à la fois.");
+                        yield return dialogBox.TypeDialog($"Mais un pokemon ne peut pas connaitre plus de {PokemonBase.MaxNumberOfMoves} capacitées à la fois.");
                         yield return ChooseMoveToForget(playerUnit.Pokemon, newMove.Base);
                         yield return new WaitUntil(() => state != BattleState.MoveToForget);
                         yield return new WaitForSeconds(2f);
