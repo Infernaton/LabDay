@@ -133,14 +133,37 @@ public class ConditionsDB //Db stands for Database
                     pokemon.VolatileStatusTime--;
                     
                     //50% chance to do a move, or hit itself
+                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} est confus");
 
                     //Play the move
                     if (Random.Range(1, 3) == 1)
                         return true;
                     //Hurt itself
-                    pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} est confus");
                     pokemon.UpdateHP(-pokemon.MaxHp / 8);
                     pokemon.StatusChanges.Enqueue($"{pokemon.Base.Name} s'est bléssé dans sa confusion");
+                    return false;
+                }
+            }
+        },
+        {
+            ConditionID.flinch,
+            new Condition()
+            {
+                Name = "Peur",
+                SartMessage = "est appeuré et ne pas bouger",
+                OnStart = (Pokemon pokemon) =>
+                {
+                    pokemon.VolatileStatusTime = 1;
+                },
+                OnBeforeMove = (Pokemon pokemon) =>
+                {
+                    if (pokemon.VolatileStatusTime <= 0)
+                    {
+                        pokemon.CureVolatileStatus();
+                        return true;
+                    }
+                    pokemon.VolatileStatusTime--;
+
                     return false;
                 }
             }
@@ -164,5 +187,5 @@ public class ConditionsDB //Db stands for Database
 public enum ConditionID //Key of a dictionnary with all the conditions we have
 {
     none, psn, brl, som, par, gel, //Poison, Burn, Sleep, Paralized, Frozen
-    confusion
+    confusion, flinch
 }
