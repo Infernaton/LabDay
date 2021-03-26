@@ -42,9 +42,17 @@ public class MoveSelectionUI : MonoBehaviour
         for (int i = 0; i < PokemonBase.MaxNumberOfMoves +1; i++)
         {
             if (i == selection)
+            {
                 moveTexts[i].color = highlightedColor;
+                if (moveTexts[i].text[0] != '>')
+                    moveTexts[i].text = "> " + moveTexts[i].text;
+            }
             else
+            {
                 moveTexts[i].color = Color.black;
+                if (moveTexts[i].text[0] == '>')
+                    moveTexts[i].text = moveTexts[i].text.Substring(2);
+            }
         }
     }
 }

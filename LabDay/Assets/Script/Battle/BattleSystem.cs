@@ -510,6 +510,37 @@ public class BattleSystem : MonoBehaviour
         }
         else if (state == BattleState.MoveToForget)
         {
+            /*
+    void HandleAboutSelection()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+            aboutToUseChoice = !aboutToUseChoice; //Reverse the choice every time we press a key
+
+        dialogBox.UpdateChoiceBox(aboutToUseChoice); //Highlight the choice
+
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) //When the player made it choice
+        {
+            dialogBox.EnableChoiceBox(false); //Disable choice box
+            
+            if (aboutToUseChoice == true)
+            {
+                //Yes, Open party selection
+                prevState = BattleState.AboutToUse; //Set the previous state to know in the SwitchPokemon
+                OpenPartyScreen();
+            }
+            else
+            {
+                //It's no, continue battle
+                StartCoroutine(SendNextTrainerPokemon());
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
+        {
+            dialogBox.EnableChoiceBox(false);
+            StartCoroutine(SendNextTrainerPokemon());
+        }
+    }
+             */
             Action<int> onMoveSelected = (moveIndex) => //This part is all a reference to the action used in the HandleMoveSelection
             {
                 moveSelectionUI.gameObject.SetActive(false);
