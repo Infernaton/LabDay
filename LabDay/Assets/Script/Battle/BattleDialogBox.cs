@@ -63,12 +63,21 @@ public class BattleDialogBox : MonoBehaviour
 
     public void UpdateActionSelection(int selectedAction) //This will actually change the color of the actionSelector selected
     {
+        List<Text> textWitnesss = actionTexts;
         for (int i=0; i<actionTexts.Count; ++i)
         {
             if (i == selectedAction)
-                actionTexts[i].color = highlightedColor;     
+            {
+                actionTexts[i].color = highlightedColor;
+                if (actionTexts[i].text[0] != '>')
+                    actionTexts[i].text = "> " + textWitnesss[i].text;
+            }
             else
+            {
                 actionTexts[i].color = Color.black;
+                if (actionTexts[i].text[0] == '>')
+                    actionTexts[i].text = actionTexts[i].text.Substring(1);
+            }
         }
     }
 
