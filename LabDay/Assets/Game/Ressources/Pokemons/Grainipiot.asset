@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61210d3cc0c171d4b9a4c0d84608f037, type: 3}
+  m_Name: Grainipiot
+  m_EditorClassIdentifier: 
+  name: Grainipiot
+  description: 
+  frontSprite: {fileID: 21300000, guid: 97f18364adbd1cc4e8e4dfb0d9ec7df4, type: 3}
+  backSprite: {fileID: 21300000, guid: 829e4ad39cb963249a5f44cf4006969d, type: 3}
+  type1: 10
+  type2: 0
+  maxHp: 40
+  attack: 40
+  defense: 50
+  spAttack: 30
+  spDefense: 30
+  speed: 30
+  expYield: 74
+  growthRate: 1
+  catchRate: 255
+  learnableMoves:
+  - moveBase: {fileID: 11400000, guid: 3e5aa2b9fd43939448636facc01a0490, type: 2}
+    level: 1
+  - moveBase: {fileID: 11400000, guid: f55afa9ede914eb4b94e29dd8ebca402, type: 2}
+    level: 1
+  - moveBase: {fileID: 11400000, guid: 736e642f549b3fc449bb10802c768685, type: 2}
+    level: 3
+  - moveBase: {fileID: 11400000, guid: 9e85279213db8134c9d15a86721e9d87, type: 2}
+    level: 13
+  - moveBase: {fileID: 11400000, guid: 9a8a8bd8be85c4441aa33f917ac1f130, type: 2}
+    level: 7
