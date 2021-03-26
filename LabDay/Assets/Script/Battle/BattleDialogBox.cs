@@ -63,20 +63,19 @@ public class BattleDialogBox : MonoBehaviour
 
     public void UpdateActionSelection(int selectedAction) //This will actually change the color of the actionSelector selected
     {
-        List<Text> textWitnesss = actionTexts;
         for (int i=0; i<actionTexts.Count; ++i)
         {
             if (i == selectedAction)
             {
                 actionTexts[i].color = highlightedColor;
                 if (actionTexts[i].text[0] != '>')
-                    actionTexts[i].text = "> " + textWitnesss[i].text;
+                    actionTexts[i].text = "> " + actionTexts[i].text;
             }
             else
             {
                 actionTexts[i].color = Color.black;
                 if (actionTexts[i].text[0] == '>')
-                    actionTexts[i].text = actionTexts[i].text.Substring(1);
+                    actionTexts[i].text = actionTexts[i].text.Substring(2);
             }
         }
     }
@@ -86,9 +85,17 @@ public class BattleDialogBox : MonoBehaviour
         for (int i=0; i<moveTexts.Count; ++i)
         {
             if (i == selectedMove)
+            {
                 moveTexts[i].color = highlightedColor;
+                if (moveTexts[i].text[0] != '>')
+                    moveTexts[i].text = "> " + moveTexts[i].text;
+            }
             else
+            {
                 moveTexts[i].color = Color.black;
+                if (moveTexts[i].text[0] == '>')
+                    moveTexts[i].text = moveTexts[i].text.Substring(2);
+            }
         }
 
         ppText.text = $"PP {move.PP}/{move.Base.Pp}"; //We show how many Pp are lefts
@@ -105,12 +112,20 @@ public class BattleDialogBox : MonoBehaviour
         if (yesSelected) //Highlight the text selected
         {
             yesText.color = highlightedColor;
+            if (yesText.text[0] != '>')
+                yesText.text = "> " + yesText.text;
             noText.color = Color.black;
+            if (noText.text[0] == '>')
+                noText.text = noText.text.Substring(2);
         }
         else
         {
             noText.color = highlightedColor;
+            if (noText.text[0] != '>')
+                noText.text = "> " + noText.text;
             yesText.color = Color.black;
+            if (yesText.text[0] == '>')
+                yesText.text = yesText.text.Substring(2);
         }
     }
 

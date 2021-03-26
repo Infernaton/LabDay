@@ -24,8 +24,16 @@ public class PartyMemberUI : MonoBehaviour
     public void SetSelected(bool selected) //Function to highlight and know wich pokemon is actually selected
     {
         if (selected)
+        {
             nameText.color = highlightedColor;
+            if (nameText.text[0] != '>')
+                nameText.text = "> " + nameText.text;
+        }
         else
+        {
             nameText.color = Color.black;
+            if (nameText.text[0] == '>')
+                nameText.text = nameText.text.Substring(2);
+        }
     }
 }
