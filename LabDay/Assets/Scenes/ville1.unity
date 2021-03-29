@@ -1460,7 +1460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[0]
-      value: L'auberge de __________
+      value: Auberge de jeunesse
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[1]
