@@ -10,7 +10,7 @@ using UnityEngine;
 public class Pokemon
 {
     [SerializeField] PokemonBase _base; //Setting a serialized field of it to acces it in unity
-    [SerializeField] int level;
+    [SerializeField] int level = 1;
 
     private int lastDamage;
 
@@ -28,7 +28,8 @@ public class Pokemon
     } 
     public int Level //We set theses two as public to acces them outside this class (in the BattleHub for example.)
     {
-        get { return level; }
+        set => level = value;
+        get => level;
     }
 
     public int Exp { get; set; }
@@ -83,11 +84,11 @@ public class Pokemon
         //FloorToInt is used to get rid of the decimal point
 
         Stats = new Dictionary<Stat, int>(); //Initialize the dictionnary
-        Stats.Add(Stat.Attack, Mathf.FloorToInt((Base.Attack * Level) / 100f) + 5); //Setting the values, by calculating it, then setting it to the Attack key
-        Stats.Add(Stat.Defense, Mathf.FloorToInt((Base.Defense * Level) / 100f) + 5); //Same with defense, etc etc
-        Stats.Add(Stat.SpAttack, Mathf.FloorToInt((Base.SpAttack * Level) / 100f) + 5);
-        Stats.Add(Stat.SpDefense, Mathf.FloorToInt((Base.SpDefense * Level) / 100f) + 5);
-        Stats.Add(Stat.Speed, Mathf.FloorToInt((Base.Speed * Level) / 100f) + 5);
+        Stats.Add(Stat.ATK, Mathf.FloorToInt((Base.Attack * Level) / 100f) + 5); //Setting the values, by calculating it, then setting it to the Attack key
+        Stats.Add(Stat.DEF, Mathf.FloorToInt((Base.Defense * Level) / 100f) + 5); //Same with defense, etc etc
+        Stats.Add(Stat.SpATK, Mathf.FloorToInt((Base.SpAttack * Level) / 100f) + 5);
+        Stats.Add(Stat.SpDEF, Mathf.FloorToInt((Base.SpDefense * Level) / 100f) + 5);
+        Stats.Add(Stat.VIT, Mathf.FloorToInt((Base.Speed * Level) / 100f) + 5);
 
         MaxHp = Mathf.FloorToInt((Base.MaxHp * Level) / 100f) + 10 + Level;
 
@@ -98,13 +99,13 @@ public class Pokemon
     {
         StatBoosts = new Dictionary<Stat, int>() //Initializing the dictionnary
         {
-            {Stat.Attack, 0 },
-            {Stat.Defense, 0 },
-            {Stat.SpAttack, 0 },
-            {Stat.SpDefense, 0 },
-            {Stat.Speed, 0 },
-            {Stat.Accuracy, 0 },
-            {Stat.Evasion, 0 },
+            {Stat.ATK, 0 },
+            {Stat.DEF, 0 },
+            {Stat.SpATK, 0 },
+            {Stat.SpDEF, 0 },
+            {Stat.VIT, 0 },
+            {Stat.PRC, 0 },
+            {Stat.ESQ, 0 },
         };
     }
 
@@ -183,23 +184,23 @@ public class Pokemon
     public int Attack
     {
         //Calling the function to get the actual stat
-        get { return GetStat(Stat.Attack); }
+        get { return GetStat(Stat.ATK); }
     }
     public int Defense
     {
-        get { return GetStat(Stat.Defense); } 
+        get { return GetStat(Stat.DEF); } 
     }
     public int SpAttack
     {
-        get { return GetStat(Stat.SpAttack); }
+        get { return GetStat(Stat.SpATK); }
     }
     public int SpDefense
     {
-        get { return GetStat(Stat.SpDefense); }
+        get { return GetStat(Stat.SpDEF); }
     }
     public int Speed
     {
-        get { return GetStat(Stat.Speed); }
+        get { return GetStat(Stat.VIT); }
     }
 
     //MaxHp use a slightly different formula

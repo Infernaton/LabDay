@@ -166,14 +166,14 @@ public enum GrowthRate //We use these var to know how much xp a pokemon will nee
 //We'll use this in a Dictionnary to get the stat at any given level
 public enum Stat
 {
-    Attack,
-    Defense,
-    SpAttack,
-    SpDefense,
-    Speed,
+    ATK,
+    DEF,
+    SpATK,
+    SpDEF,
+    VIT,
     //These 2 are not stats, they're just used to boost the moveAccuracy
-    Accuracy,
-    Evasion,
+    PRC,
+    ESQ,
     Hp,
 }
 
