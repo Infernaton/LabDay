@@ -12,8 +12,6 @@ public class Pokemon
     [SerializeField] PokemonBase _base; //Setting a serialized field of it to acces it in unity
     [SerializeField] int level = 1;
 
-    private int lastDamage;
-
     public Pokemon(PokemonBase pBAse, int pLevel) //Create an instance of the pokemon, moslty use with wild pokemon, to catch a copy of the wild pokemon, and not THE pokemon itself
     {
         _base = pBAse;
@@ -136,13 +134,22 @@ public class Pokemon
 
             if (stat != Stat.Hp)
             {
-                StatBoosts[stat] = Mathf.Clamp(StatBoosts[stat] + boost, -6, 6); //Set the new value as the stat value + the boost (With a limit of 6)
+                if (boost == 6)
+                    StatusChanges.Enqueue($"{stat} de {Base.Name} ne peux plus augmenter.");
 
-                if (boost > 0)
-                    StatusChanges.Enqueue($"{stat} de {Base.Name} augmente!");
+                else if (boost == -6)
+                    StatusChanges.Enqueue($"{stat} de {Base.Name} ne peux plus diminuer. ");
+
                 else
-                    StatusChanges.Enqueue($"{stat} de {Base.Name} diminue!");
+                {
+                    StatBoosts[stat] = Mathf.Clamp(StatBoosts[stat] + boost, -6, 6); //Set the new value as the stat value + the boost (With a limit of 6)
 
+                    if (boost > 0)
+                        StatusChanges.Enqueue($"{stat} de {Base.Name} augmente!");
+
+                    else
+                        StatusChanges.Enqueue($"{stat} de {Base.Name} diminue!");
+                }
                 Debug.Log($"{stat} has been boosted to {StatBoosts[stat]}.");
             }
             else
@@ -232,9 +239,6 @@ public class Pokemon
         float d = a * move.Base.Power * (attack / defense) + 2;
         int damage = Mathf.FloorToInt(d * modifiers);
 
-        lastDamage = damage;
-        Debug.Log($"LastDamage done: {lastDamage}");
-
         //After that we substract the damage to the actual life of the pokemon, and check if he died or no
         UpdateHP(-damage); //Simply call a function to update the Hp before returning
         
@@ -312,10 +316,6 @@ public class Pokemon
     {
         ResetStatBoost();
         VolatileStatus = null;
-    }
-    public int LastDamage
-    {
-        get => lastDamage;
     }
 }
 

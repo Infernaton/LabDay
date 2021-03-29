@@ -52,13 +52,6 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
         return -1;
     }
 
-    //Here we'll use Properties instead of Functions so it will not look like
-    // public string GetName()
-    //{
-    //  return name;
-    //}
-    //But like :
-
     public string Name
     {
         get { return name; } //Set a getter of the name so we could just call pBase.Name in the other scripts.
