@@ -16287,31 +16287,34 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: timeBetweenPattern
-      value: 0.8
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[0]
-      value: "Tu veux connaitre le secret de la vie, la r\xE9ponse \xE0 toutes tes
-        questions?"
+      value: EH ARRETE ARRETE
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[1]
-      value: "Alors \xE9coute bien ceci :"
+      value: "T\xE9ma la gorg\xE9e"
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[2]
-      value: Regarde bien
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
-      propertyPath: dialog.lines.Array.data[3]
       value: ...
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
+      propertyPath: dialog.lines.Array.data[3]
+      value: Regarde bien
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[4]
+      value: ...
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
+      propertyPath: dialog.lines.Array.data[5]
       value: Et tu verras mieux
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
@@ -16365,6 +16368,10 @@ PrefabInstance:
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: movementPattern.Array.data[7].y
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215904803750331973, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
+      propertyPath: moveSpeed
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331974, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: m_Size.y
