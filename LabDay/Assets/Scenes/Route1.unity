@@ -58764,6 +58764,14 @@ MonoBehaviour:
   wildPokemons:
   - _base: {fileID: 11400000, guid: 532759d74734d1f45b0b7500e5c33a33, type: 2}
     level: 1
+  - _base: {fileID: 11400000, guid: 7fc2309afe394b54ca2800766bb1aa42, type: 2}
+    level: 1
+  - _base: {fileID: 11400000, guid: 91c289ad6fc7bf04e99af01a8b867f0d, type: 2}
+    level: 1
+  - _base: {fileID: 11400000, guid: e85330b278b7e3e4fbaba14f1e96fa3a, type: 2}
+    level: 1
+  - _base: {fileID: 11400000, guid: 99ef8ea6b03a6fb4786ed7c5af433150, type: 2}
+    level: 1
 --- !u!156049354 &1391813506
 Grid:
   m_ObjectHideFlags: 0
