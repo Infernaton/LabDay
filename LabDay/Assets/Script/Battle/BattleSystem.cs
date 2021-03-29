@@ -371,8 +371,8 @@ public class BattleSystem : MonoBehaviour
 
         float moveAccuracy = move.Base.Accuracy;
 
-        int accuracy = source.StatBoosts[Stat.Accuracy]; //Store in an int the accuracy
-        int evasion = target.StatBoosts[Stat.Evasion]; //And the evasion
+        int accuracy = source.StatBoosts[Stat.PRC]; //Store in an int the accuracy
+        int evasion = target.StatBoosts[Stat.ESQ]; //And the evasion
 
         var boostValues = new float[] { 1f, 4f / 3f, 5f / 3f, 2f, 7f / 3f, 8f / 3f, 3f }; //Store the possible value of boosting
 

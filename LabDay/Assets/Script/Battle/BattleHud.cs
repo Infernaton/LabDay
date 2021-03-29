@@ -86,7 +86,6 @@ public class BattleHud : MonoBehaviour
     {
         int currLevelExp = _pokemon.Base.GetExpForLevel(_pokemon.Level);
         int nextLevelExp = _pokemon.Base.GetExpForLevel(_pokemon.Level + 1);
-
         float normalizedExp = (float)(_pokemon.Exp - currLevelExp) / (nextLevelExp - currLevelExp); //Formula to normalize the current exp
         return Mathf.Clamp01(normalizedExp);
     }
