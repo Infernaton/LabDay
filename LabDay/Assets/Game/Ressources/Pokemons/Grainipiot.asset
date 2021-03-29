@@ -24,17 +24,25 @@ MonoBehaviour:
   spAttack: 30
   spDefense: 30
   speed: 30
-  expYield: 740
+  expYield: 74
   growthRate: 1
   catchRate: 255
   learnableMoves:
-  - moveBase: {fileID: 11400000, guid: 3e5aa2b9fd43939448636facc01a0490, type: 2}
+  - moveBase: {fileID: 11400000, guid: 0d5117282d38a0e43a12740f93e9231a, type: 2}
     level: 1
   - moveBase: {fileID: 11400000, guid: f55afa9ede914eb4b94e29dd8ebca402, type: 2}
     level: 1
-  - moveBase: {fileID: 11400000, guid: 736e642f549b3fc449bb10802c768685, type: 2}
+  - moveBase: {fileID: 11400000, guid: 0d0e75e85d91c4b15967847fda6be8b5, type: 2}
     level: 3
-  - moveBase: {fileID: 11400000, guid: 9e85279213db8134c9d15a86721e9d87, type: 2}
-    level: 13
-  - moveBase: {fileID: 11400000, guid: 9a8a8bd8be85c4441aa33f917ac1f130, type: 2}
-    level: 7
+  - moveBase: {fileID: 11400000, guid: b7e6341825a5f654d9fcb5e64a0c72d8, type: 2}
+    level: 6
+  - moveBase: {fileID: 11400000, guid: 3e5aa2b9fd43939448636facc01a0490, type: 2}
+    level: 9
+  - moveBase: {fileID: 11400000, guid: 101809bf7d1904b37aed266db87288c3, type: 2}
+    level: 15
+  - moveBase: {fileID: 11400000, guid: db0d62e94fceaf44bb5afb68e9ecb942, type: 2}
+    level: 18
+  - moveBase: {fileID: 11400000, guid: 736e642f549b3fc449bb10802c768685, type: 2}
+    level: 27
+  - moveBase: {fileID: 11400000, guid: cedb875ec4e970d41b408b323cdc3da8, type: 2}
+    level: 33

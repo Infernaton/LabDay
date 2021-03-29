@@ -4972,7 +4972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pokemons:
-  - _base: {fileID: 11400000, guid: 6361304926f611c4d9f80b4c9b00c1ed, type: 2}
+  - _base: {fileID: 11400000, guid: bc82530d4fab1d04e85d6b5132a26e44, type: 2}
     level: 12
 --- !u!212 &1861331219
 SpriteRenderer:
