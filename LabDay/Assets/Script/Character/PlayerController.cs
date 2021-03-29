@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] string name;
+    [SerializeField] new string name;
     [SerializeField] Sprite sprite;
     public float runSpeed; //Run Speed value
 

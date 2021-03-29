@@ -166,9 +166,10 @@ public class Pokemon
         return false;
     }
 
-    public LearnableMoves GetLearnableMoveAtCurrentLevel()
+    //If there multiple move that the pokemon can learn on 1 level, we set an array
+    public LearnableMoves[] GetLearnableMoveAtCurrentLevel()
     {
-        return Base.LearnableMoves.Where(x => x.Level == level).FirstOrDefault(); //Level is the current level, and level is the level needed for the move. This get the first item of the list
+        return Base.LearnableMoves.Where(x => x.Level == level).ToArray(); //Level is the current level, and level is the level needed for the move. This get the first item of the list
     }
 
     public void LearnMove(LearnableMoves moveToLearn) //Add a new move to the current list of moves

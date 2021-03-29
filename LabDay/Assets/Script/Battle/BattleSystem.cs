@@ -269,20 +269,39 @@ public class BattleSystem : MonoBehaviour
 
         if (CheckIfMoveHits(move, sourceUnit.Pokemon, targetUnit.Pokemon))
         {
-            sourceUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
-            yield return new WaitForSeconds(0.75f); //Then wait for a second before reducing HP
-            targetUnit.PlayHitAnimation();
+            int nbHit;
+            if (move.Base.NumberHit > 2) { nbHit = UnityEngine.Random.Range(2, move.Base.NumberHit + 1); }
+            else { nbHit = move.Base.NumberHit; }
+            //For moves who can hit multiple times
+            for (int a=0; a< nbHit; a++)
+            {
+                sourceUnit.PlayAttackAnimation(); //Calling the attack animation right after displaying a message
+                yield return new WaitForSeconds(0.75f); //Then wait for a second before reducing HP
+                targetUnit.PlayHitAnimation();
 
-            if (move.Base.Category == MoveCategory.Status) //If our move is a status move we call it
-            {
-                yield return RuneMoveEffects(move.Base.Effects, sourceUnit.Pokemon, targetUnit.Pokemon, move.Base.Target);
+                if (move.Base.Category == MoveCategory.Status) //If our move is a status move we call it
+                {
+                    yield return RuneMoveEffects(move.Base.Effects, sourceUnit.Pokemon, targetUnit.Pokemon, move.Base.Target);
+                }
+                else //Else we just call the damages
+                {
+                    var damageDetails = targetUnit.Pokemon.TakeDamage(move, sourceUnit.Pokemon);
+                    yield return targetUnit.Hud.UpdateHP(); //Calling the function to show damages taken
+                    yield return ShowDamageDetails(damageDetails);
+                }
+                //If a pokemon died, we display a message, then check if the battle is over or not
+                if (targetUnit.Pokemon.HP <= 0) //Since with status move the pokemon can faint at mostly any moment, we don't check DamageDetails.fainted
+                {
+                    if (move.Base.NumberHit >= 2)
+                    {
+                        yield return dialogBox.TypeDialog($"Touché {a + 1} fois !");
+                    }
+                    yield return HandlePokemonFainted(targetUnit);
+                    break;
+                }
             }
-            else //Else we just call the damages
-            {
-                var damageDetails = targetUnit.Pokemon.TakeDamage(move, sourceUnit.Pokemon);
-                yield return targetUnit.Hud.UpdateHP(); //Calling the function to show damages taken
-                yield return ShowDamageDetails(damageDetails);
-            }
+            if (nbHit >= 2)
+                yield return dialogBox.TypeDialog($"Touché {nbHit} fois !");
 
             if (move.Base.Secondaries != null && move.Base.Secondaries.Count > 0 && targetUnit.Pokemon.HP > 0) //If we CAN call a secondary effects, we call it
             {
@@ -292,12 +311,6 @@ public class BattleSystem : MonoBehaviour
                     if (rnd <= secondary.Chance) //Calculating the stats that a secondary happen
                         yield return RuneMoveEffects(secondary, sourceUnit.Pokemon, targetUnit.Pokemon, secondary.Target);
                 }
-            }
-
-            //If a pokemon died, we display a message, then check if the battle is over or not
-            if (targetUnit.Pokemon.HP <= 0) //Since with status move the pokemon can faint at mostly any moment, we don't check DamageDetails.fainted
-            {
-                yield return HandlePokemonFainted(targetUnit);
             }
         }
 
@@ -416,25 +429,29 @@ public class BattleSystem : MonoBehaviour
                 playerUnit.Hud.SetLevel();
                 yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} est passé au niveau {playerUnit.Pokemon.Level} !");
 
-                //Try to learn a new move
-                var newMove = playerUnit.Pokemon.GetLearnableMoveAtCurrentLevel();
-                if (newMove != null)
+                //Try to learn new moves
+                var newMoves = playerUnit.Pokemon.GetLearnableMoveAtCurrentLevel();
+                if (newMoves != null)
                 {
-                    if (playerUnit.Pokemon.Moves.Count < PokemonBase.MaxNumberOfMoves)
+                    foreach (var newMove in newMoves)
                     {
-                        //Automaticly learn the move
-                        playerUnit.Pokemon.LearnMove(newMove);
-                        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a apprit {newMove.Base.Name} !");
-                        dialogBox.SetMoveNames(playerUnit.Pokemon.Moves);
-                    }
-                    else
-                    {
-                        //Ask to forget a move before
-                        yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} essaie d'apprendre {newMove.Base.Name}.");
-                        yield return dialogBox.TypeDialog($"Mais un pokemon ne peut pas connaitre plus de {PokemonBase.MaxNumberOfMoves} capacitées à la fois.");
-                        yield return ChooseMoveToForget(playerUnit.Pokemon, newMove.Base);
-                        yield return new WaitUntil(() => state != BattleState.MoveToForget);
-                        yield return new WaitForSeconds(2f);
+                        if (playerUnit.Pokemon.Moves.Count < PokemonBase.MaxNumberOfMoves)
+                        {
+                            //Automaticly learn the move
+
+                            playerUnit.Pokemon.LearnMove(newMove);
+                            yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a apprit {newMove.Base.Name} !");
+                            dialogBox.SetMoveNames(playerUnit.Pokemon.Moves);
+                        }
+                        else
+                        {
+                            //Ask to forget a move before
+                            yield return dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} essaie d'apprendre {newMove.Base.Name}.");
+                            yield return dialogBox.TypeDialog($"Mais un pokemon ne peut pas connaitre plus de {PokemonBase.MaxNumberOfMoves} capacitées à la fois.");
+                            yield return ChooseMoveToForget(playerUnit.Pokemon, newMove.Base);
+                            yield return new WaitUntil(() => state != BattleState.MoveToForget);
+                            yield return new WaitForSeconds(2f);
+                        }
                     }
                 }
 

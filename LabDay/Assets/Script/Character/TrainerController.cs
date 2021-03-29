@@ -5,7 +5,7 @@ using UnityEngine;
 //Trainer controller script
 public class TrainerController : MonoBehaviour, Interactable
 {
-    [SerializeField] string name;
+    [SerializeField] new string name;
     [SerializeField] Sprite sprite;
     [SerializeField] Dialog dialog;
     [SerializeField] Dialog dialogAfterBattle;

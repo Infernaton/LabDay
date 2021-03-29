@@ -10,7 +10,7 @@ public class PokemonBase : ScriptableObject //Changed from "MonoBehavior" to "Sc
     // Inside we'll create variables to store the data of the pokemons
 
     // SerializedField is used instead of public, so we can use them in some other classes more easily, and modify them in Unity, or others scripts
-    [SerializeField] string name;
+    [SerializeField] new string name;
 
     [TextArea] //This will give us some space to write a description
     [SerializeField] string description;
