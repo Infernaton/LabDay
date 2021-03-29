@@ -9,6 +9,7 @@ public class BattleHud : MonoBehaviour
     [SerializeField] Text nameText;
     [SerializeField] Text levelText;
     [SerializeField] Text statusText;
+    
     [SerializeField] HPBar hpBar;
     [SerializeField] GameObject expBar;
 
@@ -30,6 +31,7 @@ public class BattleHud : MonoBehaviour
 
         nameText.text = pokemon.Base.Name;
         SetLevel();
+        hpBar.SetHPnumber(pokemon.HP, pokemon.MaxHp);
         hpBar.SetHP((float) pokemon.HP / pokemon.MaxHp );
         SetExp();
 
@@ -56,6 +58,8 @@ public class BattleHud : MonoBehaviour
             statusText.color = statusColors[_pokemon.Status.Id]; //Set the color of the text from our dictionnary
         }
     }
+
+    
 
     public void SetLevel() //Set the lvl in a function that we can call on a lvl up
     {
@@ -95,7 +99,7 @@ public class BattleHud : MonoBehaviour
     {
         if (_pokemon.HpChanged)
         {
-            yield return hpBar.SetHPSmooth((float)_pokemon.HP / _pokemon.MaxHp);
+            yield return hpBar.SetHPSmooth(_pokemon.HP, _pokemon.MaxHp);
             _pokemon.HpChanged = false;
         }
     }

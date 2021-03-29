@@ -2034,6 +2034,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 685916887}
     m_Modifications:
+    - target: {fileID: 4159007196975327007, guid: 2e1402c9f36eee74c80d4bd867596be1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5620234722483810716, guid: 2e1402c9f36eee74c80d4bd867596be1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2122,6 +2126,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyHud
       objectReference: {fileID: 0}
+    - target: {fileID: 5620234722510747492, guid: 2e1402c9f36eee74c80d4bd867596be1, type: 3}
+      propertyPath: hpNumber
+      value: 
+      objectReference: {fileID: 713623893}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e1402c9f36eee74c80d4bd867596be1, type: 3}
 --- !u!224 &713623891 stripped
@@ -2138,6 +2146,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 804542f5b91d3c843bbfcff549391772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &713623893 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1714573150149855460, guid: 2e1402c9f36eee74c80d4bd867596be1, type: 3}
+  m_PrefabInstance: {fileID: 713623890}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &738933032
@@ -3461,7 +3480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1061823206118716018, guid: 4a680de0b4167437d88d603b9612f306, type: 3}
       propertyPath: sceneToLoad
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1061823206118716018, guid: 4a680de0b4167437d88d603b9612f306, type: 3}
       propertyPath: destinationPortal
@@ -3576,7 +3595,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1367001969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4116,6 +4135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 271598017}
+  hpNumber: {fileID: 2089387292}
 --- !u!114 &1597918570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5568,7 +5588,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2089387290}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -5577,7 +5597,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.252, y: -20.5}
+  m_AnchoredPosition: {x: 48.8, y: -24}
   m_SizeDelta: {x: 136.5048, y: 41.06092}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2089387292
@@ -5604,10 +5624,10 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 4b8b6386a3ed9534ba5ba611634ce86b, type: 3}
     m_FontSize: 27
     m_FontStyle: 0
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 40
-    m_Alignment: 5
+    m_MaxSize: 27
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
