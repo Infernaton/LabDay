@@ -10,7 +10,7 @@ using UnityEngine;
 public class Pokemon
 {
     [SerializeField] PokemonBase _base; //Setting a serialized field of it to acces it in unity
-    [SerializeField] int level;
+    [SerializeField] int level = 1;
 
     private int lastDamage;
 
@@ -28,7 +28,7 @@ public class Pokemon
     } 
     public int Level //We set theses two as public to acces them outside this class (in the BattleHub for example.)
     {
-        get { return level; }
+        set; get;
     }
 
     public int Exp { get; set; }

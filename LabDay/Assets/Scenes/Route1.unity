@@ -58752,9 +58752,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f02af418a3ac4d64ea8e76220f5aa7b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minLevel: 3
+  maxLevel: 6
   wildPokemons:
   - _base: {fileID: 11400000, guid: 532759d74734d1f45b0b7500e5c33a33, type: 2}
-    level: 4
+    level: 1
 --- !u!156049354 &1391813506
 Grid:
   m_ObjectHideFlags: 0

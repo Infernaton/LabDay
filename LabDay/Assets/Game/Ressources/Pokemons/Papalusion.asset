@@ -30,7 +30,7 @@ MonoBehaviour:
   learnableMoves:
   - moveBase: {fileID: 11400000, guid: 156254f6388aa6c49a40e483477b3545, type: 2}
     level: 1
-  - moveBase: {fileID: 11400000, guid: 8acf6e47a9fa1bc47ba1ee7450ccc40c, type: 2}
+  - moveBase: {fileID: 11400000, guid: e3aa74a23f9fa49cab0a459fd2a7e448, type: 2}
     level: 11
   - moveBase: {fileID: 11400000, guid: e57694d768bc2f241befe92e22e21f73, type: 2}
     level: 13
