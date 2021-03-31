@@ -21,7 +21,7 @@ public class BattleSystem : MonoBehaviour
     [SerializeField] Image trainerImage;
     [SerializeField] GameObject pokeballSprite; //Reference to the pokeball
     [SerializeField] MoveSelectionUI moveSelectionUI;
-    public Animator animator;
+    [SerializeField] Animator animator;
 
     SpriteRenderer spriteRenderer;
 
