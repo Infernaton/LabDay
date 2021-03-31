@@ -108,26 +108,22 @@ public class GameController : MonoBehaviour
         worldCamera.gameObject.SetActive(true);
     }
 
-    /*void OpenMenu()
+    void OpenMenu(bool isOpening)
     {
-        if (state == GameState.FreeRoam)
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.I))
         {
-            if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.I))
+            menuController.gameObject.SetActive(isOpening);
+            if (isOpening)
             {
-            state = GameState.Menu;
-            //menuController.SetActive(true);
+                state = GameState.Menu;
+            }
+            else
+            {
+                state = GameState.FreeRoam;
             }
         }
-        else if (state == GameState.Menu)
-        {
-            if(Input.GetKeyDown(KeyCode.Escape))
-            {
-            state = GameState.FreeRoam;
-            //menuController.SetActive(false);
-            }
-        }
-        
-    }*/
+    }
+
     public void PauseGame(bool pause)
     {
         if (pause)
@@ -153,6 +149,7 @@ public class GameController : MonoBehaviour
         if (state == GameState.FreeRoam) //While we are in the overworld, we use our PlayerController script
         {
             playerController.HandleUpdate();
+            OpenMenu(true);
         }
         else if (state == GameState.Battle) //Else if we are in a battle, we'll disable our PlayerController Script
         {
@@ -164,7 +161,9 @@ public class GameController : MonoBehaviour
         }
         else if (state == GameState.Menu)
         {
-            //MenuController.HandleUpdate();
+            OpenMenu(false);
+            menuController.HandleUpdate();
+
         }
     }
 }
