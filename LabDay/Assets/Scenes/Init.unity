@@ -3107,6 +3107,7 @@ GameObject:
   - component: {fileID: 1084119666}
   - component: {fileID: 1084119668}
   - component: {fileID: 1084119667}
+  - component: {fileID: 1084119669}
   m_Layer: 5
   m_Name: SeePkmnParty
   m_TagString: Untagged
@@ -3172,6 +3173,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084119665}
   m_CullTransparentMesh: 0
+--- !u!114 &1084119669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084119665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e886ecfe4e1404a11b214a0328bdb65e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1099231105
 GameObject:
   m_ObjectHideFlags: 0
@@ -5774,7 +5787,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1894699396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed2f1c8f09bed402da11d6393d19cafb, type: 3}
+  m_Script: {fileID: 11500000, guid: 4aa418f23e45643c3a0be62e1561bc6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   highlightedColor: {r: 0, g: 0.08572531, b: 1, a: 1}

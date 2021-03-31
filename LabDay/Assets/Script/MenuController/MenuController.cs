@@ -12,7 +12,9 @@ public class MenuController : MonoBehaviour
 
     int currentSelection = 0;
 
-    public void Awake(){}
+    SeePokemonParty seePokemonParty;
+
+    //public void Awake(){}
     public void HandleUpdate()
     {
         //TODO : Gérer le menu
@@ -23,7 +25,8 @@ public class MenuController : MonoBehaviour
             {
                 //Open the Pokemon Party menu
                 case 0:
-                    Debug.Log("Coming Soon");
+                    seePokemonParty = GameObject.Find("SeePkmnParty").GetComponent<SeePokemonParty>();
+                    seePokemonParty.HandleUpdate();
                     break;
                 //Open the Pokedex
                 /*case 1:

@@ -59,8 +59,6 @@ public class BattleHud : MonoBehaviour
         }
     }
 
-    
-
     public void SetLevel() //Set the lvl in a function that we can call on a lvl up
     {
         levelText.text = "Lvl " + _pokemon.Level;
