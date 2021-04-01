@@ -64,7 +64,7 @@ public class MenuPokemonParty : MonoBehaviour, IMenuController
         else if (Input.GetKeyDown(KeyCode.UpArrow))
             --currentSelection;
 
-        currentSelection = Mathf.Clamp(currentSelection, 0, options.Capacity);
+        currentSelection = Mathf.Clamp(currentSelection, 0, options.Capacity-1);
 
         UpdateMenuUISelection(currentSelection);
 

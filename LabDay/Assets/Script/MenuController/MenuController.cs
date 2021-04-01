@@ -86,7 +86,7 @@ public class MenuController : MonoBehaviour, IMenuController
         else if (Input.GetKeyDown(KeyCode.UpArrow))
             --currentSelection;
 
-        currentSelection = Mathf.Clamp(currentSelection, 0, menuChoices.Capacity);
+        currentSelection = Mathf.Clamp(currentSelection, 0, menuChoices.Capacity-1);
 
         UpdateMenuUISelection(currentSelection);
 

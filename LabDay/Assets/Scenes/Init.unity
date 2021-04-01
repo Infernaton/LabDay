@@ -1421,11 +1421,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4b8b6386a3ed9534ba5ba611634ce86b, type: 3}
-    m_FontSize: 70
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 70
+    m_MaxSize: 80
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -3266,11 +3266,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4b8b6386a3ed9534ba5ba611634ce86b, type: 3}
-    m_FontSize: 70
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 70
+    m_MaxSize: 80
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -3456,17 +3456,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e886ecfe4e1404a11b214a0328bdb65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  options:
-  - {fileID: 1193095431}
-  highlightedColor:
-    r: 0
-    g: 0.12249317
-    b: 0.754717
-    a: 1
-  pokemonParty: {fileID: 0}
-  memberSlots: []
-  pokemons: []
-  currentSelection: 0
 --- !u!114 &1084119670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4303,11 +4292,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4b8b6386a3ed9534ba5ba611634ce86b, type: 3}
-    m_FontSize: 70
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 70
+    m_MaxSize: 80
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -5069,11 +5058,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4b8b6386a3ed9534ba5ba611634ce86b, type: 3}
-    m_FontSize: 70
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 70
+    m_MaxSize: 80
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -5840,11 +5829,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4b8b6386a3ed9534ba5ba611634ce86b, type: 3}
-    m_FontSize: 70
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 70
+    m_MaxSize: 80
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -6414,14 +6403,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa418f23e45643c3a0be62e1561bc6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightedColor: {r: 0, g: 0.08572531, b: 1, a: 1}
+  highlightedColor: {r: 0.007843138, g: 0.03529412, b: 0.54901963, a: 1}
   menuChoices:
   - {fileID: 1840063349}
   - {fileID: 1278360826}
   - {fileID: 531348301}
   - {fileID: 1012751435}
   - {fileID: 1568350385}
-  menuPokemonParty: {fileID: 0}
+  menuPokemonParty: {fileID: 802539082}
 --- !u!1 &1912507453
 GameObject:
   m_ObjectHideFlags: 0
