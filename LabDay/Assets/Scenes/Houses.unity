@@ -138,6 +138,22 @@ PrefabInstance:
       propertyPath: defaultDirection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471019, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: walkUpSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: -776809415099597254, guid: 0f25273ef6d7dc4409c20cfdfb1df9e0, type: 3}
+    - target: {fileID: 5851787001909471019, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: walkUpSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: -7069007708286366776, guid: 0f25273ef6d7dc4409c20cfdfb1df9e0, type: 3}
+    - target: {fileID: 5851787001909471019, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: walkUpSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: -8081946123985394353, guid: 0f25273ef6d7dc4409c20cfdfb1df9e0, type: 3}
+    - target: {fileID: 5851787001909471019, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: walkUpSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: -3004274554683718679, guid: 0f25273ef6d7dc4409c20cfdfb1df9e0, type: 3}
     - target: {fileID: 5851787001909471024, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
       propertyPath: pokemons.Array.size
       value: 2
@@ -199,6 +215,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: name
+      value: "Invit\xE9 Pierre"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
       propertyPath: dialog.lines.Array.data[0]
       value: AHAH!
       objectReference: {fileID: 0}
@@ -206,6 +226,10 @@ PrefabInstance:
       propertyPath: dialogAfterBattle.lines.Array.data[0]
       value: Ouais pas mal
       objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471030, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8081946123985394353, guid: 0f25273ef6d7dc4409c20cfdfb1df9e0, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
 --- !u!1 &114568529
@@ -38853,6 +38877,22 @@ PrefabInstance:
       propertyPath: defaultDirection
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471019, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: walkRightSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: -6887729497462374607, guid: b91db0ce4d914244382dbd1dd8dd8891, type: 3}
+    - target: {fileID: 5851787001909471019, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: walkRightSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 6431021790730578776, guid: b91db0ce4d914244382dbd1dd8dd8891, type: 3}
+    - target: {fileID: 5851787001909471019, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: walkRightSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: -1586677432131916483, guid: b91db0ce4d914244382dbd1dd8dd8891, type: 3}
+    - target: {fileID: 5851787001909471019, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: walkRightSprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 5796051097540485617, guid: b91db0ce4d914244382dbd1dd8dd8891, type: 3}
     - target: {fileID: 5851787001909471025, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -38897,6 +38937,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: name
+      value: Valet de maison
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b905450f60bcdb64a94f8738abd47ed4, type: 3}
+    - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: dialog.lines.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: dialog.lines.Array.data[0]
+      value: Bonjour et bienvenue dans..
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: dialog.lines.Array.data[1]
+      value: LA MAISON HANTEE
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: dialog.lines.Array.data[2]
+      value: ...
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: dialog.lines.Array.data[3]
+      value: Battons nous
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: dialogAfterBattle.lines.Array.data[0]
+      value: Bravo mademmoiselle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5851787001909471030, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6887729497462374607, guid: b91db0ce4d914244382dbd1dd8dd8891, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
 --- !u!1001 &1322064792

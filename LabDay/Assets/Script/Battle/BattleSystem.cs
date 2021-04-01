@@ -115,7 +115,7 @@ public class BattleSystem : MonoBehaviour
             yield return dialogBox.TypeDialog($"{trainer.Name} envoie {enemyPokemon.Base.Name} !");
 
             playerImage.transform.DOLocalMoveX(-550f, 1f);
-            animator.SetBool("throw", true);
+            //animator.SetBool("throw", true);
             yield return new WaitForSeconds(0.75f);
             
 
