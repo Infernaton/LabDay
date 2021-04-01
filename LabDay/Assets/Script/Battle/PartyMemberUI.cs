@@ -11,16 +11,14 @@ public class PartyMemberUI : MonoBehaviour
     [SerializeField] Image frontSprite;
     [SerializeField] Color highlightedColor;
 
-    Pokemon _pokemon; //reference to our PokemonClass (_pokemon) is bc the name pokemon is already taken
-
     public void SetData(Pokemon pokemon) //function to set the value of our two texts and HPBar
     {
-        _pokemon = pokemon;
-
         nameText.text = pokemon.Base.Name;
         levelText.text = "Lvl " + pokemon.Level;
         hpBar.SetHP((float)pokemon.HP / pokemon.MaxHp);
-        frontSprite.sprite = pokemon.Base.FrontSprite;
+        if (pokemon.Base.FrontSprite != null)
+            frontSprite.sprite = pokemon.Base.FrontSprite;
+        else frontSprite.sprite = pokemon.Base.BackSprite;
     }
 
     public void SetSelected(bool selected) //Function to highlight and know wich pokemon is actually selected

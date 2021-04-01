@@ -11,7 +11,7 @@ public class MenuController : MonoBehaviour, IMenuController
 
     [SerializeField] Color highlightedColor;
     [SerializeField] List<Text> menuChoices;
-    [SerializeField] SeePokemonParty seePokemonParty;
+    [SerializeField] MenuPokemonParty menuPokemonParty;
 
     int currentSelection = 0;
 
@@ -28,12 +28,12 @@ public class MenuController : MonoBehaviour, IMenuController
         gameObject.SetActive(false);
     }
 
-    public void HandleUpdate()
+    public void HandleUpdate(PlayerController playerController)
     {
         switch (state)
         {
             case MenuOption.Main:
-                seePokemonParty.NotVisible();
+                menuPokemonParty.NotVisible();
                 Action<int> onChoiceSelected = (choiceIndex) => //This part is all a reference to the action used in the HandleMoveSelection
                 {
                     switch (choiceIndex)
@@ -64,7 +64,8 @@ public class MenuController : MonoBehaviour, IMenuController
 
             case MenuOption.PokemonParty:
                 NotVisible();
-                seePokemonParty.HandleUpdate();
+                var playerParty = playerController.GetComponent<PokemonParty>();
+                menuPokemonParty.HandleUpdate(playerParty);
                 break;
 
             default:

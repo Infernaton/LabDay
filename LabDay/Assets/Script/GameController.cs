@@ -52,7 +52,6 @@ public class GameController : MonoBehaviour
         else
         {
             frame = 0;
-            Debug.Log("Début du combat");
             state = GameState.Battle;
             battleSystem.gameObject.SetActive(true);
             worldCamera.gameObject.SetActive(false);
@@ -112,7 +111,7 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.I))
         {
-            menuController.gameObject.SetActive(isOpening); Debug.Log($"Main Menu: {isOpening}");
+            menuController.gameObject.SetActive(isOpening);
             if (isOpening)
             {
                 state = GameState.Menu;
@@ -162,7 +161,7 @@ public class GameController : MonoBehaviour
                 break;
 
             case GameState.Menu:
-                menuController.HandleUpdate();
+                menuController.HandleUpdate(playerController);
                 OpenMenu(false);
                 break;
 

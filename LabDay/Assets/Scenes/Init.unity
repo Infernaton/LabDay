@@ -2696,6 +2696,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayerUnit: 1
   hud: {fileID: 2082640560}
+--- !u!1 &802539080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 802539081}
+  - component: {fileID: 802539082}
+  m_Layer: 5
+  m_Name: MenuPokemonParty
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &802539081
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802539080}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1084119666}
+  - {fileID: 1193095430}
+  m_Father: {fileID: 1677828282}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &802539082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802539080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57d3c86f395094a94914085468cdb254, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  options:
+  - {fileID: 1193095431}
+  highlightedColor: {r: 0.007742955, g: 0.033429977, b: 0.5471698, a: 1}
 --- !u!1 &881951183
 GameObject:
   m_ObjectHideFlags: 0
@@ -3322,12 +3375,12 @@ GameObject:
   - component: {fileID: 1084119669}
   - component: {fileID: 1084119670}
   m_Layer: 5
-  m_Name: SeePkmnParty
+  m_Name: PkmnPartyList
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1084119666
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3345,9 +3398,8 @@ RectTransform:
   - {fileID: 1963718772}
   - {fileID: 972287713}
   - {fileID: 1192468860}
-  - {fileID: 1193095430}
-  m_Father: {fileID: 1677828282}
-  m_RootOrder: 2
+  m_Father: {fileID: 802539081}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3406,7 +3458,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   options:
   - {fileID: 1193095431}
-  highlightedColor: {r: 0, g: 0.12249317, b: 0.754717, a: 1}
+  highlightedColor:
+    r: 0
+    g: 0.12249317
+    b: 0.754717
+    a: 1
+  pokemonParty: {fileID: 0}
+  memberSlots: []
+  pokemons: []
+  currentSelection: 0
 --- !u!114 &1084119670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4057,12 +4117,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1084119666}
-  m_RootOrder: 6
+  m_Father: {fileID: 802539081}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -450}
+  m_AnchoredPosition: {x: -150.00003, y: -274.86908}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1193095431
@@ -5202,7 +5262,7 @@ RectTransform:
   m_Children:
   - {fileID: 208389675}
   - {fileID: 1894699397}
-  - {fileID: 1084119666}
+  - {fileID: 802539081}
   m_Father: {fileID: 1605578018}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6361,7 +6421,7 @@ MonoBehaviour:
   - {fileID: 531348301}
   - {fileID: 1012751435}
   - {fileID: 1568350385}
-  seePokemonParty: {fileID: 1084119669}
+  menuPokemonParty: {fileID: 0}
 --- !u!1 &1912507453
 GameObject:
   m_ObjectHideFlags: 0
