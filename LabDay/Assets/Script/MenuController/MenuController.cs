@@ -4,58 +4,86 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum MenuOption { Off, Main, PokemonParty, }
+
 public class MenuController : MonoBehaviour
 {
 
     [SerializeField] Color highlightedColor;
     [SerializeField] List<Text> menuChoices;
+    [SerializeField] SeePokemonParty seePokemonParty;
 
     int currentSelection = 0;
+    
+    MenuOption state = MenuOption.Main;
 
-    SeePokemonParty seePokemonParty;
+    public static MenuController Instance { get; private set; }
 
-    //public void Awake(){}
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     public void HandleUpdate()
     {
         //TODO : Gérer le menu
-        
-        Action<int> onChoiceSelected = (choiceIndex) => //This part is all a reference to the action used in the HandleMoveSelection
+        switch (state)
         {
-            switch (choiceIndex)
-            {
-                //Open the Pokemon Party menu
-                case 0:
-                    seePokemonParty = GameObject.Find("SeePkmnParty").GetComponent<SeePokemonParty>();
-                    seePokemonParty.HandleUpdate();
-                    break;
-                //Open the Pokedex
-                /*case 1:
-                    break;
-                //Open the backPack
-                case 2:
-                    break;
-                //Save the game
-                case 3:
-                    break;
-                //Open option Menu
-                case 4:
-                    break;*/
-                default:
-                    Debug.Log("Coming Soon");
-                    break;
-            }
-        };
-        HandleMoveSelection(onChoiceSelected);
+            case MenuOption.Main:
+                seePokemonParty.gameObject.SetActive(false);
+                Action<int> onChoiceSelected = (choiceIndex) => //This part is all a reference to the action used in the HandleMoveSelection
+                {
+                    switch (choiceIndex)
+                    {
+                        //Open the Pokemon Party menu
+                        case 0:
+                            state = MenuOption.PokemonParty;
+                            break;
+                        //Open the Pokedex
+                        /*case 1:
+                            break;
+                        //Open the backPack
+                        case 2:
+                            break;
+                        //Save the game
+                        case 3:
+                            break;
+                        //Open option Menu
+                        case 4:
+                            break;*/
+                        default:
+                            Debug.Log($"Coming Soon {choiceIndex}");
+                            break;
+                    }
+                };
+                HandleChoiceSelection(onChoiceSelected);
+                break;
+
+            case MenuOption.PokemonParty:
+                seePokemonParty.HandleUpdate();
+                this.gameObject.SetActive(false);
+                Debug.Log("Currently in Party");
+                break;
+
+            default:
+                break;
+        }
     }
 
-    public void HandleMoveSelection(Action<int> onSelected) //Same logic as every other Handle*** 
+    public void ReturnToMainMenu()
+    {
+        Instance.gameObject.SetActive(true);
+        state = MenuOption.Main;
+    }
+
+    public void HandleChoiceSelection(Action<int> onSelected) //Same logic as every other Handle*** 
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
             ++currentSelection;
         else if (Input.GetKeyDown(KeyCode.UpArrow))
             --currentSelection;
 
-        currentSelection = Mathf.Clamp(currentSelection, 0, PokemonBase.MaxNumberOfMoves);
+        currentSelection = Mathf.Clamp(currentSelection, 0, menuChoices.Capacity);
 
         UpdateMenuUISelection(currentSelection);
 

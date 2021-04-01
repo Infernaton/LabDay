@@ -112,7 +112,7 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.I))
         {
-            menuController.gameObject.SetActive(isOpening);
+            menuController.gameObject.SetActive(isOpening); Debug.Log($"Main Menu: {isOpening}");
             if (isOpening)
             {
                 state = GameState.Menu;
@@ -139,31 +139,35 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if (state == GameState.Cutscene)
+        switch (state)
         {
-            if (frame <= 5000)
-            {
-                frame++;
-            } 
-        }
-        if (state == GameState.FreeRoam) //While we are in the overworld, we use our PlayerController script
-        {
-            playerController.HandleUpdate();
-            OpenMenu(true);
-        }
-        else if (state == GameState.Battle) //Else if we are in a battle, we'll disable our PlayerController Script
-        {
-            battleSystem.HandleUpdate();
-        }
-        else if (state == GameState.Dialog)
-        {
-            DialogManager.Instance.HandleUpdate();
-        }
-        else if (state == GameState.Menu)
-        {
-            OpenMenu(false);
-            menuController.HandleUpdate();
+            case GameState.Cutscene:
+                if (frame <= 5000)
+                {
+                    frame++;
+                }
+                break;
 
+            case GameState.FreeRoam: //While we are in the overworld, we use our PlayerController script
+                playerController.HandleUpdate();
+                OpenMenu(true);
+                break;
+
+            case GameState.Battle: //Else if we are in a battle, we'll disable our PlayerController Script
+                battleSystem.HandleUpdate();
+                break;
+
+            case GameState.Dialog:
+                DialogManager.Instance.HandleUpdate();
+                break;
+
+            case GameState.Menu:
+                OpenMenu(false);
+                menuController.HandleUpdate();
+                break;
+
+            default:
+                break;
         }
     }
 }

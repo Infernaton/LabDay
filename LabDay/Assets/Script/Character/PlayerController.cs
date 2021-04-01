@@ -17,8 +17,6 @@ public class PlayerController : MonoBehaviour
     private AudioSource musicBackground;
     private AudioSource introTallGrass;
 
-    GameController gameController;
-
     //With this void Awake, we set the Animator so it plays the animation of the direction the player asked
     private void Awake()
     {

@@ -3404,6 +3404,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e886ecfe4e1404a11b214a0328bdb65e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  options:
+  - {fileID: 1193095431}
+  highlightedColor: {r: 0, g: 0.12249317, b: 0.754717, a: 1}
 --- !u!114 &1084119670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4037,7 +4040,7 @@ GameObject:
   - component: {fileID: 1193095432}
   - component: {fileID: 1193095431}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Return
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6358,6 +6361,7 @@ MonoBehaviour:
   - {fileID: 531348301}
   - {fileID: 1012751435}
   - {fileID: 1568350385}
+  seePokemonParty: {fileID: 1084119669}
 --- !u!1 &1912507453
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,6 @@ public class Portal : MonoBehaviour, IPlayerTriggerable
     [SerializeField] Transform spawnPoint;
 
     PlayerController player;
-    GameController gameController;
 
     public void OnPlayerTriggered(PlayerController player)
     {
