@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SeePokemonParty : MonoBehaviour
+public class SeePokemonParty : MonoBehaviour, IMenuController
 {
     [SerializeField] List<Text> options;
     [SerializeField] Color highlightedColor;
 
-    int currentSelection = -1;
+    int currentSelection = 0;
 
     public void HandleUpdate()
     {
@@ -24,7 +24,12 @@ public class SeePokemonParty : MonoBehaviour
         HandleChoiceSelection(onChoiceSelected);
     }
 
-    public void HandleChoiceSelection(Action<int> onSelected) //Same logic as every other Handle***
+    public void NotVisible()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void HandleChoiceSelection(Action<int> onSelected)
     {
         if (Input.GetKeyDown(KeyCode.DownArrow))
             ++currentSelection;
@@ -33,15 +38,20 @@ public class SeePokemonParty : MonoBehaviour
 
         currentSelection = Mathf.Clamp(currentSelection, 0, options.Capacity);
 
-        UpdateMoveUISelection(currentSelection);
+        UpdateMenuUISelection(currentSelection);
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
         {
             onSelected?.Invoke(currentSelection);
         }
+        else if(Input.GetKeyDown(KeyCode.I))
+        {
+            onSelected?.Invoke(currentSelection);
+            NotVisible();
+        }
     }
 
-    public void UpdateMoveUISelection(int selection) //Same logic as UpdateMoveSelection in BattleSystem.cs
+    public void UpdateMenuUISelection(int selection) //Same logic as UpdateMoveSelection in BattleSystem.cs
     {
         for (int i = 0; i < options.Capacity; i++)
         {

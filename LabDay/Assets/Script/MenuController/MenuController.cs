@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public enum MenuOption { Off, Main, PokemonParty, }
 
-public class MenuController : MonoBehaviour
+public class MenuController : MonoBehaviour, IMenuController
 {
 
     [SerializeField] Color highlightedColor;
@@ -14,7 +14,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] SeePokemonParty seePokemonParty;
 
     int currentSelection = 0;
-    
+
     MenuOption state = MenuOption.Main;
 
     public static MenuController Instance { get; private set; }
@@ -23,14 +23,17 @@ public class MenuController : MonoBehaviour
     {
         Instance = this;
     }
+    public void NotVisible()
+    {
+        gameObject.SetActive(false);
+    }
 
     public void HandleUpdate()
     {
-        //TODO : Gérer le menu
         switch (state)
         {
             case MenuOption.Main:
-                seePokemonParty.gameObject.SetActive(false);
+                seePokemonParty.NotVisible();
                 Action<int> onChoiceSelected = (choiceIndex) => //This part is all a reference to the action used in the HandleMoveSelection
                 {
                     switch (choiceIndex)
@@ -60,9 +63,8 @@ public class MenuController : MonoBehaviour
                 break;
 
             case MenuOption.PokemonParty:
+                NotVisible();
                 seePokemonParty.HandleUpdate();
-                this.gameObject.SetActive(false);
-                Debug.Log("Currently in Party");
                 break;
 
             default:

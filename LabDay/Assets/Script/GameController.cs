@@ -162,8 +162,8 @@ public class GameController : MonoBehaviour
                 break;
 
             case GameState.Menu:
-                OpenMenu(false);
                 menuController.HandleUpdate();
+                OpenMenu(false);
                 break;
 
             default:
