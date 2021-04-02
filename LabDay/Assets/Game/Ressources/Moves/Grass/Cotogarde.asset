@@ -10,26 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49799ef17ca61f247b0c7dbb3abe6961, type: 3}
-  m_Name: Eboulement
+  m_Name: Cotogarde
   m_EditorClassIdentifier: 
-  name: Eboulement
+  name: Cotogarde
   description: 
-  type: 16
-  power: 75
-  accuracy: 90
+  type: 10
+  power: 0
+  accuracy: 0
   alwaysHits: 0
   pp: 10
   priority: 0
   nbHit: 1
-  category: 0
+  category: 2
   effects:
-    boosts: []
+    boosts:
+    - stat: 1
+      boost: 3
     status: 0
     volatileStatus: 0
-  secondaries:
-  - boosts: []
-    status: 0
-    volatileStatus: 7
-    chance: 30
-    target: 0
-  target: 0
+  secondaries: []
+  target: 1
