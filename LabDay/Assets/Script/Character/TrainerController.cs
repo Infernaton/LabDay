@@ -13,7 +13,7 @@ public class TrainerController : MonoBehaviour, Interactable
     [SerializeField] GameObject fov; //Reference the fov
 
     //State
-    bool battleLost = false;
+    private bool battleLost;
 
     Character character;
 
@@ -24,6 +24,7 @@ public class TrainerController : MonoBehaviour, Interactable
     private void Start()
     {
         SetFovRotation(character.Animator.DefaultDirection); //Call the function to change the fov
+        //Debug.Log(battleLost);
     }
 
     private void Update()

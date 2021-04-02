@@ -17,6 +17,8 @@ public class GameController : MonoBehaviour
 
     public static GameController Instance { get; private set; } //Get reference from the game controller anywhere we want
 
+    List<string> defeatedTrainerName = new List<string>();
+
     private void Awake()
     {
         Instance = this;
@@ -86,8 +88,26 @@ public class GameController : MonoBehaviour
 
     public void OnEnterTrainersView(TrainerController trainer)
     {
-        state = GameState.Cutscene;
-        StartCoroutine(trainer.TriggerTrainerBattle(playerController));
+        bool battleLost = false;
+        foreach (string trainerName in GameController.Instance.DefeatedTrainerName)
+        {
+            if (trainer.Name == trainerName)
+            {
+                battleLost = true;
+                break;
+            }
+            else
+                battleLost = false;
+        }
+        if (!battleLost)
+        {
+            state = GameState.Cutscene;
+            StartCoroutine(trainer.TriggerTrainerBattle(playerController));
+        }
+        else
+        {
+            trainer.BattleLost();
+        }
     }
 
     //Change our battle state, camera active, and gameobject of the Battle System
@@ -96,6 +116,8 @@ public class GameController : MonoBehaviour
         if (trainer != null && won == true) //If it is a trainer battle, won by the player
         {
             trainer.BattleLost(); //Disable the fov, to disable the battle
+            defeatedTrainerName.Add(trainer.Name);
+
             trainer = null;
         }
 
@@ -103,6 +125,12 @@ public class GameController : MonoBehaviour
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
     }
+
+    public List<string> DefeatedTrainerName
+    {
+        get => defeatedTrainerName;
+    }
+
     public void HealPlayerTeam()
     {
         PokemonParty pokemonParty = playerController.GetComponent<PokemonParty>();

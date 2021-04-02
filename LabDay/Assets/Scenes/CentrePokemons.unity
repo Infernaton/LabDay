@@ -140,15 +140,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[0]
-      value: Bonjour, bienvenue au Centre Pokemon
+      value: Bonjour, bienvenue au Centre Pokemon.
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[1]
-      value: Ah.. Vous n'avez pas d'argent.
+      value: "Merci de votre visite, votre \xE9quipe viens d'\xEAtre soign\xE9e !"
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: movementPattern.Array.size
@@ -7192,7 +7192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[0]
-      value: Ce coffre est vide
+      value: Ce coffre est vide.
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[1]
@@ -7200,7 +7200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[2]
-      value: :(
+      value: "Qu'est ce que vous esp\xE9rez de toutes fa\xE7on ?"
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331973, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: moveSpeed
