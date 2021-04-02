@@ -138,7 +138,7 @@ public class Pokemon
                     StatusChanges.Enqueue($"{stat} de {Base.Name} ne peux plus augmenter.");
 
                 else if (boost == -6)
-                    StatusChanges.Enqueue($"{stat} de {Base.Name} ne peux plus diminuer. ");
+                    StatusChanges.Enqueue($"{stat} de {Base.Name} ne peux plus diminuer.");
 
                 else
                 {
@@ -157,7 +157,10 @@ public class Pokemon
                 int damage = MaxHp * boost / 100;
                 
                 UpdateHP(damage);
-                StatusChanges.Enqueue($"{Base.name} perd quelque PV en contrecoup.");
+                if (boost < 0)
+                    StatusChanges.Enqueue($"{Base.name} perd quelque PV en contrecoup.");
+                else
+                    StatusChanges.Enqueue($"{Base.name} re-gagne quelque PV.");
             }
         }
     }
@@ -274,7 +277,7 @@ public class Pokemon
 
         VolatileStatus = ConditionsDB.Conditions[conditionId]; //Get the key of a Volatile status to set it on a pokemon
         VolatileStatus?.OnStart?.Invoke(this);
-        StatusChanges.Enqueue($"{Base.Name} {VolatileStatus.SartMessage}");
+        StatusChanges.Enqueue($"{Base.Name} {VolatileStatus.SartMessage}.");
         //here is not the Invoke, since we don't need to show them in the hud 
     }
     public void CureVolatileStatus() //Calling this to clear a Volatilestatus when needed
