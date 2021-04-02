@@ -4217,7 +4217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1061823206118716018, guid: 4a680de0b4167437d88d603b9612f306, type: 3}
       propertyPath: destinationPortal
-      value: 88
+      value: 66
       objectReference: {fileID: 0}
     - target: {fileID: 1061823206118716019, guid: 4a680de0b4167437d88d603b9612f306, type: 3}
       propertyPath: m_Size.y
