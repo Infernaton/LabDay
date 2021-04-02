@@ -3954,7 +3954,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogBox: {fileID: 208389674}
   dialogText: {fileID: 400025738}
-  lettersPerSecond: 45
+  lettersPerSecond: 60
 --- !u!114 &1171175160
 MonoBehaviour:
   m_ObjectHideFlags: 0
