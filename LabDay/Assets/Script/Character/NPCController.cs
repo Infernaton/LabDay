@@ -7,6 +7,7 @@ public class NPCController : MonoBehaviour, Interactable
     [SerializeField] Dialog dialog;
     [SerializeField] List<Vector2> movementPattern;
     [SerializeField] float timeBetweenPattern;
+    [SerializeField] bool Healer;
 
     NPCState state;
     float idleTimer; //Keep track of the time
@@ -25,6 +26,11 @@ public class NPCController : MonoBehaviour, Interactable
             state = NPCState.Dialog; //Change the state
 
             character.LookTowards(initiator.position); //Turn the npc towards the player
+
+            if (Healer)
+            {
+                GameController.Instance.HealPlayerTeam();
+            }
 
             StartCoroutine(DialogManager.Instance.ShowDialog(dialog, () => {
                 idleTimer = 0;

@@ -103,6 +103,14 @@ public class GameController : MonoBehaviour
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
     }
+    public void HealPlayerTeam()
+    {
+        PokemonParty pokemonParty = playerController.GetComponent<PokemonParty>();
+        foreach (Pokemon pokemon in pokemonParty.Pokemons)
+        {
+            pokemon.HP = pokemon.MaxHp;
+        }
+    }
 
     void OpenMenu(bool isOpening)
     {
