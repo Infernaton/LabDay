@@ -122,7 +122,7 @@ public class BattleSystem : MonoBehaviour
             //Send out first pokemon of the player
             playerUnit.gameObject.SetActive(true);
             playerImage.gameObject.SetActive(false);
-            playerImage.transform.DOLocalMoveX(0f, 1f);
+            playerImage.transform.DOLocalMoveX(-274f, 1f);
             var playerPokemon = playerParty.GetHealthyPokemon(); //Get the first healthy pokemon
             playerUnit.Setup(playerPokemon); //And setup the battle
             yield return dialogBox.TypeDialog($"Go {playerPokemon.Base.Name}! ");
