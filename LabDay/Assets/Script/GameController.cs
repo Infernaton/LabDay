@@ -17,8 +17,6 @@ public class GameController : MonoBehaviour
 
     public static GameController Instance { get; private set; } //Get reference from the game controller anywhere we want
 
-    private int frame=0;
-
     private void Awake()
     {
         Instance = this;
@@ -44,14 +42,13 @@ public class GameController : MonoBehaviour
     //Change our battle state, camera active, and gameobject of the Battle System
     public void StartBattle()
     {
-        if (frame < 600)
+        if (playerController.IntroTallGrass.isPlaying)
         {
             state = GameState.Cutscene;
             StartCoroutine(introWildAppeared());
         }
         else
         {
-            frame = 0;
             state = GameState.Battle;
             battleSystem.gameObject.SetActive(true);
             worldCamera.gameObject.SetActive(false);
@@ -67,7 +64,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator introWildAppeared()
     {
-        yield return new WaitUntil(() => frame == 600);
+        yield return new WaitUntil(() => !playerController.IntroTallGrass.isPlaying);
         StartBattle();
     }
 
@@ -106,6 +103,18 @@ public class GameController : MonoBehaviour
         battleSystem.gameObject.SetActive(false);
         worldCamera.gameObject.SetActive(true);
     }
+    public void HealPlayerTeam()
+    {
+        PokemonParty pokemonParty = playerController.GetComponent<PokemonParty>();
+        foreach (Pokemon pokemon in pokemonParty.Pokemons)
+        {
+            pokemon.HP = pokemon.MaxHp;
+            foreach(Move move in pokemon.Moves)
+            {
+                move.PP = move.Base.Pp;
+            }
+        }
+    }
 
     void OpenMenu(bool isOpening)
     {
@@ -140,13 +149,6 @@ public class GameController : MonoBehaviour
     {
         switch (state)
         {
-            case GameState.Cutscene:
-                if (frame <= 5000)
-                {
-                    frame++;
-                }
-                break;
-
             case GameState.FreeRoam: //While we are in the overworld, we use our PlayerController script
                 playerController.HandleUpdate();
                 OpenMenu(true);
