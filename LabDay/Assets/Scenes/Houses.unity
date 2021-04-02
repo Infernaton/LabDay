@@ -39178,7 +39178,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[0]
@@ -39190,7 +39190,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: dialog.lines.Array.data[2]
-      value: Sortez d'ici !!
+      value: "Arr\xE9tez.. de me regarder.."
+      objectReference: {fileID: 0}
+    - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
+      propertyPath: dialog.lines.Array.data[3]
+      value: QUAND JE SUIS TOUT NU
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331972, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: movementPattern.Array.size
@@ -40697,7 +40701,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
       propertyPath: name
-      value: Valet de maison
+      value: Louis le valet
       objectReference: {fileID: 0}
     - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
       propertyPath: sprite
@@ -40713,7 +40717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
       propertyPath: dialog.lines.Array.data[1]
-      value: LA MAISON HANTEE
+      value: LA MAISON HANTEE !!
       objectReference: {fileID: 0}
     - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
       propertyPath: dialog.lines.Array.data[2]
@@ -41138,7 +41142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
       propertyPath: name
-      value: Carolle, dame perdue
+      value: Dame perdue, Carolle
       objectReference: {fileID: 0}
     - target: {fileID: 5851787001909471029, guid: 8c0d81f8bf008a44e9d4a3a13d18a51e, type: 3}
       propertyPath: sprite
