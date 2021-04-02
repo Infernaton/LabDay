@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CentrePokemons.unity
     guid: 88cba4e7c81a0674c90efd1a6ff3497b
+  - enabled: 1
+    path: Assets/Scenes/Combat Champion.unity
+    guid: 3482ec989079ecf47b94e46e1d685866
   m_configObjects: {}
