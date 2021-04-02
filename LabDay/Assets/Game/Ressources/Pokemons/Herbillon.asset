@@ -19,10 +19,10 @@ MonoBehaviour:
   type1: 10
   type2: 0
   maxHp: 70
-  attack: 65
+  attack: 60
   defense: 55
-  spAttack: 45
-  spDefense: 50
+  spAttack: 40
+  spDefense: 45
   speed: 35
   expYield: 60
   growthRate: 0
@@ -34,3 +34,21 @@ MonoBehaviour:
     level: 1
   - moveBase: {fileID: 11400000, guid: 9a8a8bd8be85c4441aa33f917ac1f130, type: 2}
     level: 6
+  - moveBase: {fileID: 11400000, guid: c2d7a65c20954d04d84e7c23215100ab, type: 2}
+    level: 10
+  - moveBase: {fileID: 0}
+    level: 6
+  - moveBase: {fileID: 11400000, guid: 31af2531b4b8709429b634f89ab30038, type: 2}
+    level: 16
+  - moveBase: {fileID: 11400000, guid: 101809bf7d1904b37aed266db87288c3, type: 2}
+    level: 18
+  - moveBase: {fileID: 11400000, guid: 06f57417cd0743d40860953800df4dbe, type: 2}
+    level: 21
+  - moveBase: {fileID: 11400000, guid: 655f7e02cb8f3644eaa416721c18b2ea, type: 2}
+    level: 24
+  - moveBase: {fileID: 11400000, guid: b645edfd5c847954793fce8a4927825e, type: 2}
+    level: 30
+  - moveBase: {fileID: 11400000, guid: 84499a72728b8d8459898d9201c7c18e, type: 2}
+    level: 35
+  - moveBase: {fileID: 11400000, guid: 2bd1ab3faca9ea24f824ed38a94c0a55, type: 2}
+    level: 41
