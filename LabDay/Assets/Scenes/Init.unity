@@ -3372,7 +3372,6 @@ GameObject:
   - component: {fileID: 1084119666}
   - component: {fileID: 1084119668}
   - component: {fileID: 1084119667}
-  - component: {fileID: 1084119669}
   - component: {fileID: 1084119670}
   m_Layer: 5
   m_Name: PkmnPartyList
@@ -3444,18 +3443,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084119665}
   m_CullTransparentMesh: 0
---- !u!114 &1084119669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1084119665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e886ecfe4e1404a11b214a0328bdb65e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1084119670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4209,7 +4196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1061823206118716018, guid: 4a680de0b4167437d88d603b9612f306, type: 3}
       propertyPath: keepOldPos
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1061823206118716018, guid: 4a680de0b4167437d88d603b9612f306, type: 3}
       propertyPath: sceneToLoad
@@ -4407,7 +4394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1367001969
 MonoBehaviour:
   m_ObjectHideFlags: 0
