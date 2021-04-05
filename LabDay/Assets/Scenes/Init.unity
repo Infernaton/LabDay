@@ -3941,7 +3941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogBox: {fileID: 208389674}
   dialogText: {fileID: 400025738}
-  lettersPerSecond: 60
+  lettersPerSecond: 400
 --- !u!114 &1171175160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4525,7 +4525,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4dba67f2c0f34c40af62b6d4697034a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lettersPerSecond: 30
+  lettersPerSecond: 400
   highlightedColor: {r: 0.35769582, g: 0.0990566, b: 1, a: 1}
   dialogText: {fileID: 15065293}
   actionSelector: {fileID: 1912507453}

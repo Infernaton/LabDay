@@ -20,15 +20,14 @@ MonoBehaviour:
   alwaysHits: 0
   pp: 30
   priority: 0
+  nbHit: 1
   category: 1
   effects:
     boosts: []
     status: 0
     volatileStatus: 0
   secondaries:
-  - boosts:
-    - stat: 0
-      boost: 0
+  - boosts: []
     status: 4
     volatileStatus: 0
     chance: 10

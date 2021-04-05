@@ -67,14 +67,21 @@ public class CharacterAnimator : MonoBehaviour
 
     public void SetFacingDirection(FacingDirection dir) //Function to simply change the facing direction
     {
-        if (dir == FacingDirection.Right)
-            MoveX = 1;
-        else if(dir == FacingDirection.Left)
-            MoveX = -1;
-        else if (dir == FacingDirection.Up)
-            MoveY = 1;
-        else if (dir == FacingDirection.Down)
-            MoveY = -1;
+        switch (dir)
+        {
+            case FacingDirection.Right:
+                MoveX = 1;
+                break;
+            case FacingDirection.Left:
+                MoveX = -1;
+                break;
+            case FacingDirection.Up:
+                MoveY = 1;
+                break;
+            case FacingDirection.Down:
+                MoveY = -1;
+                break;
+        }
     }
     public FacingDirection DefaultDirection //Property to use the facing direction in the trainer script
     { get => defaultDirection; }

@@ -510,77 +510,48 @@ public class BattleSystem : MonoBehaviour
 
     public void HandleUpdate()
     {
-        if (state == BattleState.ActionSelection)
+        switch (state)
         {
-            HandleActionSelection(); //Function to make the player able to choose an action
-        }
-        else if (state == BattleState.MoveSelection)
-        {
-            HandleMoveSelection();
-        }
-        else if (state == BattleState.PartyScreen)
-        {
-            HandlePartySelection();
-        }
-        else if (state == BattleState.AboutToUse)
-        {
-            HandleAboutSelection();
-        }
-        else if (state == BattleState.MoveToForget)
-        {
-            /*
-    void HandleAboutSelection()
-    {
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
-            aboutToUseChoice = !aboutToUseChoice; //Reverse the choice every time we press a key
+            case BattleState.ActionSelection:
+                HandleActionSelection(); //Function to make the player able to choose an action
+                break;
 
-        dialogBox.UpdateChoiceBox(aboutToUseChoice); //Highlight the choice
+            case BattleState.MoveSelection:
+                HandleMoveSelection();
+                break;
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)) //When the player made it choice
-        {
-            dialogBox.EnableChoiceBox(false); //Disable choice box
-            
-            if (aboutToUseChoice == true)
-            {
-                //Yes, Open party selection
-                prevState = BattleState.AboutToUse; //Set the previous state to know in the SwitchPokemon
-                OpenPartyScreen();
-            }
-            else
-            {
-                //It's no, continue battle
-                StartCoroutine(SendNextTrainerPokemon());
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Backspace))
-        {
-            dialogBox.EnableChoiceBox(false);
-            StartCoroutine(SendNextTrainerPokemon());
-        }
-    }
-             */
-            Action<int> onMoveSelected = (moveIndex) => //This part is all a reference to the action used in the HandleMoveSelection
-            {
-                moveSelectionUI.gameObject.SetActive(false);
-                if (moveIndex == PokemonBase.MaxNumberOfMoves)
+            case BattleState.PartyScreen:
+                HandlePartySelection();
+                break;
+
+            case BattleState.AboutToUse:
+                HandleAboutSelection();
+                break;
+
+            case BattleState.MoveToForget:
+                Action<int> onMoveSelected = (moveIndex) => //This part is all a reference to the action used in the HandleMoveSelection
                 {
-                    //Don't learn the new move
-                    StartCoroutine(dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} n'a pas apprit {moveToLearn.Name}."));
-                }
-                else
-                {
-                    //Forget selected move and learn the new
-                    var selectedMove = playerUnit.Pokemon.Moves[moveIndex].Base;
-                    StartCoroutine(dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a apprit {moveToLearn.Name} à la place de {selectedMove.Name}."));
+                    moveSelectionUI.gameObject.SetActive(false);
+                    if (moveIndex == PokemonBase.MaxNumberOfMoves)
+                    {
+                        //Don't learn the new move
+                        StartCoroutine(dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} n'a pas apprit {moveToLearn.Name}."));
+                    }
+                    else
+                    {
+                        //Forget selected move and learn the new
+                        var selectedMove = playerUnit.Pokemon.Moves[moveIndex].Base;
+                        StartCoroutine(dialogBox.TypeDialog($"{playerUnit.Pokemon.Base.Name} a apprit {moveToLearn.Name} à la place de {selectedMove.Name}."));
 
-                    playerUnit.Pokemon.Moves[moveIndex] = new Move(moveToLearn);
-                }
+                        playerUnit.Pokemon.Moves[moveIndex] = new Move(moveToLearn);
+                    }
 
-                moveToLearn = null;
-                state = BattleState.RunningTurn;
-            };
-            
-            moveSelectionUI.HandleMoveSelection(onMoveSelected);
+                    moveToLearn = null;
+                    state = BattleState.RunningTurn;
+                };
+
+                moveSelectionUI.HandleMoveSelection(onMoveSelected);
+                break;
         }
     }
 
@@ -602,26 +573,24 @@ public class BattleSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
-            if (currentAction == 0)
+            switch (currentAction)
             {
-                //Fight
-                MoveSelection();
-            }
-            else if (currentAction == 1)
-            {
-                //Bag
-                StartCoroutine(RunTurns(BattleActions.UseItem));
-            }
-            else if (currentAction == 2)
-            {
-                //Pokemon party
-                prevState = state; //If the state was enemy move, this means the player lost a pokemon and can switch, else it mean he decided to switch, so he lost a turn
-                OpenPartyScreen();
-            }
-            else if (currentAction == 3)
-            {
-                //Run
-                StartCoroutine(RunTurns(BattleActions.Run));
+                case 0://Fight
+                    MoveSelection();
+                    break;
+
+                case 1://Bag
+                    StartCoroutine(RunTurns(BattleActions.UseItem));
+                    break;
+
+                case 2://Pokemon party
+                    prevState = state; //If the state was enemy move, this means the player lost a pokemon and can switch, else it mean he decided to switch, so he lost a turn
+                    OpenPartyScreen();
+                    break;
+
+                case 3://Run
+                    StartCoroutine(RunTurns(BattleActions.Run));
+                    break;
             }
         }
     }

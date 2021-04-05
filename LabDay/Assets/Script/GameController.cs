@@ -113,12 +113,19 @@ public class GameController : MonoBehaviour
     //Change our battle state, camera active, and gameobject of the Battle System
     void EndBattle(bool won)
     {
-        if (trainer != null && won == true) //If it is a trainer battle, won by the player
+        if (trainer != null)
         {
-            trainer.BattleLost(); //Disable the fov, to disable the battle
-            defeatedTrainerName.Add(trainer.Name);
+            if (won) //If it is a trainer battle, won by the player
+            {
+                trainer.BattleLost(); //Disable the fov, to disable the battle
+                defeatedTrainerName.Add(trainer.Name);
 
-            trainer = null;
+                trainer = null;
+            }
+            else //If we lose the battle
+            {
+                playerController.LoseBattle();
+            }
         }
 
         state = GameState.FreeRoam;

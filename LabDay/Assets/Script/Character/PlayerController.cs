@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -41,6 +43,7 @@ public class PlayerController : MonoBehaviour
             //Get rid of Diagonal movement
             if (input.x != 0) input.y = 0;
             if (input.y != 0) input.x = 0;
+            print(input);
 
             //While the player is not moving, we read the input, and move the player in the choosen direction
             if (input != Vector2.zero)
@@ -90,7 +93,20 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    public void LoseBattle()
+    {
+        StartCoroutine(tpToPkmnCenter());
+    }
 
+    IEnumerator tpToPkmnCenter()
+    {
+        yield return SceneManager.LoadSceneAsync(5); //Load the Pokemon center scene
+        character.SetPositionAndSnapToTile(new Vector2(13, 47));
+        yield return character.Move(new Vector2(0.0f, 1.0f)); //To look forward the npc
+
+        Interact(); //To interract with it
+    }
+    
     public void StopMusic(AudioSource audio)
     {
         audio.Stop();
