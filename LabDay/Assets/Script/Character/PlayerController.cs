@@ -43,7 +43,6 @@ public class PlayerController : MonoBehaviour
             //Get rid of Diagonal movement
             if (input.x != 0) input.y = 0;
             if (input.y != 0) input.x = 0;
-            print(input);
 
             //While the player is not moving, we read the input, and move the player in the choosen direction
             if (input != Vector2.zero)

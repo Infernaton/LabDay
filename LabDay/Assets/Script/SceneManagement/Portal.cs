@@ -20,9 +20,17 @@ public class Portal : MonoBehaviour, IPlayerTriggerable
         StartCoroutine(SwitchScene());
     }
 
+    Fader fader;
+
+    private void Start()
+    {
+        fader = FindObjectOfType<Fader>();
+    }
+
     IEnumerator SwitchScene()
     {
         DontDestroyOnLoad(gameObject);
+        yield return fader.FadeIn(0.5f);
 
         GameController.Instance.PauseGame(true);
         yield return SceneManager.LoadSceneAsync(sceneToLoad);
@@ -41,9 +49,10 @@ public class Portal : MonoBehaviour, IPlayerTriggerable
             Debug.Log("InitScene");
         }
 
-        
-        Destroy(gameObject);
+        yield return fader.FadeOut(0.5f);
+
         GameController.Instance.PauseGame(false);
+        Destroy(gameObject);
     }
     public Transform SpawnPoint => spawnPoint;
 }
