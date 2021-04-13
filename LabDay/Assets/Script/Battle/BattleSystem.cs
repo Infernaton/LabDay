@@ -46,7 +46,18 @@ public class BattleSystem : MonoBehaviour
     TrainerController trainer;
     int escapeAttempts; //Int to keep track of how many times the player tried to escape
 
+    private AudioSource[] battleMusics;
+    private AudioSource battleDefault;
+    private AudioSource bossTheme;
+
     MoveBase moveToLearn;
+
+    private void Start()
+    {
+        battleMusics = this.transform.GetChild(0).GetComponents<AudioSource>();
+        battleDefault = battleMusics[0];
+        bossTheme = battleMusics[1];
+    }
 
     //We want to setup everything at the very first frame of the battle
     public void StartBattle(PokemonParty playerParty, Pokemon wildPokemon)

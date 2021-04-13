@@ -11,6 +11,7 @@ public class TrainerController : MonoBehaviour, Interactable
     [SerializeField] Dialog dialogAfterBattle;
     [SerializeField] GameObject exclamation; //Reference the exclamation point
     [SerializeField] GameObject fov; //Reference the fov
+    [SerializeField] bool customMusic;
 
     //State
     private bool battleLost;
@@ -103,5 +104,9 @@ public class TrainerController : MonoBehaviour, Interactable
     }
     public Sprite Sprite {
         get => sprite;
+    }
+    public bool CustomMusic
+    {
+        get => customMusic;
     }
 }
