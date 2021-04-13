@@ -46,15 +46,22 @@ public class BattleSystem : MonoBehaviour
     TrainerController trainer;
     int escapeAttempts; //Int to keep track of how many times the player tried to escape
 
+    private BattleSystem battleSystem;
+
     private AudioSource[] battleMusics;
     private AudioSource battleDefault;
     private AudioSource bossTheme;
 
     MoveBase moveToLearn;
 
+    private void Awake()
+    {
+        battleSystem = GetComponent<BattleSystem>();
+    }
+
     private void Start()
     {
-        battleMusics = this.transform.GetChild(0).GetComponents<AudioSource>();
+        battleMusics = battleSystem.transform.GetChild(0).GetComponents<AudioSource>();
         battleDefault = battleMusics[0];
         bossTheme = battleMusics[1];
     }
@@ -94,6 +101,11 @@ public class BattleSystem : MonoBehaviour
         if (!isTrainerBattle)
         {
             //Wild pokemon battle
+            if (trainer.CustomMusic)
+            {
+                battleDefault.Stop();
+                bossTheme.Play();
+            }
             playerUnit.Setup(playerParty.GetHealthyPokemon()); //Setup both pokemons
             enemyUnit.Setup(wildPokemon);
 
