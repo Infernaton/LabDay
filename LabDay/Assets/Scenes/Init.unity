@@ -4293,7 +4293,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1061823206118716018, guid: 4a680de0b4167437d88d603b9612f306, type: 3}
       propertyPath: keepOldPos
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1061823206118716018, guid: 4a680de0b4167437d88d603b9612f306, type: 3}
       propertyPath: sceneToLoad

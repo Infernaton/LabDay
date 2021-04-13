@@ -101,11 +101,6 @@ public class BattleSystem : MonoBehaviour
         if (!isTrainerBattle)
         {
             //Wild pokemon battle
-            if (trainer.CustomMusic)
-            {
-                battleDefault.Stop();
-                bossTheme.Play();
-            }
             playerUnit.Setup(playerParty.GetHealthyPokemon()); //Setup both pokemons
             enemyUnit.Setup(wildPokemon);
 
@@ -117,7 +112,11 @@ public class BattleSystem : MonoBehaviour
         else
         {
             //Trainer Battle
-
+            if (trainer.CustomMusic)
+            {
+                battleDefault.Stop();
+                bossTheme.Play();
+            }
             //Show player and trainer images
             playerUnit.gameObject.SetActive(false); //Disable both player and enemy pokemons
             enemyUnit.gameObject.SetActive(false);
