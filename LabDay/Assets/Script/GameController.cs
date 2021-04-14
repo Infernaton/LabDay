@@ -144,6 +144,7 @@ public class GameController : MonoBehaviour
         foreach (Pokemon pokemon in pokemonParty.Pokemons)
         {
             pokemon.HP = pokemon.MaxHp;
+            pokemon.CureStatus();
             foreach(Move move in pokemon.Moves)
             {
                 move.PP = move.Base.Pp;

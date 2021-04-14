@@ -272,7 +272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3215904803750331995, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
       propertyPath: m_Name
-      value: NPC
+      value: Healer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 199ae201f3a2fdf43b87f789a1ad3ad0, type: 3}
